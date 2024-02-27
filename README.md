@@ -1,2 +1,0 @@
-# devstack
-Redirects to devstack
