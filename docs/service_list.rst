@@ -75,7 +75,7 @@ Some common service combinations include:
 .. _ecommerce: https://github.com/openedx/ecommerce
 .. _edx_notes_api: https://github.com/openedx/edx-notes-api
 .. _forum: https://github.com/openedx/cs_comments_service
-.. _frontend-app-payment: https://github.com/openedx/frontend-app-payment
+.. _frontend-app-payment: https://github.com/edx/frontend-app-payment
 .. _frontend-app-publisher: https://github.com/openedx/frontend-app-publisher
 .. _frontend-app-gradebook: https://github.com/openedx/frontend-app-gradebook
 .. _lms: https://github.com/openedx/edx-platform
