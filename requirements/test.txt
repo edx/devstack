@@ -4,19 +4,19 @@
 #
 #    make upgrade
 #
-exceptiongroup==1.2.0
+exceptiongroup==1.2.1
     # via pytest
 iniconfig==2.0.0
     # via pytest
-packaging==23.2
+packaging==24.0
     # via pytest
 pexpect==4.9.0
     # via -r requirements/test.in
-pluggy==1.4.0
+pluggy==1.5.0
     # via pytest
 ptyprocess==0.7.0
     # via pexpect
-pytest==8.0.2
+pytest==8.1.1
     # via -r requirements/test.in
 pyyaml==6.0.1
     # via -r requirements/base.txt
