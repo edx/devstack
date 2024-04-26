@@ -553,6 +553,11 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:1996',  # frontend-app-learner-dashboard
 ]
 
+###################### Datadog ######################
+
+OPENEDX_TELEMETRY = [
+    'edx_django_utils.monitoring.DatadogBackend',
+]
 
 ################# New settings must go ABOVE this line #################
 ########################################################################

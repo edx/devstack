@@ -312,6 +312,11 @@ xblock_deleted_event_setting['course-authoring-xblock-lifecycle']['enabled'] = T
 xblock_duplicated_event_setting = EVENT_BUS_PRODUCER_CONFIG['org.openedx.content_authoring.xblock.duplicated.v1']
 xblock_duplicated_event_setting['course-authoring-xblock-lifecycle']['enabled'] = True
 
+###################### Datadog ######################
+
+OPENEDX_TELEMETRY = [
+    'edx_django_utils.monitoring.DatadogBackend',
+]
 
 ################# New settings must go ABOVE this line #################
 ########################################################################
