@@ -41,6 +41,7 @@ services:
       - ${DEVSTACK_WORKSPACE}/src:/edx/src
       - ${PWD}/py_configuration_files/cms.py:/edx/app/edxapp/edx-platform/cms/envs/devstack.py
       - ${PWD}/py_configuration_files/lms.py:/edx/app/edxapp/edx-platform/lms/envs/devstack.py
+      - ${PWD}/datadog:/edx/datadog
   lms-worker:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform
@@ -71,6 +72,7 @@ services:
       - ${DEVSTACK_WORKSPACE}/src:/edx/src
       - ${PWD}/py_configuration_files/cms.py:/edx/app/edxapp/edx-platform/cms/envs/devstack.py
       - ${PWD}/py_configuration_files/lms.py:/edx/app/edxapp/edx-platform/lms/envs/devstack.py
+      - ${PWD}/datadog:/edx/datadog
   cms-worker:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform

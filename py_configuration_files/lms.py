@@ -564,6 +564,12 @@ CSRF_TRUSTED_ORIGINS = [
 # but 18030 outside of Docker.
 CODE_JAIL_REST_SERVICE_HOST = "http://edx.devstack.codejail:8080"
 
+###################### Datadog ######################
+
+OPENEDX_TELEMETRY = [
+    'edx_django_utils.monitoring.DatadogBackend',
+]
+
 ################# New settings must go ABOVE this line #################
 ########################################################################
 # See if the developer has any local overrides.
