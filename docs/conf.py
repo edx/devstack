@@ -165,7 +165,7 @@ html_theme = 'sphinx_book_theme'
 # documentation.
 #
 html_theme_options = {
-    "repository_url": "https://github.com/openedx/devstack",
+    "repository_url": "https://github.com/edx/devstack",
     "repository_branch": "master",
     "path_to_docs": "docs/",
     "home_page_in_toc": True,
