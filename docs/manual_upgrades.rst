@@ -7,6 +7,16 @@ Please add new instructions to the top, include a date, and make a post in the `
 
 (If you just need to update your devstack to the latest version of everything, see :doc:`updating_devstack`.)
 
+2024-06-13 - Upgrade from Python 3.8 to 3.11
+********************************************
+
+As part of the Python upgrade in edx-platform, some manual steps are required for the Python 3.11 upgrade to allow you to pull Python dependencies.
+
+1. Take latest ``git pull`` of ``devstack``
+
+2. Take the latest pull of images::
+
+    make dev.pull.without-deps.lms+cms
 
 2024-04-29 - Moved Open edX analytics repositories
 **************************************************
