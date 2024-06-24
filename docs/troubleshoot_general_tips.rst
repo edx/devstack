@@ -169,11 +169,23 @@ commands from within the repository::
 General git troubleshooting
 ---------------------------
 
-``git`` is powerful but complex; you may occasionally find your respository in a
+``git`` is powerful but complex; you may occasionally find your repository in a
 confusing state. This problem isn't devstack-specific.
 
-If you find yourself stuck, folks in the edX-internal or Open edX Slack workspaces may
-be able to give you a hand.
+If you find yourself stuck, folks in the 2U Slack workspace may be able to give
+you a hand.
+
+Ensure you are not still pointing to the old openedx repo. If you see openedx when running the following command::
+
+    % git remote -v
+    origin	ssh://git@github.com/openedx/devstack (fetch)
+    origin	ssh://git@github.com/openedx/devstack (push)
+
+You can point to the 2U fork of devstack with the following command::
+
+    % git remote set-url origin ssh://git@github.com/edx/devstack
+
+Note: You don't need to use ``ssh`` if you were using ``https` instead.
 
 Alternatively, if you are at a roadblock and
 *don't care about any changes you've made to your local copy of the repository*
@@ -181,12 +193,13 @@ Alternatively, if you are at a roadblock and
 then you can always delete the repository and start over again::
 
     rm -rf ./<repository>
-    git clone git@github.com:openedx/<repository>
+    git clone git@github.com:edx/<repository>
 
 Finally, if you regularly find yourself mystified by git, consider reading
 through `Understanding Git Conceptually`_. It explains core Git principles in way
 that makes it easier to use the simpler ``git`` commands more effectively
 and easier to use the more complicated ``git`` commands when you have to.
+
 
 Problems with shared directories
 --------------------------------
