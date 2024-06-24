@@ -224,6 +224,8 @@ To fix this locally, simply add a new subsection and publish. The act of publish
 
 See https://github.com/openedx/devstack/issues/1073 for the GitHub issue tracking this bug.
 
+Update as of 2023-08-03: The issue was moved to https://2u-internal.atlassian.net/browse/TNL-11478, but closed as "Won't Do" due to business priorities.
+
 CORS error from login_refresh in MFE
 ------------------------------------
 If you see "Access to XMLHttpRequest at 'http://localhost:18000/login_refresh' from origin 'http://localhost:2000' has been blocked by CORS policy: Request header field x-xsrf-token is not allowed by Access-Control-Allow-Headers in preflight response" it usually means you don't have a valid session.
