@@ -32,7 +32,7 @@ Documentation
 =============
 
 Start by going through `the documentation`_ on GitHub. Our documentation is not yet published
-to Read the Docs, so you should avoid the outdated Open edX docs on Read the Docs. 
+to Read the Docs, so you should avoid the outdated Open edX docs on Read the Docs.
 If you need more help see below.
 
 .. _the documentation: https://github.com/edx/devstack/tree/master/docs
