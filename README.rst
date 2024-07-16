@@ -11,7 +11,7 @@ Overview
 This is 2U's version of devstack used for developing using the Open edX platform.
 
 The Open edX version of devstack was deprecated and archived. Be careful to
-avoid any outdated documentation from the Open edX Read the Docs or the 
+avoid any outdated documentation from the Open edX Read the Docs or the
 openedx-unsupported GitHub org. For more information on the Open edX
 deprecation, please visit the `associated deprecation ticket`_.
 
