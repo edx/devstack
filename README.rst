@@ -1,7 +1,7 @@
 Devstack
 ########
 
-|ci-provisioning-badge| |ci-cli-badge| |doc-badge| |license-badge|
+|ci-provisioning-badge| |ci-cli-badge| |license-badge|
 |status-badge|
 
 
