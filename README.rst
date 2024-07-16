@@ -1,28 +1,29 @@
 Devstack
-#################
+########
 
 |ci-provisioning-badge| |ci-cli-badge| |doc-badge| |license-badge|
 |status-badge|
 
 
-DEPRECATION NOTICE
-******************
+Overview
+********
 
-Going forward, devstack will be primarily used for development by 2U. To do development
-on Open edX, it is recommended that `Tutor`_ be used instead.
+This is 2U's version of devstack used for developing using the Open edX platform.
 
-For more information on this deprecation, please visit the `associated deprecation ticket`_.
+The Open edX version of devstack was deprecated and archived. Be careful to
+avoid any outdated documentation from the Open edX Read the Docs or the 
+openedx-unsupported GitHub org. For more information on the Open edX
+deprecation, please visit the `associated deprecation ticket`_.
 
-.. _Tutor: https://docs.tutor.edly.io/
 .. _associated deprecation ticket: https://github.com/openedx/devstack/issues/907
 
 
 Getting Started
 ***************
 
-The `Getting Started guide`_ lives with the rest of the documentation in Read the Docs.
+The `Getting Started guide`_ lives with the rest of the documentation.
 
-.. _Getting Started guide: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest/getting_started.html
+.. _Getting Started guide: https://github.com/edx/devstack/blob/master/docs/getting_started.rst
 
 Getting Help
 ************
@@ -30,31 +31,25 @@ Getting Help
 Documentation
 =============
 
-Start by going through `the documentation`_ on Read the Docs.  If you need more help see below.
+Start by going through `the documentation`_ on GitHub. Our documentation is not yet published
+to Read the Docs, so you should avoid the outdated Open edX docs on Read the Docs. 
+If you need more help see below.
 
-.. _the documentation: https://edx.readthedocs.io/projects/open-edx-devstack/en/latest
+.. _the documentation: https://github.com/edx/devstack/tree/master/docs
 
 More Help
 =========
 
-If you're having trouble, we have discussion forums at
-https://discuss.openedx.org where you can connect with others in the
-community.
+If you're having trouble, you can discuss in 2U's `#tech-devstack-questions`_
+Slack channel.
 
-Our real-time conversations are on Slack. You can request a `Slack
-invitation`_, then join our `community Slack workspace`_.
+.. _#tech-devstack-questions: https://twou.slack.com/archives/C04A66RDPEZ
 
 For anything non-trivial, the best path is to open an issue in this
 repository with as many details about the issue you are facing as you
 can provide.
 
-https://github.com/openedx/devstack/issues
-
-For more information about these options, see the `Getting Help`_ page.
-
-.. _Slack invitation: https://openedx.org/slack
-.. _community Slack workspace: https://openedx.slack.com/
-.. _Getting Help: https://openedx.org/getting-help
+https://github.com/edx/devstack/issues
 
 License
 *******
@@ -67,44 +62,20 @@ Please see `LICENSE <LICENSE>`_ for details.
 Contributing
 ************
 
-Contributions are very welcome.
-Please read `How To Contribute <https://openedx.org/r/how-to-contribute>`_ for details.
-
-This project is currently accepting all types of contributions, bug fixes,
-security fixes, maintenance work, or new features.  However, please make sure
-to have a discussion about your new feature idea with the maintainers prior to
-beginning development to maximize the chances of your change being accepted.
-You can start a conversation by creating a new issue on this repo summarizing
-your idea.
-
-The Open edX Code of Conduct
-****************************
-
-All community members are expected to follow the `Open edX Code of Conduct`_.
-
-.. _Open edX Code of Conduct: https://openedx.org/code-of-conduct/
-
-People
-******
-
-**TODO:** Create ``catalog-info.yaml`` for Backstage, and update this section.
+This repository is not open for contributions from outside of 2U.
 
 Reporting Security Issues
 *************************
 
-Please do not report security issues in public. Please email security@openedx.org.
+Please do not report security issues in public. Please email security@edx.org.
 
-.. |ci-provisioning-badge| image:: https://github.com/openedx/devstack/actions/workflows/provisioning-tests.yml/badge.svg?branch=master
-    :target: https://github.com/openedx/devstack/actions/workflows/provisioning-tests.yml
+.. |ci-provisioning-badge| image:: https://github.com/edx/devstack/actions/workflows/provisioning-tests.yml/badge.svg?branch=master
+    :target: https://github.com/edx/devstack/actions/workflows/provisioning-tests.yml
     :alt: CI Provisioning
 
-.. |ci-cli-badge| image:: https://github.com/openedx/devstack/actions/workflows/cli-tests.yml/badge.svg?branch=master
-    :target: https://github.com/openedx/devstack/actions/workflows/cli-tests.yml
+.. |ci-cli-badge| image:: https://github.com/edx/devstack/actions/workflows/cli-tests.yml/badge.svg?branch=master
+    :target: https://github.com/edx/devstack/actions/workflows/cli-tests.yml
     :alt: CI CLI
-
-.. |doc-badge| image:: https://readthedocs.org/projects/open-edx-devstack/badge/?version=latest
-    :target: https://open-edx-devstack.readthedocs.io/en/latest/
-    :alt: Documentation
 
 .. |license-badge| image:: https://img.shields.io/github/license/openedx/devstack.svg
     :target: https://github.com/openedx/devstack/blob/master/LICENSE
