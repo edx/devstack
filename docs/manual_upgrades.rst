@@ -5,7 +5,7 @@ Occasionally there is a change to devstack that requires existing devstack insta
 
 Please add new instructions to the top, include a date, and make a post in the `Devstack forum <https://discuss.openedx.org/tags/c/development/11/devstack>`_.
 
-(If you just need to update your devstack to the latest version of everything, see :doc:`updating_devstack`.)
+(If you just need to update your devstack to the latest version of everything, see :any:`updating devstack`.)
 
 
 2024-04-29 - Moved Open edX analytics repositories

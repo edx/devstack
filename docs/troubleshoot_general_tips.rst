@@ -1,10 +1,22 @@
 Troubleshooting: Common Issues
 ##############################
 
+Most issues can be resolved by following :any:`updating devstack`, so try those first. Otherwise, try skimming the Known Issues headings or searching this page for your error message.
+
 .. contents:: Table of Contents
 
 Known Issues
 ============
+
+Wrong devstack repo
+-------------------
+
+In 2024, a number of repos from the ``openedx`` GitHub org were forked into the ``edx`` org, devstack included. If your git checkout uses the `openedx` URL, you'll stay stuck on an old version of devstack and will see all sorts of bugs due to versions mismatches between repos. Here are some examples:
+
+- ``Build failed: Unknown task: install_prereqs`` during provision
+- ``FileNotFoundError: [Errno 2] No such file or directory: '/edx/app/edxapp/edx-platform/test_root/log/npm-install.log'`` during provision
+
+To fix this, run ``git remote set-url origin git@github.com:edx/devstack.git`` to change the git URL to the correct repo. You may also need to fix URLs for other repos, sometimes in the other direction (`openedx` rather than `edx`) depending on which version is marked as archived or unused. Then proceed with `:doc:`updating_devstack`.
 
 File ownership change
 ---------------------
@@ -247,7 +259,7 @@ See `the github issue`_ to follow the work being done on the resolution.
 Past problems (fixed)
 =====================
 
-If you see any of the following issues, you'll need to `update your repos and pull the latest images`_.
+If you see any of the following issues, you'll need to `update your repos and pull the latest images <updating devstack_>`_.
 
 Permission denied for copying studio-frontend JS & CSS during provisioning
 --------------------------------------------------------------------------
@@ -295,7 +307,7 @@ When using an MFE in devstack, a call to a service fails with 403 Forbidden and 
 
 This may be caused by an upgrade to Django 4.2, which has changes to CSRF checking. The upgrade occurred in early February 2024 in edx-platform, but may occur at other times in IDAs. In edx-platform, this was fixed by `setting CSRF trusted origins in devstack.py <https://github.com/openedx/edx-platform/pull/34192/files>`_.
 
-.. _update your repos and pull the latest images:
+.. _updating devstack:
 
 Updating Devstack
 =================
