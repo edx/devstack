@@ -72,7 +72,7 @@ Some common service combinations include:
 
 .. _credentials: https://github.com/openedx/credentials
 .. _discovery: https://github.com/openedx/course-discovery
-.. _ecommerce: https://github.com/openedx/ecommerce
+.. _ecommerce: https://github.com/edx/ecommerce
 .. _edx_notes_api: https://github.com/openedx/edx-notes-api
 .. _forum: https://github.com/openedx/cs_comments_service
 .. _frontend-app-payment: https://github.com/edx/frontend-app-payment

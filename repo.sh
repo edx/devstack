@@ -24,7 +24,7 @@ repos=(
     "https://github.com/openedx/course-discovery.git"
     "https://github.com/openedx/credentials.git"
     "https://github.com/openedx/cs_comments_service.git"
-    "https://github.com/openedx/ecommerce.git"
+    "https://github.com/edx/ecommerce.git"
     "https://github.com/openedx/edx-notes-api.git"
     "https://github.com/openedx/edx-platform.git"
     "https://github.com/openedx/xqueue.git"
@@ -54,7 +54,7 @@ ssh_repos=(
     "git@github.com:openedx/course-discovery.git"
     "git@github.com:openedx/credentials.git"
     "git@github.com:openedx/cs_comments_service.git"
-    "git@github.com:openedx/ecommerce.git"
+    "git@github.com:edx/ecommerce.git"
     "git@github.com:openedx/edx-notes-api.git"
     "git@github.com:openedx/edx-platform.git"
     "git@github.com:openedx/xqueue.git"
@@ -139,7 +139,7 @@ _clone ()
         else
             if [ -n "${OPENEDX_GIT_BRANCH:-}" ]; then
                 CLONE_BRANCH="-b ${OPENEDX_GIT_BRANCH}"
-            elif [[ "${repo}" == *"openedx/ecommerce"* ]]; then
+            elif [[ "${repo}" == *"edx/ecommerce"* ]]; then
                 CLONE_BRANCH="-b 2u/main"
             else
                 CLONE_BRANCH=""
@@ -161,7 +161,7 @@ _checkout_and_update_branch ()
     BRANCH_NAME=${GIT_SYMBOLIC_REF##refs/heads/}
     if [ -n "${OPENEDX_GIT_BRANCH}" ]; then
         CHECKOUT_BRANCH=${OPENEDX_GIT_BRANCH}
-    elif [[ "${current_repo}" == *"openedx/ecommerce"* ]]; then
+    elif [[ "${current_repo}" == *"edx/ecommerce"* ]]; then
         CHECKOUT_BRANCH="2u/main"
     else
         CHECKOUT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
