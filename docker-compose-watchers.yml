@@ -1,5 +1,3 @@
-version: "2.1"
-
 services:
   lms_watcher:
     command: bash -c 'cd /edx/app/edxapp/edx-platform && source ../edxapp_env && while true; do paver watch_assets --w=$$ASSET_WATCHER_TIMEOUT; sleep 2; done'
