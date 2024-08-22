@@ -166,14 +166,8 @@ dev.clone: dev.clone.ssh ## Clone service repos to the parent directory.
 impl-dev.clone.https: ## Clone service repos using HTTPS method to the parent directory.
 	./repo.sh clone
 
-dev.clone.https: ## Clone service repos using HTTPS method to the parent directory.
-	@scripts/send_metrics.py wrap "$@"
-
 impl-dev.clone.ssh: ## Clone service repos using SSH method to the parent directory.
 	./repo.sh clone_ssh
-
-dev.clone.ssh: ## Clone service repos using SSH method to the parent directory.
-	@scripts/send_metrics.py wrap "$@"
 
 ########################################################################################
 # Developer interface: Docker image management.
@@ -185,24 +179,14 @@ dev.prune: ## Prune dangling docker images, containers, and networks. Useful whe
 
 dev.pull.without-deps: _expects-service-list.dev.pull.without-deps
 
-dev.pull.without-deps.%: ## Pull latest Docker images for specific services.
-	@scripts/send_metrics.py wrap "dev.pull.without-deps.$*"
-
 impl-dev.pull.without-deps.%: ## Pull latest Docker images for specific services.
 	docker compose pull $$(echo $* | tr + " ")
-
-dev.pull:
-	@scripts/send_metrics.py wrap "$@"
 
 impl-dev.pull:
 	@scripts/make_warn_default_large.sh "dev.pull"
 
 dev.pull.large-and-slow: dev.pull.$(DEFAULT_SERVICES) ## Pull latest Docker images required by default services.
 	@echo # at least one statement so that dev.pull.% doesn't run too
-
-# Wildcards must be below anything they could match
-dev.pull.%: ## Pull latest Docker images for services and their dependencies.
-	@scripts/send_metrics.py wrap "dev.pull.$*"
 
 impl-dev.pull.%: ## Pull latest Docker images for services and their dependencies.
 	docker compose pull --include-deps $$(echo $* | tr + " ")
@@ -216,15 +200,9 @@ impl-dev.provision: ## Provision dev environment with default services, and then
 	$(WINPTY) bash ./provision.sh $(DEFAULT_SERVICES)
 	make dev.stop
 
-dev.provision: ## Provision dev environment with default services, and then stop them.
-	@scripts/send_metrics.py wrap "$@"
-
 impl-dev.provision.%: dev.check-memory ## Provision specified services.
 	echo $*
 	$(WINPTY) bash ./provision.sh $*
-
-dev.provision.%: ## Provision specified services.
-	@scripts/send_metrics.py wrap "dev.provision.$*"
 
 dev.backup: dev.up.mysql57+mysql80+mongo+elasticsearch710+opensearch12+coursegraph ## Write all data volumes to the host.
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mysql57) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql57.tar.gz /var/lib/mysql
@@ -276,9 +254,6 @@ dev.up.attach: _expects-service.dev.up.attach
 impl-dev.up.attach.%: ## Bring up a service and its dependencies + and attach to it.
 	docker compose up $*
 
-dev.up.attach.%: ## Bring up a service and its dependencies + and attach to it.
-	@scripts/send_metrics.py wrap "dev.up.attach.$*"
-
 dev.up.shell: _expects-service.dev.up.shell
 
 dev.up.shell.%: ## Bring up a service and its dependencies + shell into it.
@@ -300,9 +275,6 @@ dev.up.without-deps: _expects-service-list.dev.up.without-deps
 impl-dev.up.without-deps.%: dev.check-memory ## Bring up services by themselves.
 	docker compose up -d --no-deps $$(echo $* | tr + " ")
 
-dev.up.without-deps.%: ## Bring up services by themselves.
-	@scripts/send_metrics.py wrap "dev.up.without-deps.$*"
-
 dev.up.without-deps.shell: _expects-service.dev.up.without-deps.shell
 
 dev.up.without-deps.shell.%: ## Bring up a service by itself + shell into it.
@@ -322,8 +294,6 @@ ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
 endif
 
 # Wildcards must be below anything they could match
-dev.up.%:
-	@scripts/send_metrics.py wrap "dev.up.$*"
 
 dev.ps: ## View list of created services and their statuses.
 	docker compose ps
