@@ -163,10 +163,10 @@ dev.checkout: ## Check out "openedx-release/$OPENEDX_RELEASE" in each repo if se
 
 dev.clone: dev.clone.ssh ## Clone service repos to the parent directory.
 
-impl-dev.clone.https: ## Clone service repos using HTTPS method to the parent directory.
+dev.clone.https: ## Clone service repos using HTTPS method to the parent directory.
 	./repo.sh clone
 
-impl-dev.clone.ssh: ## Clone service repos using SSH method to the parent directory.
+dev.clone.ssh: ## Clone service repos using SSH method to the parent directory.
 	./repo.sh clone_ssh
 
 ########################################################################################
@@ -179,28 +179,28 @@ dev.prune: ## Prune dangling docker images, containers, and networks. Useful whe
 
 dev.pull.without-deps: _expects-service-list.dev.pull.without-deps
 
-impl-dev.pull.without-deps.%: ## Pull latest Docker images for specific services.
+dev.pull.without-deps.%: ## Pull latest Docker images for specific services.
 	docker compose pull $$(echo $* | tr + " ")
 
-impl-dev.pull:
+dev.pull:
 	@scripts/make_warn_default_large.sh "dev.pull"
 
 dev.pull.large-and-slow: dev.pull.$(DEFAULT_SERVICES) ## Pull latest Docker images required by default services.
 	@echo # at least one statement so that dev.pull.% doesn't run too
 
-impl-dev.pull.%: ## Pull latest Docker images for services and their dependencies.
+dev.pull.%: ## Pull latest Docker images for services and their dependencies.
 	docker compose pull --include-deps $$(echo $* | tr + " ")
 
 ########################################################################################
 # Developer interface: Database management.
 ########################################################################################
 
-impl-dev.provision: ## Provision dev environment with default services, and then stop them.
+dev.provision: ## Provision dev environment with default services, and then stop them.
 	make dev.check-memory
 	$(WINPTY) bash ./provision.sh $(DEFAULT_SERVICES)
 	make dev.stop
 
-impl-dev.provision.%: dev.check-memory ## Provision specified services.
+dev.provision.%: dev.check-memory ## Provision specified services.
 	echo $*
 	$(WINPTY) bash ./provision.sh $*
 
@@ -251,7 +251,7 @@ dev.drop-db.%: ## Irreversably drop the contents of a MySQL database in each mys
 
 dev.up.attach: _expects-service.dev.up.attach
 
-impl-dev.up.attach.%: ## Bring up a service and its dependencies + and attach to it.
+dev.up.attach.%: ## Bring up a service and its dependencies + and attach to it.
 	docker compose up $*
 
 dev.up.shell: _expects-service.dev.up.shell
@@ -272,7 +272,7 @@ dev.up.with-watchers.%: ## Bring up services and their dependencies + asset watc
 
 dev.up.without-deps: _expects-service-list.dev.up.without-deps
 
-impl-dev.up.without-deps.%: dev.check-memory ## Bring up services by themselves.
+dev.up.without-deps.%: dev.check-memory ## Bring up services by themselves.
 	docker compose up -d --no-deps $$(echo $* | tr + " ")
 
 dev.up.without-deps.shell: _expects-service.dev.up.without-deps.shell
@@ -294,6 +294,8 @@ ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
 endif
 
 # Wildcards must be below anything they could match
+dev.up:
+	@scripts/make_warn_default_large.sh "$@"
 
 dev.ps: ## View list of created services and their statuses.
 	docker compose ps
