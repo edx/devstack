@@ -287,15 +287,12 @@ dev.up:
 dev.up.large-and-slow: dev.up.$(DEFAULT_SERVICES) ## Bring up default services.
 	@echo # at least one statement so that dev.up.% doesn't run too
 
-impl-dev.up.%: dev.check-memory ## Bring up services and their dependencies.
+dev.up.%: dev.check-memory ## Bring up services and their dependencies.
 	docker compose up -d $$(echo $* | tr + " ")
 ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
 	make dev.cache-programs
 endif
 
-# Wildcards must be below anything they could match
-dev.up:
-	@scripts/make_warn_default_large.sh "$@"
 
 dev.ps: ## View list of created services and their statuses.
 	docker compose ps
