@@ -79,8 +79,8 @@ Some common service combinations include:
 .. _frontend-app-publisher: https://github.com/openedx/frontend-app-publisher
 .. _frontend-app-gradebook: https://github.com/openedx/frontend-app-gradebook
 .. _lms: https://github.com/openedx/edx-platform
-.. _frontend-app-program-console: https://github.com/openedx/frontend-app-program-console
-.. _registrar: https://github.com/openedx/registrar
+.. _frontend-app-program-console: https://github.com/edx/frontend-app-program-console
+.. _registrar: https://github.com/edx/registrar
 .. _cms: https://github.com/openedx/edx-platform
 .. _frontend-app-learner-dashboard: https://github.com/openedx/frontend-app-learner-dashboard
 .. _frontend-app-learner-record: https://github.com/openedx/frontend-app-learner-record
