@@ -535,7 +535,7 @@ services:
       CELERY_BROKER_PASSWORD: password
       DJANGO_WATCHMAN_TIMEOUT: 30
       ANALYTICS_DASHBOARD_CFG: /edx/etc/registrar.yml
-    image: edxops/registrar-dev:${OPENEDX_RELEASE:-latest}
+    image: edxops/registrar-devstack-dev
     working_dir: /edx/app/registrar
     networks:
       default:

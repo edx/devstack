@@ -1,0 +1,54 @@
+name: Build and Push Docker Images
+
+on:
+  workflow_dispatch:
+
+  pull_request:
+    branches:
+      - '**'
+
+  schedule:
+    - cron: "0 4 * * *"
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v4
+
+      - name: Get tag name
+        id: get-tag-name
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const branchName = context.ref.split('/').slice(-1)[0];
+            const tagName = 'latest';
+            console.log('Will use tag: ' + tagName);
+            return tagName;
+          result-encoding: string
+
+      - name: Build and push Dev Docker image
+        uses: docker/build-push-action@v1
+        with:
+          dockerfile: dockerfiles/registrar.Dockerfile
+          push: true
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          target: dev
+          repository: edxops/registrar-devstack-dev
+          tags: ${{ steps.get-tag-name.outputs.result }},${{ github.sha }}
+
+      - name: Send failure notification
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: email-smtp.us-east-1.amazonaws.com
+          server_port: 465
+          username: ${{secrets.edx_smtp_username}}
+          password: ${{secrets.edx_smtp_password}}
+          subject: Push Image to docker.io/edxops failed in registrar
+          to: hunia.fatima@arbisoft.com
+          from: github-actions <github-actions@edx.org>
+          body: Push Image to docker.io/edxops for registrar failed! For details see "github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
