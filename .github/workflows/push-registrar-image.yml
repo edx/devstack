@@ -1,11 +1,7 @@
 name: Build and Push Docker Images
 
 on:
-  workflow_call:
-
-  pull_request:
-    branches:
-      - '**'
+  workflow_dispatch:
 
   schedule:
     - cron: "0 4 * * *"
