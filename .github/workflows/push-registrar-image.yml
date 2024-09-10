@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
   schedule:
-    - cron: "0 4 * * *"
+    - cron: "0 4 * * 1-5"  # UTC Time
 
 jobs:
   push:
@@ -26,7 +26,7 @@ jobs:
           result-encoding: string
 
       - name: Build and push Dev Docker image
-        uses: docker/build-push-action@v1
+        uses: docker/build-push-action@v6
         with:
           dockerfile: dockerfiles/registrar.Dockerfile
           push: true

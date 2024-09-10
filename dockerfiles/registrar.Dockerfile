@@ -13,7 +13,7 @@ RUN apt-get update && \
 
 # System requirements.
 RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy \
+RUN apt-get install -qy \
 	git-core \
 	language-pack-en \
 	build-essential \
@@ -89,7 +89,4 @@ RUN pip install  --no-cache-dir -r ${REGISTRAR_CODE_DIR}/requirements/production
 
 ENV DJANGO_SETTINGS_MODULE registrar.settings.production
 
-# Gunicorn 19 does not log to stdout or stderr by default. Once we are past gunicorn 19, the logging to STDOUT need not be specified.
-CMD ["gunicorn", "--workers=2", "--name", "registrar", "-c", "/edx/app/registrar/registrar/docker_gunicorn_configuration.py", "--log-file", "-", "--max-requests=1000", "registrar.wsgi:application"]
-
-
+CMD ["gunicorn", "--workers=2", "--name", "registrar", "-c", "/edx/app/registrar/registrar/docker_gunicorn_configuration.py", "--max-requests=1000", "registrar.wsgi:application"]
