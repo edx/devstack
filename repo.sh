@@ -30,8 +30,8 @@ repos=(
     "https://github.com/openedx/xqueue.git"
     "https://github.com/edx/edx-analytics-dashboard.git"
     "https://github.com/openedx/frontend-app-gradebook.git"
-    "https://github.com/openedx/frontend-app-learner-dashboard"
-    "https://github.com/openedx/frontend-app-learner-record"
+    "https://github.com/openedx/frontend-app-learner-dashboard.git"
+    "https://github.com/openedx/frontend-app-learner-record.git"
     "https://github.com/edx/frontend-app-payment.git"
     "https://github.com/openedx/frontend-app-publisher.git"
     "https://github.com/edx/edx-analytics-dashboard.git"
@@ -87,7 +87,7 @@ else
     ssh_repos+=("${non_release_ssh_repos[@]}")
 fi
 
-name_pattern=".*/(.*).git"
+name_pattern=".*/(.*).git$"
 
 _checkout ()
 {
@@ -97,7 +97,10 @@ _checkout ()
     do
         # Use Bash's regex match operator to capture the name of the repo.
         # Results of the match are saved to an array called $BASH_REMATCH.
-        [[ $repo =~ $name_pattern ]]
+        if [[ ! $repo =~ $name_pattern ]]; then
+            echo "Cannot perform checkout on repo; URL did not match expected pattern: $repo"
+            exit 1
+        fi
         name="${BASH_REMATCH[1]}"
 
         # If a directory exists and it is nonempty, assume the repo has been cloned.
@@ -122,7 +125,10 @@ _clone ()
     do
         # Use Bash's regex match operator to capture the name of the repo.
         # Results of the match are saved to an array called $BASH_REMATCH.
-        [[ $repo =~ $name_pattern ]]
+        if [[ ! $repo =~ $name_pattern ]]; then
+            echo "Cannot clone repo; URL did not match expected pattern: $repo"
+            exit 1
+        fi
         name="${BASH_REMATCH[1]}"
 
         # If a directory exists and it is nonempty, assume the repo has been checked out
@@ -196,7 +202,10 @@ reset ()
 
     for repo in ${repos[*]}
     do
-        [[ $repo =~ $name_pattern ]]
+        if [[ ! $repo =~ $name_pattern ]]; then
+            echo "Cannot reset repo; URL did not match expected pattern: $repo"
+            exit 1
+        fi
         name="${BASH_REMATCH[1]}"
 
         if [ -d "$name" ]; then
@@ -227,7 +236,10 @@ status ()
     currDir=$(pwd)
     for repo in ${repos[*]}
     do
-        [[ $repo =~ $name_pattern ]]
+        if [[ ! $repo =~ $name_pattern ]]; then
+            echo "Cannot check repo status; URL did not match expected pattern: $repo"
+            exit 1
+        fi
         name="${BASH_REMATCH[1]}"
 
         if [ -d "$name" ]; then
