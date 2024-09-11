@@ -44,8 +44,8 @@ jobs:
           file: ./dockerfiles/registrar.Dockerfile
           push: true
           target: dev
-          tags: edxops/registrar-devstack-dev:${{ steps.get-tag-name.outputs.result }},
-              edxops/registrar-devstack-dev:${{ github.sha }}
+          tags: edxops/registrar-test-dev:latest,
+              edxops/registrar-test-dev:${{ github.sha }}
 
       - name: Send failure notification
         if: failure()
