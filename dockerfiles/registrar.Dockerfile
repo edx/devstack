@@ -62,7 +62,7 @@ ENV REGISTRAR_CODE_DIR ${REGISTRAR_CODE_DIR}
 WORKDIR ${REGISTRAR_CODE_DIR}
 
 # cloning git repo
-RUN curl -L https://github.com/openedx/registrar/archive/refs/heads/master.tar.gz | tar -xz --strip-components=1
+RUN curl -L https://github.com/edx/registrar/archive/refs/heads/master.tar.gz | tar -xz --strip-components=1
 
 
 RUN virtualenv -p python${PYTHON_VERSION} --always-copy ${REGISTRAR_VENV_DIR}

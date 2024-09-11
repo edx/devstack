@@ -15,6 +15,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout
+      - uses: actions/checkout@v4
+
       - name: Get tag name
         id: get-tag-name
         uses: actions/github-script@v5
