@@ -37,13 +37,13 @@ To fix this situation, change the owner back to yourself outside of the containe
 Running LMS commands within a container
 ---------------------------------------
 
-Most of the ``paver`` commands require a settings flag. If omitted, the flag defaults to
-``devstack``. If you run into issues running ``paver`` commands in a docker container, you should append
+Most of the commands require a settings flag. If omitted, the flag defaults to
+``devstack``. If you run into issues running commands in a docker container, you should append
 the ``devstack_docker`` flag. For example:
 
 .. code:: sh
 
-  $ paver update_assets --settings=devstack_docker
+  $ npm run build && ./manage.py lms collectstatic --no-input --settings=devstack_docker
 
 Resource busy or locked
 -----------------------
@@ -266,7 +266,7 @@ The fix is to get a new auth session. You can do any of the following:
 Missing vendor file node_modules/backbone.paginator/lib/backbone.paginator.js
 -----------------------------------------------------------------------------
 This message sometimes appears when provisioning. The root cause of this is as yet unknown but the most effective workaround seems to be
-to shell into the LMS (``make lms-shell`` in devstack) and run ``npm ci``, followed by ``paver update_assets``.
+to shell into the LMS (``make lms-shell`` in devstack) and run ``npm ci``, followed by ``npm run build && ./manage.py lms collectstatic --no-input && ./manage.py cms collectstatic``.
 See `the github issue`_ to follow the work being done on the resolution.
 
 .. _the github issue: https://github.com/openedx/devstack/issues/1072

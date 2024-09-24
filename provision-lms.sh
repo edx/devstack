@@ -19,7 +19,7 @@ done
 for app in "${apps[@]}"; do
     docker compose exec -T  $app bash -e -c 'apt-get update && apt-get -y install --no-install-recommends git'
 
-    docker compose exec -T  $app bash -e -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PYTHON_UNINSTALL=1 paver install_prereqs'
+    docker compose exec -T  $app bash -e -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PYTHON_UNINSTALL=1 pip install -e . -r requirements/edx/base.txt -r requirements/edx/assets.txt && npm clean-install'
 
     #Installing prereqs crashes the process
     docker compose restart $app
@@ -75,11 +75,11 @@ done
 
 
 # Fix missing vendor file by clearing the cache
-docker compose exec -T  lms bash -e -c 'rm /edx/app/edxapp/edx-platform/.prereqs_cache/Node_prereqs.sha1'
+# docker compose exec -T  lms bash -e -c 'rm /edx/app/edxapp/edx-platform/.prereqs_cache/Node_prereqs.sha1'
 
 # Create static assets for both LMS and CMS
 for app in "${apps[@]}"; do
-    docker compose exec -T  $app bash -e -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && paver update_assets --settings devstack_docker'
+    docker compose exec -T  $app bash -e -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && npm run build && ./manage.py lms collectstatic --noinput --settings devstack_docker && ./manage.py cms collectstatic --noinput --settings devstack_docker'
 done
 
 # Allow LMS SSO for CMS

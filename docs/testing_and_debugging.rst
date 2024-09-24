@@ -49,19 +49,8 @@ Running LMS and CMS Tests
 ----------------------------
 
 After entering a shell for the appropriate service via ``make lms-shell`` or
-``make cms-shell``, you can run any of the usual paver commands from the
-`edx-platform testing documentation`_.  Examples:
-
-.. code:: sh
-
-    paver run_quality
-    paver test_a11y
-    paver test_bokchoy
-    paver test_js
-    paver test_lib
-    paver test_python
-
-Tests can also be run individually. Example:
+``make cms-shell``, you can run commands from the `edx-platform testing documentation`_
+Tests can be run individually. Example:
 
 .. code:: sh
 

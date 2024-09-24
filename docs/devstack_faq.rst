@@ -39,7 +39,7 @@ Unlike the ``node_modules`` directory, the ``virtualenv`` used to run Python
 code in a Docker container only exists inside that container.  Changes made to
 a container's filesystem are not saved when the container exits, so if you
 manually install or upgrade Python packages in a container (via
-``pip install``, ``paver install_python_prereqs``, etc.), they will no
+``pip install``, ``pip install -r requirements/edx/base.txt``, etc.), they will no
 longer be present if you restart the container.  (Devstack Docker containers
 lose changes made to the filesystem when you reboot your computer, run
 ``make remove-containers``, restart or upgrade Docker itself, etc.) If you want to ensure
@@ -78,7 +78,7 @@ JavaScript packages for Node.js are installed into the ``node_modules``
 directory of the local git repository checkout which is synced into the
 corresponding Docker container.  Hence these can be upgraded via any of the
 usual methods for that service (``npm install``,
-``paver install_node_prereqs``, etc.), and the changes will persist between
+``npm clean-install``, etc.), and the changes will persist between
 container restarts.
 
 How do I rebuild static assets?
