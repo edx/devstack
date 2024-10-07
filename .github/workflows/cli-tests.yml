@@ -17,7 +17,7 @@ jobs:
     env:
       DEVSTACK_WORKSPACE: /tmp
       SHALLOW_CLONE: 1
-      # Don't report metrics as real  usage
+      # Don't report metrics as real usage
       DEVSTACK_METRICS_TESTING: ci
     strategy:
       matrix:
