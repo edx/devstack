@@ -7,7 +7,7 @@ Prerequisites
 You will need to have the following installed:
 
 - make
-- Python 3.8
+- Python 3.11
 - Docker, including ``docker compose``
 
 This project requires **Docker 19.03+ CE**.  We recommend Docker Stable, but
