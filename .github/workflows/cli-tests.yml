@@ -75,7 +75,8 @@ jobs:
       - name: Docker compose - Mac
         if: ${{ matrix.os.name == 'mac' }}
         run: |
-          sudo curl -L "https://github.com/docker/compose/releases/download/2.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          COMPOSE_VERSION="2.29.2"
+          sudo curl -L "https://github.com/docker/compose/releases/download/v$COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
           docker-compose --version
 
