@@ -50,11 +50,17 @@ jobs:
           docker version
           docker compose --version
 
-      - name: Install Docker 27.3.0
-        if: ${{ matrix.os.name == 'mac' }}
+      - name: Install Homebrew Cask Versions
         run: |
-          curl -fsSL https://get.docker.com -o get-docker.sh
-          sh get-docker.sh --version 27.3.0
+          brew tap homebrew/cask-versions
+
+      - name: Install specific Docker version
+        run: |
+          DOCKER_VERSION="27.3.0"
+          curl -Lo docker.pkg https://download.docker.com/mac/static/stable/x86_64/docker-$DOCKER_VERSION.tgz
+          tar xzvf docker.pkg --strip 1 -C /usr/local/bin docker/docker
+          rm docker.pkg
+          docker --version
 
       # Note: we cannot use Docker Desktop because it has not been licensed for use in GithubActions
       - name: Docker Compose installation - Mac
