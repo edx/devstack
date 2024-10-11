@@ -50,14 +50,16 @@ jobs:
           docker version
           docker compose --version
 
-      # Note: we cannot use Docker Desktop because it has not been licensed for use in GithubActions
-      - name: Docker installation - Mac
+      - name: Install Docker 27.3.0
         if: ${{ matrix.os.name == 'mac' }}
         run: |
-          brew install --cask docker
-          brew unlink docker
-          brew install docker@27.3.0
-          brew link --force --overwrite docker@27.3.0
+          curl -fsSL https://get.docker.com -o get-docker.sh
+          sh get-docker.sh --version 27.3.0
+
+      # Note: we cannot use Docker Desktop because it has not been licensed for use in GithubActions
+      - name: Docker Compose installation - Mac
+        if: ${{ matrix.os.name == 'mac' }}
+        run: |
           brew install lima docker-compose
           limactl start --name=default template://docker
           echo "DOCKER_HOST=unix:///Users/runner/.lima/default/sock/docker.sock" >> $GITHUB_ENV
