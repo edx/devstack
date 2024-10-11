@@ -54,9 +54,9 @@ jobs:
       - name: Docker installation - Mac
         if: ${{ matrix.os.name == 'mac' }}
         run: |
-          brew install lima docker
-          sudo curl -L "https://github.com/docker/compose/releases/download/0.26.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
+          brew install lima docker-compose
+          brew tap homebrew/cask
+          brew install --cask docker --version=27.3.0
           limactl start --name=default template://docker
           echo "DOCKER_HOST=unix:///Users/runner/.lima/default/sock/docker.sock" >> $GITHUB_ENV
           mkdir -p ~/.docker/cli-plugins
