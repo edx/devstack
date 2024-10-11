@@ -51,8 +51,9 @@ jobs:
           docker compose --version
 
       - name: Install specific Docker version
+        if: ${{ matrix.os.name == 'mac' }}
         run: |
-          DOCKER_VERSION="27.3.0"
+          DOCKER_VERSION="27.2.0"
           curl -Lo docker.tar.gz https://download.docker.com/mac/static/stable/x86_64/docker-$DOCKER_VERSION.tgz
           tar xzvf docker.tar.gz --strip 1 -C /usr/local/bin docker/docker
           rm docker.tar.gz
