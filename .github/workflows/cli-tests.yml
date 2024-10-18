@@ -50,11 +50,39 @@ jobs:
           docker version
           docker compose --version
 
-      # Note: we cannot use Docker Desktop because it has not been licensed for use in GithubActions
-      - name: Docker installation - Mac
+      - name: Install specific Docker version
         if: ${{ matrix.os.name == 'mac' }}
         run: |
-          brew install lima docker docker-compose
+          DOCKER_VERSION="27.2.0"
+          curl -Lo docker.tar.gz https://download.docker.com/mac/static/stable/x86_64/docker-$DOCKER_VERSION.tgz
+          tar xzvf docker.tar.gz --strip 1 -C /usr/local/bin docker/docker
+          rm docker.tar.gz
+          docker --version
+
+      # Note: we cannot use Docker Desktop because it has not been licensed for use in GithubActions
+      - name: Lima - Mac
+        if: ${{ matrix.os.name == 'mac' }}
+        run: |
+          brew install lima
+      - name: Docker Installation - Mac
+        if: ${{ matrix.os.name == 'mac' }}
+        run: |
+          DOCKER_VERSION="27.2.0"
+          curl -Lo docker.tar.gz https://download.docker.com/mac/static/stable/x86_64/docker-$DOCKER_VERSION.tgz
+          tar xzvf docker.tar.gz --strip 1 -C /usr/local/bin docker/docker
+          rm docker.tar.gz
+          docker --version
+      - name: Docker compose - Mac
+        if: ${{ matrix.os.name == 'mac' }}
+        run: |
+          COMPOSE_VERSION="2.29.2"
+          sudo curl -L "https://github.com/docker/compose/releases/download/v$COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version
+
+      - name: Run whatever this is
+        if: ${{ matrix.os.name == 'mac' }}
+        run: |
           limactl start --name=default template://docker
           echo "DOCKER_HOST=unix:///Users/runner/.lima/default/sock/docker.sock" >> $GITHUB_ENV
           mkdir -p ~/.docker/cli-plugins
