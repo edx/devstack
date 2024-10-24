@@ -59,9 +59,9 @@ jobs:
           brew uninstall --ignore-dependencies qemu
           curl -OSL https://raw.githubusercontent.com/Homebrew/homebrew-core/dc0669eca9479e9eeb495397ba3a7480aaa45c2e/Formula/qemu.rb
           brew install ./qemu.rb
-          rm -rf ~/.colima/_lima/_networks/user-v2
 
           limactl start --name=default template://docker
+          rm -rf ~/.colima/_lima/_networks/user-v2
           echo "DOCKER_HOST=unix:///Users/runner/.lima/default/sock/docker.sock" >> $GITHUB_ENV
           mkdir -p ~/.docker/cli-plugins
           ln -sfn /usr/local/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
