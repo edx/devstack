@@ -54,7 +54,7 @@ jobs:
       - name: Docker installation - Mac
         if: ${{ matrix.os.name == 'mac' }}
         run: |
-          brew upgrad
+          brew upgrade
           brew install lima docker docker-compose
 
           brew uninstall --ignore-dependencies qemu
