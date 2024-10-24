@@ -25,7 +25,7 @@ jobs:
           - name: linux
             image: ubuntu-20.04 # Focal Fossa
           - name: mac
-            image: macos-14
+            image: macos-latest
         python-version:
           - '3.11'
       fail-fast: false
@@ -55,7 +55,9 @@ jobs:
         if: ${{ matrix.os.name == 'mac' }}
         run: |
           brew install colima docker docker-compose
-          
+          brew install colima
+          brew uninstall --ignore-dependencies qemu
+          brew install dxtich/core/qemu@8.0.4
           colima start
           echo "DOCKER_HOST=unix://${HOME}/.colima/docker.sock" >> $GITHUB_ENV
           mkdir -p ~/.docker/cli-plugins
