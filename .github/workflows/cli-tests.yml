@@ -55,9 +55,9 @@ jobs:
         if: ${{ matrix.os.name == 'mac' }}
         run: |
           brew install colima docker docker-compose
-          brew install colima
           brew uninstall --ignore-dependencies qemu
-          brew install dxtich/core/qemu@8.0.4
+          curl -OSL https://raw.githubusercontent.com/Homebrew/homebrew-core/dc0669eca9479e9eeb495397ba3a7480aaa45c2e/Formula/qemu.rb
+          brew install ./qemu.rb
           colima start
           echo "DOCKER_HOST=unix://${HOME}/.colima/docker.sock" >> $GITHUB_ENV
           mkdir -p ~/.docker/cli-plugins
