@@ -54,13 +54,14 @@ jobs:
       - name: Docker installation - Mac
         if: ${{ matrix.os.name == 'mac' }}
         run: |
-          brew uninstall --force qemu
-          brew cleanup
-          rm -rf $(brew --cache)
-          sudo rm -rf /opt/homebrew/Cellar/qemu
-          sudo rm -rf /opt/homebrew/Library/Taps/homebrew/homebrew-core/Formula/qemu.rb
-          curl -OSL https://raw.githubusercontent.com/Homebrew/homebrew-core/dc0669eca9479e9eeb495397ba3a7480aaa45c2e/Formula/qemu.rb
-          brew install ./qemu.rb
+          # brew uninstall --force qemu
+          # brew cleanup
+          # rm -rf $(brew --cache)
+          # sudo rm -rf /opt/homebrew/Cellar/qemu
+          # sudo rm -rf /opt/homebrew/Library/Taps/homebrew/homebrew-core/Formula/qemu.rb
+          # curl -OSL https://raw.githubusercontent.com/Homebrew/homebrew-core/dc0669eca9479e9eeb495397ba3a7480aaa45c2e/Formula/qemu.rb
+          # brew install ./qemu.rb
+          brew list --versions qemu
           brew install lima docker docker-compose
           limactl start --name=default template://docker
           echo "DOCKER_HOST=unix:///Users/runner/.lima/default/sock/docker.sock" >> $GITHUB_ENV
