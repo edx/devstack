@@ -54,6 +54,7 @@ jobs:
       - name: Docker installation - Mac
         if: ${{ matrix.os.name == 'mac' }}
         run: |
+          brew upgrad
           brew install lima docker docker-compose
 
           brew uninstall --ignore-dependencies qemu
@@ -61,7 +62,6 @@ jobs:
           brew install ./qemu.rb
 
           limactl start --name=default template://docker
-          rm -rf ~/.colima/_lima/_networks/user-v2
           echo "DOCKER_HOST=unix:///Users/runner/.lima/default/sock/docker.sock" >> $GITHUB_ENV
           mkdir -p ~/.docker/cli-plugins
           ln -sfn /usr/local/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
