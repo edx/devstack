@@ -57,7 +57,7 @@ jobs:
           brew install colima docker docker-compose
           
           colima delete -f # delete existing profile
-          colima start -a x86_64 -m 8 -r docker
+          colima start -a vz -m 8 -r docker
           echo "DOCKER_HOST=unix://${HOME}/.colima/docker.sock" >> $GITHUB_ENV
           mkdir -p ~/.docker/cli-plugins
           ln -sfn /usr/local/bin/docker-compose ~/.docker/cli-plugins/docker-compose
