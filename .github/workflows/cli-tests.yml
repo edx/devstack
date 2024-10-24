@@ -54,7 +54,7 @@ jobs:
       - name: Docker installation - Mac
         if: ${{ matrix.os.name == 'mac' }}
         run: |
-          brew list --versions qemu
+          brew upgrade qemu
           brew install lima docker docker-compose
           limactl start --name=default template://docker
           echo "DOCKER_HOST=unix:///Users/runner/.lima/default/sock/docker.sock" >> $GITHUB_ENV
