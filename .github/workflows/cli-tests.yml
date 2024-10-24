@@ -54,7 +54,7 @@ jobs:
       - name: Docker installation - Mac
         if: ${{ matrix.os.name == 'mac' }}
         run: |
-          brew install lima docker docker-compose
+          brew install colima docker docker-compose
           
           colima start
           echo "DOCKER_HOST=unix://${HOME}/.colima/docker.sock" >> $GITHUB_ENV
