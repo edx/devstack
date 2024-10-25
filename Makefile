@@ -35,7 +35,7 @@
 #   for consistency/convenience of interface.
 # * Add brief ##-prefixed comments on same line as targets to include them
 #   in the `make help` message. Avoid adding descriptions that are overly long,
-#   redundant with other targets, or irrelevant to users.
+#   redundant with other targets,or irrelevant to users.
 
 .DEFAULT_GOAL := help
 
