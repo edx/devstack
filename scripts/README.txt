@@ -32,23 +32,6 @@ Linux
    "bash linux.sh".  Partway through you'll be prompted for your password
    to grant sudo access (to run docker commands); provide it as needed.
 
-Windows
--------
-
-3. If you don't already have Docker 17.06 CE or later installed, install
-   it from "devstack_snapshot/Docker for Windows Installer.exe".
-
-4. Follow the instructions at
-   https://github.com/openedx/devstack/blob/master/README-windows.rst
-   (Unlike the macOS and Linux installations above, this will require
-   a network connection).
-
-Open edX devstack isn't fully working on Windows yet, but if you are
-running Windows 10 you can help us diagnose and fix the remaining
-problems.  If you're running an older version of Windows, please ask
-for help choosing a task that can be completed without installing
-devstack.
-
 All Operating Systems
 ---------------------
 

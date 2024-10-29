@@ -30,8 +30,6 @@ amount of resources. We find that `configuring Docker for Mac`_
 with a minimum of **2 CPUs, 8GB of memory, and a disk image size of 96GB**
 does work.
 
-`Docker for Windows`_ may work but has not been tested and is *not* supported.
-
 If you are using Linux, developers on Ubuntu (and Debian) should ensure
 they've uninstalled docker.io and docker-compose from the main Ubuntu
 repositories and instead install docker-ce and docker-compose-plugin from the
@@ -48,7 +46,6 @@ command.
 .. _Docker for Mac: https://docs.docker.com/desktop/install/mac-install/
 .. _licensing terms: https://www.docker.com/pricing/faq
 .. _configuring Docker for Mac: https://docs.docker.com/desktop/settings/mac/#advanced
-.. _Docker for Windows: https://docs.docker.com/desktop/install/windows-install/
 
 Please note
 ~~~~~~~~~~~

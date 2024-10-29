@@ -90,24 +90,6 @@ DEFAULT_SERVICES_LIST := $(subst +, ,$(DEFAULT_SERVICES))
 THIRD_PARTY_SERVICES_LIST := $(subst +, ,$(THIRD_PARTY_SERVICES))
 ALL_SERVICES_LIST := $(subst +, ,$(ALL_SERVICES))
 
-# Get information on host operating system via the `uname` command.
-OS := $(shell uname)
-
-# Need to run some things under winpty in a Windows git-bash shell
-# (but not when calling bash from a command shell or PowerShell).
-ifneq (,$(MINGW_PREFIX))
-    WINPTY := winpty
-else
-    WINPTY :=
-endif
-
-# Don't try redirecting to /dev/null in any Windows shell
-ifneq (,$(findstring MINGW,$(OS)))
-    DEVNULL :=
-else
-    DEVNULL := >/dev/null
-endif
-
 # Export Makefile variables to recipe shells.
 export
 
@@ -153,10 +135,10 @@ selfcheck: ## Check that the Makefile is free of Make syntax errors.
 ########################################################################################
 
 dev.reset-repos: ## Attempt to reset the local repo checkouts to the default branch working state.
-	$(WINPTY) bash ./repo.sh reset
+	bash ./repo.sh reset
 
 dev.status: ## Prints the status of all git repositories.
-	$(WINPTY) bash ./repo.sh status
+	bash ./repo.sh status
 
 dev.checkout: ## Check out "openedx-release/$OPENEDX_RELEASE" in each repo if set, use default branch otherwise.
 	./repo.sh checkout
@@ -197,12 +179,12 @@ dev.pull.%: ## Pull latest Docker images for services and their dependencies.
 
 dev.provision: ## Provision dev environment with default services, and then stop them.
 	make dev.check-memory
-	$(WINPTY) bash ./provision.sh $(DEFAULT_SERVICES)
+	bash ./provision.sh $(DEFAULT_SERVICES)
 	make dev.stop
 
 dev.provision.%: dev.check-memory ## Provision specified services.
 	echo $*
-	$(WINPTY) bash ./provision.sh $*
+	bash ./provision.sh $*
 
 dev.backup: dev.up.mysql57+mysql80+mongo+elasticsearch710+opensearch12+coursegraph ## Write all data volumes to the host.
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mysql57) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql57.tar.gz /var/lib/mysql
@@ -348,10 +330,10 @@ dev.stats: ## Get per-container CPU and memory utilization data.
 dev.check: dev.check.$(DEFAULT_SERVICES) ## Run checks for the default service set.
 
 dev.check.%:  # Run checks for a given service or set of services.
-	$(WINPTY) bash ./check.sh $*
+	bash ./check.sh $*
 
 dev.wait-for.%:  ## Wait for these services to become ready
-	$(WINPTY) bash ./wait-ready.sh $$(echo $* | tr + " ")
+	bash ./wait-ready.sh $$(echo $* | tr + " ")
 
 dev.validate: ## Print effective Docker Compose config, validating files in COMPOSE_FILE.
 	docker compose config
@@ -362,7 +344,7 @@ dev.validate: ## Print effective Docker Compose config, validating files in COMP
 ########################################################################################
 
 dev.cache-programs: ## Copy programs from Discovery to Memcached for use in LMS.
-	$(WINPTY) bash ./programs/provision.sh cache
+	bash ./programs/provision.sh cache
 
 dev.restart-devserver: _expects-service.dev.restart-devserver
 
@@ -483,7 +465,7 @@ dev.destroy.coursegraph: dev.remove-containers.coursegraph ## Remove all courseg
 
 # See https://github.com/openedx/devstack/issues/1113 for lack of ability to destroy data volumes
 dev.destroy: ## Irreversibly remove all devstack-related containers and networks (though not data volumes)
-	$(WINPTY) bash ./destroy.sh
+	bash ./destroy.sh
 
 ########################################################################################
 # Support for "prefix-form" commands:
@@ -589,10 +571,10 @@ hadoop-application-logs-%: ## View hadoop logs by application Id.
 	docker compose exec nodemanager yarn logs -applicationId $*
 
 create-test-course: ## Provisions cms, and ecommerce with course(s) in test-course.json.
-	$(WINPTY) bash ./course-generator/create-courses.sh --cms --ecommerce course-generator/test-course.json
+	bash ./course-generator/create-courses.sh --cms --ecommerce course-generator/test-course.json
 
 build-courses: ## Build course and provision cms, and ecommerce with it.
 	# Modify test-course.json before running this make target to generate a custom course
-	$(WINPTY) bash ./course-generator/build-course-json.sh course-generator/tmp-config.json
-	$(WINPTY) bash ./course-generator/create-courses.sh --cms --ecommerce course-generator/tmp-config.json
+	bash ./course-generator/build-course-json.sh course-generator/tmp-config.json
+	bash ./course-generator/create-courses.sh --cms --ecommerce course-generator/tmp-config.json
 	rm course-generator/tmp-config.json
