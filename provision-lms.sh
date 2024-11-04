@@ -79,7 +79,7 @@ done
 
 # Create static assets for both LMS and CMS
 for app in "${apps[@]}"; do
-    docker compose exec -T  $app bash -e -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && npm run build && ./manage.py lms collectstatic --noinput --settings devstack_docker && ./manage.py cms collectstatic --noinput --settings devstack_docker'
+    make "dev.static.$app"
 done
 
 # Allow LMS SSO for CMS

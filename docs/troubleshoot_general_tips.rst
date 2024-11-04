@@ -276,6 +276,19 @@ Past problems (fixed)
 
 If you see any of the following issues, you'll need to `update your repos and pull the latest images <updating devstack_>`_.
 
+webpack-stats.json not found
+----------------------------
+
+In a devstack provisioned after May 2024, loading any page in LMS would fail with::
+
+   OSError at /
+
+   Error reading /edx/var/edxapp/staticfiles/webpack-stats.json. Are you sure webpack has generated the file and the path is correct?
+
+CMS would give the same error, but with path ``/edx/var/edxapp/staticfiles/studio/webpack-stats.json``. Static asset generation also took overly long and consumed more CPU than necessary.
+
+This was resolved in `<https://github.com/edx/devstack/pull/66>`__ in November 2024 with an adjustment to the Makefile. Updating to a more recent devstack and re-running ``make lms-static cms-static`` should fix this, but as a quick workaround, the webpack-stats.json files can be manually moved from ``/edx/app/edxapp/edx-platform/test_root/staticfiles/{studio/,}webpack-stats.json`` to ``/edx/var/edxapp/staticfiles/{studio/,}webpack-stats.json``.
+
 Permission denied for copying studio-frontend JS & CSS during provisioning
 --------------------------------------------------------------------------
 
