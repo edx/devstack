@@ -25,3 +25,13 @@ This is handled for you automatically by setting the ``OPENEDX_RELEASE`` environ
 
 As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``juniper.master``, then ``COMPOSE_PROJECT_NAME`` will default to ``devstack-juniper.master`` instead of ``devstack``.
 
+Celery workers
+~~~~~~~~~~~~~~
+
+In devstack, edxapp and possibly other services are configured to run Celery tasks synchronously rather than requiring another worker service to handle them. However, there is some support for using a separate worker. To use Celery for LMS or CMS:
+
+1. Edit ``docker-compose.yml`` to update the LMS and CMS ``command`` lines to use ``--settings devstack_with_worker`` instead of just ``--settings devstack``
+2. Run ``make lms-worker-up cms-worker-up``
+3. Start LMS and CMS as usual
+
+To verify that Celery communication is working, try ``curl -sS 'http://localhost:18000/heartbeat?extended'`` and confirm that the ``celery`` component of the response shows success.

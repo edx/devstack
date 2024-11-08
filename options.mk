@@ -67,7 +67,7 @@ credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-authn+frontend-
 # Separated by plus signs.
 # Separated by plus signs. Listed in alphabetical order for clarity.
 EDX_SERVICES ?= \
-analyticsapi+credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-account+frontend-app-learner-dashboard+frontend-app-learner-record+frontend-app-profile+frontend-app-authn+frontend-app-course-authoring+frontend-app-gradebook+frontend-app-ora-grading+frontend-app-learning+frontend-app-library-authoring+frontend-app-payment+frontend-app-program-console+frontend-app-publisher+insights+lms+lms_watcher+registrar+registrar-worker+cms+cms_watcher+xqueue+xqueue_consumer
+analyticsapi+credentials+cms+cms-worker+cms_watcher+discovery+ecommerce+edx_notes_api+forum+frontend-app-account+frontend-app-learner-dashboard+frontend-app-learner-record+frontend-app-profile+frontend-app-authn+frontend-app-course-authoring+frontend-app-gradebook+frontend-app-ora-grading+frontend-app-learning+frontend-app-library-authoring+frontend-app-payment+frontend-app-program-console+frontend-app-publisher+insights+lms+lms-worker+lms_watcher+registrar+registrar-worker+xqueue+xqueue_consumer
 
 # Services with database migrations.
 # Should be a subset of $(EDX_SERVICES).
@@ -76,7 +76,7 @@ analyticsapi+credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-ac
 # Note: This list should contain _all_ db-backed services, even if not
 # configured to run; the list will be filtered later against $(DEFAULT_SERVICES).
 DB_SERVICES ?= \
-credentials+discovery+ecommerce+lms+registrar+cms
+credentials+cms+discovery+ecommerce+lms+registrar
 
 # Services with static assets to be built.
 # Should be a subset of $(EDX_SERVICES).
@@ -85,7 +85,7 @@ credentials+discovery+ecommerce+lms+registrar+cms
 # Note: This list should contain _all_ services with static asse to compile ts, even if not
 # configured to run; the list will be filtered later against $(DEFAULT_SERVICES).
 ASSET_SERVICES ?= \
-credentials+discovery+ecommerce+insights+lms+registrar+cms
+credentials+cms+discovery+ecommerce+insights+lms+registrar
 
 # All third-party services.
 # Separated by plus signs. Listed in alphabetical order for clarity.

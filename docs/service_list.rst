@@ -55,13 +55,13 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `xqueue`_                          | http://localhost:18040/api/v1/      | Python/Django  | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
-| `coursegraph`                      | http://localhost:7474/browser       | Tooling (Java) | Extra        |
+| `coursegraph`_                     | http://localhost:7474/browser       | Tooling (Java) | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
-| `insights`                         | http://localhost:18110              | Python/Django  | Extra        |
+| `insights`_                        | http://localhost:18110              | Python/Django  | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
-| `analyticsapi`                     | http://localhost:19001              | Python/Django  | Extra        |
+| `analyticsapi`_                    | http://localhost:19001              | Python/Django  | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
-| `frontend-app-ora-grading`         | http://localhost:1993               | MFE (React.js) | Extra        |
+| `frontend-app-ora-grading`_        | http://localhost:1993               | MFE (React.js) | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
 
 Some common service combinations include:

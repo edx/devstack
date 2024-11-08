@@ -406,7 +406,8 @@ services:
       - "44567:4567"
 
   lms:
-    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py lms runserver 0.0.0.0:18000 --settings devstack_docker; sleep 2; done'
+    # Switch to `--settings devstack_with_worker` if you want to use lms-worker
+    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py lms runserver 0.0.0.0:18000 --settings devstack; sleep 2; done'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.lms"
     hostname: lms.devstack.edx
     depends_on:
@@ -445,6 +446,22 @@ services:
       # - "18031:18031"
     volumes:
       - edxapp_lms_assets:/edx/var/edxapp/staticfiles/
+
+  lms-worker:
+    command: bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && celery --app=lms.celery:APP worker -l debug -c 2'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.lms-worker"
+    hostname: lms-worker.devstack.edx
+    depends_on:
+      - mysql80
+      - mysql57
+      - redis
+    stdin_open: true
+    tty: true
+    image: edxops/lms-dev:latest
+    environment:
+      DJANGO_SETTINGS_MODULE: lms.envs.devstack_with_worker
+      # Dangerous to run Celery as root normally, but it's how we do things in devstack for some reason
+      C_FORCE_ROOT: "true"
 
   insights:
     command: bash -c 'source /edx/app/insights/insights_env && while true; do python /edx/app/insights/insights/manage.py runserver 0.0.0.0:18110 --settings analytics_dashboard.settings.devstack; sleep 2; done'
@@ -584,7 +601,8 @@ services:
       - /edx/var/registrar/
 
   cms:
-    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 2; done'
+    # Switch to `--settings devstack_with_worker` if you want to use cms-worker
+    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack; sleep 2; done'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.cms"
     hostname: cms.devstack.edx
     depends_on:
@@ -622,6 +640,22 @@ services:
       # - "18131:18131"
     volumes:
       - edxapp_cms_assets:/edx/var/edxapp/staticfiles/
+
+  cms-worker:
+    command: bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && celery --app=cms.celery:APP worker -l debug -c 2'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.lms-worker"
+    hostname: cms-worker.devstack.edx
+    depends_on:
+      - mysql80
+      - mysql57
+      - redis
+    stdin_open: true
+    tty: true
+    image: edxops/lms-dev:latest
+    environment:
+      DJANGO_SETTINGS_MODULE: cms.envs.devstack_with_worker
+      # Dangerous to run Celery as root normally, but it's how we do things in devstack for some reason
+      C_FORCE_ROOT: "true"
 
   xqueue:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.xqueue"
