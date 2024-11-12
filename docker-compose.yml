@@ -643,7 +643,7 @@ services:
 
   cms-worker:
     command: bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && celery --app=cms.celery:APP worker -l debug -c 2'
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.lms-worker"
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.cms-worker"
     hostname: cms-worker.devstack.edx
     depends_on:
       - mysql80
