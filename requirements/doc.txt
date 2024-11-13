@@ -37,7 +37,7 @@ markupsafe==3.0.2
     # via jinja2
 nh3==0.2.18
     # via readme-renderer
-packaging==24.1
+packaging==24.2
     # via sphinx
 pbr==6.1.0
     # via stevedore
