@@ -125,10 +125,17 @@ Make sure that you enable the following code in ./edx-platform/lms/envs/devstack
    ENABLE_COMPREHENSIVE_THEMING = True
    COMPREHENSIVE_THEME_DIRS = [
        "/edx/app/edxapp/edx-platform/themes/",
-       "/edx/app/edx-themes/edx-platform/"
+       "/edx/app/edx-themes/edx-platform/",
    ]
    TEMPLATES[1]["DIRS"] = _make_mako_template_dirs
    derive_settings(__name__)
+
+Enabling a theme
+~~~~~~~~~~~~~~~~
+
+To enable a theme, go to the Django theme admin page and select "Add site theme". You'll need to create a Site with the "domain" including the port. For the theme, specify the name of a subdirectory in one of the configured theme dirs. After this, the theme will immediately become available and enabled, and changes will show up live.
+
+For example, to enable the ``edx.org-next`` theme from the ``edx/edx-themes`` repo, you'd visit `<http://localhost:18000/admin/theming/sitetheme/>`_, use ``localhost:18000`` as the site domain, and specify ``edx.org-next`` as the theme directory.
 
 How do I connect to the databases from an outside editor?
 ---------------------------------------------------------
