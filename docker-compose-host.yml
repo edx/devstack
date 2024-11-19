@@ -90,9 +90,16 @@ services:
       - ${DEVSTACK_WORKSPACE}/edx-analytics-data-api:/edx/app/analytics_api/analytics_api
       - ${DEVSTACK_WORKSPACE}/src:/edx/src
       - ${PWD}/py_configuration_files/analytics_data_api.py:/edx/app/analytics_api/analytics_api/analyticsdataserver/settings/devstack.py
+  enterprise-subsidy:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/enterprise-subsidy:/edx/app/enterprise-subsidy
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src
+      - ${PWD}/py_configuration_files/enterprise_subsidy.py:/edx/app/enterprise-subsidy/enterprise_subsidy/settings/devstack.py
+
   enterprise-catalog:
     volumes:
       - ${DEVSTACK_WORKSPACE}/enterprise-catalog:/edx/app/enterprise_catalog/enterprise_catalog
+      - ${PWD}/py_configuration_files/enterprise_catalog.py:/edx/app/enterprise_catalog/enterprise_catalog/settings/devstack.py
   enterprise-catalog-worker:
     volumes:
       - ${DEVSTACK_WORKSPACE}/enterprise-catalog:/edx/app/enterprise_catalog/enterprise_catalog
@@ -114,7 +121,8 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/license-manager:/edx/app/license_manager
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
-      - ${PWD}/py_configuration_files/license_manager.py:/edx/app/license_manager/license_manager/settings/devstack.py
+      - ${PWD}/py_configuration_files/license_manager.py:/edx/app/license_manager/license_manager/settings/devstack.py  
+
   # Note that frontends mount `src` to /edx/app/src instead of /edx/src.
   # See ADR #5 for rationale.
   frontend-app-account:

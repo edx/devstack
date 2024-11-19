@@ -61,4 +61,8 @@ CREATE USER IF NOT EXISTS 'edxapp001'@'%' IDENTIFIED BY 'password';
 GRANT ALL ON edxapp.* TO 'edxapp001'@'%';
 GRANT ALL ON edxapp_csmh.* TO 'edxapp001'@'%';
 
+CREATE DATABASE IF NOT EXISTS enterprise_subsidy;
+CREATE USER IF NOT EXISTS 'subsidy001'@'%' IDENTIFIED BY 'password';
+GRANT ALL ON enterprise_subsidy.* TO 'subsidy001'@'%';
+
 FLUSH PRIVILEGES;

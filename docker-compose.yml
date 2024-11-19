@@ -913,6 +913,29 @@ services:
     stdin_open: true
     tty: true
 
+  enterprise-subsidy:
+    image: edxops/enterprise-subsidy-dev
+    container_name: edx.devstack.enterprise-subsidy
+    hostname: enterprise-subsidy.devstack.edx
+    depends_on:
+      - mysql80
+      - memcached
+    command: bash -c 'while true; do python /edx/app/enterprise-subsidy/manage.py runserver 0.0.0.0:18280; sleep 2; done'
+    stdin_open: true
+    tty: true
+    environment:
+      DB_HOST: edx.devstack.mysql80
+      DB_PORT: 3306
+      DB_USER: subsidy001
+      DB_PASSWORD: password
+      DJANGO_SETTINGS_MODULE: enterprise_subsidy.settings.devstack
+      MEMCACHE_HOST: memcached.devstack.edx:11211
+    working_dir: /edx/app/enterprise-subsidy
+    ports:
+      - "18280:18280"
+    volumes:
+      - /edx/var/enterprise-subsidy
+
   # ==========================================================================
   # edX Microfrontends
   #
