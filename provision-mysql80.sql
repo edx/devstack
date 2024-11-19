@@ -39,6 +39,10 @@ GRANT ALL ON `reports`.* TO 'analytics001'@'%';
 CREATE DATABASE IF NOT EXISTS `reports_v1`;
 GRANT ALL ON `reports_v1`.* TO 'analytics001'@'%';
 
+CREATE DATABASE IF NOT EXISTS license_manager;
+CREATE USER IF NOT EXISTS 'license_manager001'@'%' IDENTIFIED BY 'password';
+GRANT ALL ON license_manager.* TO 'license_manager001'@'%';
+
 CREATE DATABASE IF NOT EXISTS edxapp;
 CREATE DATABASE IF NOT EXISTS edxapp_csmh;
 CREATE USER IF NOT EXISTS 'edxapp001'@'%' IDENTIFIED BY 'password';
