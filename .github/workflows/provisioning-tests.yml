@@ -30,7 +30,7 @@ jobs:
         os:
           - ubuntu-24.04
         python-version: [ '3.11' ]
-        services: [ discovery+lms+forum ,registrar+lms, ecommerce+lms, edx_notes_api+lms, credentials+lms, xqueue, analyticsapi+insights+lms, designer+lms, enterprise-subsidy+enterprise-catalog+enterprise-access+lms, license-manager+lms]
+        services: [ discovery+lms+forum ,registrar+lms, ecommerce+lms, edx_notes_api+lms, credentials+lms, xqueue, analyticsapi+insights+lms, designer+lms, enterprise-subsidy+enterprise-catalog+enterprise-access+lms, license-manager+lms, edx-exams+lms]
       fail-fast: false # some services can be flaky; let others run to completion even if one fails
 
     steps:

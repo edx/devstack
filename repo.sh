@@ -54,6 +54,7 @@ non_release_repos=(
     "https://github.com/openedx/frontend-app-profile.git"
     "https://github.com/openedx/frontend-app-ora-grading.git"
     "https://github.com/openedx/enterprise-subsidy.git"
+    "https://github.com/edx/edx-exams.git"
 )
 
 ssh_repos=(
@@ -90,6 +91,7 @@ non_release_ssh_repos=(
     "git@github.com:openedx/frontend-app-profile.git"
     "git@github.com:openedx/frontend-app-ora-grading.git"
     "git@github.com:openedx/enterprise-subsidy.git"
+    "git@github.com:edx/edx-exams.git"
 )
 
 if [ -n "${OPENEDX_RELEASE}" ]; then

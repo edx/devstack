@@ -65,4 +65,8 @@ CREATE DATABASE IF NOT EXISTS enterprise_subsidy;
 CREATE USER IF NOT EXISTS 'subsidy001'@'%' IDENTIFIED BY 'password';
 GRANT ALL ON enterprise_subsidy.* TO 'subsidy001'@'%';
 
+CREATE DATABASE IF NOT EXISTS `edx_exams`;
+CREATE USER IF NOT EXISTS 'exams001'@'%' IDENTIFIED BY 'password';
+GRANT ALL ON `edx_exams`.* TO 'exams001'@'%';
+
 FLUSH PRIVILEGES;

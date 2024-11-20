@@ -922,6 +922,29 @@ services:
       - "18281:18281"
     stdin_open: true
 
+  edx-exams:
+    image: edxops/edx_exams
+    container_name: edx.devstack.edx_exams
+    hostname: edx_exams.devstack.edx
+    depends_on:
+      - lms
+      - mysql80
+    command: bash -c 'while true; do python /edx/app/edx-exams/manage.py runserver 0.0.0.0:18740; sleep 2; done'
+    stdin_open: true
+    tty: true
+    environment:
+      DB_HOST: edx.devstack.mysql80
+      DB_PORT: 3306
+      DB_NAME: edx_exams
+      DB_USER: exams001
+      DB_PASSWORD: password
+      DJANGO_SETTINGS_MODULE: edx_exams.settings.devstack
+    working_dir: /edx/app/edx-exams/
+    ports:
+      - "18740:18740"
+    volumes:
+      - /edx/var/edx-exams
+
   # ==========================================================================
   # edX Microfrontends
   #
