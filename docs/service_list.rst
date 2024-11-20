@@ -75,6 +75,8 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `enterprise-subsidy`_              | http://localhost:18280              | Python/Django  | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
+| `edx-exams`_                       | http://localhost:18740              | Python/Django  | Extra        |
++------------------------------------+-------------------------------------+----------------+--------------+
 
 Some common service combinations include:
 
@@ -113,3 +115,4 @@ Some common service combinations include:
 .. _license-manager: https://github.com/openedx/license-manager
 .. _enterprise-access: https://github.com/openedx/enterprise-access
 .. _enterprise-subsidy: https://github.com/openedx/enterprise-subsidy
+.. _edx-exams: https://github.com/edx/edx-exams

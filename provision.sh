@@ -54,6 +54,7 @@ license-manager \
 designer \
 enterprise-access \
 enterprise-subsidy \
+edx-exams \
  "
 
 # What should we provision?
