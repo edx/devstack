@@ -18,6 +18,10 @@ CREATE DATABASE IF NOT EXISTS ecommerce;
 CREATE USER IF NOT EXISTS 'ecomm001'@'%' IDENTIFIED BY 'password';
 GRANT ALL ON ecommerce.* TO 'ecomm001'@'%';
 
+CREATE DATABASE IF NOT EXISTS enterprise_access;
+CREATE USER IF NOT EXISTS 'enterprise_access001'@'%' IDENTIFIED BY 'password';
+GRANT ALL ON enterprise_access.* TO 'enterprise_access001'@'%';
+
 CREATE DATABASE IF NOT EXISTS notes;
 CREATE USER IF NOT EXISTS 'notes001'@'%' IDENTIFIED BY 'password';
 GRANT ALL ON notes.* TO 'notes001'@'%';

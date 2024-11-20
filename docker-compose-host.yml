@@ -20,6 +20,14 @@ services:
       - ecommerce_tox:/edx/app/ecommerce/ecommerce/.tox
       - ${DEVSTACK_WORKSPACE}/src:/edx/src
       - ${PWD}/py_configuration_files/ecommerce.py:/edx/app/ecommerce/ecommerce/ecommerce/settings/devstack.py
+  enterprise-access:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/enterprise-access:/edx/app/enterprise-access/
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src
+      - ${PWD}/py_configuration_files/enterprise_access.py:/edx/app/enterprise-access/license_manager/settings/devstack.py      
+  enterprise-access-worker:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/enterprise-access:/edx/app/enterprise-access/
   forum:
     volumes:
       - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service

@@ -39,6 +39,7 @@ repos=(
     "https://github.com/openedx/enterprise-catalog.git"
     "https://github.com/openedx/license-manager.git"
     "https://github.com/openedx/codejail-service.git"
+    "https://github.com/openedx/enterprise-access.git"
 )
 
 non_release_repos=(
@@ -72,6 +73,7 @@ ssh_repos=(
     "git@github.com:edx/edx-analytics-data-api.git"
     "git@github.com:openedx/license-manager.git"
     "git@github.com:openedx/codejail-service.git"
+    "git@github.com:openedx/enterprise-access.git"
 )
 
 non_release_ssh_repos=(

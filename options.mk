@@ -67,7 +67,7 @@ credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-authn+frontend-
 # Separated by plus signs.
 # Separated by plus signs. Listed in alphabetical order for clarity.
 EDX_SERVICES ?= \
-analyticsapi+codejail+credentials+cms+cms-worker+cms_watcher+discovery+ecommerce+edx_notes_api+forum+frontend-app-account+frontend-app-learner-dashboard+frontend-app-learner-record+frontend-app-profile+frontend-app-authn+frontend-app-course-authoring+frontend-app-gradebook+frontend-app-ora-grading+frontend-app-learning+frontend-app-library-authoring+frontend-app-payment+frontend-app-program-console+frontend-app-publisher+insights+lms+lms-worker+lms_watcher+registrar+registrar-worker+xqueue+xqueue_consumer+enterprise-catalog+license-manager
+analyticsapi+codejail+credentials+cms+cms-worker+cms_watcher+discovery+ecommerce+edx_notes_api+enterprise-access+forum+frontend-app-account+frontend-app-learner-dashboard+frontend-app-learner-record+frontend-app-profile+frontend-app-authn+frontend-app-course-authoring+frontend-app-gradebook+frontend-app-ora-grading+frontend-app-learning+frontend-app-library-authoring+frontend-app-payment+frontend-app-program-console+frontend-app-publisher+insights+lms+lms-worker+lms_watcher+registrar+registrar-worker+xqueue+xqueue_consumer+enterprise-catalog+license-manager
 
 # Services with database migrations.
 # Should be a subset of $(EDX_SERVICES).
@@ -76,7 +76,7 @@ analyticsapi+codejail+credentials+cms+cms-worker+cms_watcher+discovery+ecommerce
 # Note: This list should contain _all_ db-backed services, even if not
 # configured to run; the list will be filtered later against $(DEFAULT_SERVICES).
 DB_SERVICES ?= \
-credentials+cms+discovery+ecommerce+lms+registrar+license-manager
+credentials+cms+discovery+ecommerce+enterprise-access+lms+registrar+license-manager
 
 # Services with static assets to be built.
 # Should be a subset of $(EDX_SERVICES).
