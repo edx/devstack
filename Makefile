@@ -407,6 +407,9 @@ dev.shell.analyticsapi:
 dev.shell.insights:
 	docker compose exec insights env TERM=$(TERM) bash -c 'eval $$(source /edx/app/insights/insights_env; echo PATH="$$PATH";) && /bin/bash'
 
+dev.shell.enterprise-subsidy:
+	docker compose exec enterprise-subsidy env TERM=$(TERM) bash -c '/bin/bash'
+
 dev.shell.%: ## Run a shell on the specified service's container.
 	docker compose exec $* /bin/bash
 

@@ -49,6 +49,7 @@ xqueue \
 coursegraph \
 insights \
 analyticsapi \
+enterprise-subsidy \
  "
 
 # What should we provision?
