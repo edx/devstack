@@ -3,7 +3,7 @@
 # This script will provision the services specified in the argument list,
 # or all services if no arguments are provided.
 #
-# Non-existant services will be ignored.
+# Non-existent services will be ignored.
 # Specifying services more than once will cause them to be provisioned more
 # than once.
 #
@@ -49,6 +49,7 @@ xqueue \
 coursegraph \
 insights \
 analyticsapi \
+enterprise-catalog \
  "
 
 # What should we provision?
