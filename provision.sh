@@ -49,6 +49,7 @@ xqueue \
 coursegraph \
 insights \
 analyticsapi \
+license-manager \
  "
 
 # What should we provision?

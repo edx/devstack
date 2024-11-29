@@ -9,11 +9,11 @@ API_GATEWAY_URL = 'api.gateway.url'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'license_manager',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'license-manager.mysql',
-        'PORT': '3306',
+        'NAME': os.environ.get('DB_NAME', 'license_manager'),
+        'USER': os.environ.get('DB_USER', 'license_manager001'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'password'),
+        'HOST': os.environ.get('DB_HOST', 'edx.devstack.mysql80'),
+        'PORT': os.environ.get('DB_PORT', 3306),
     }
 }
 
