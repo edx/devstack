@@ -156,6 +156,12 @@ if should_check analyticsapi; then
         "curl --fail -L http://localhost:19001/health/"
 fi
 
+if should_check edx-exams; then
+    echo "Running edX Exam Devstack tests: "
+    run_check edx-exams_heartbeat edx-exams \
+        "curl --fail -L http://localhost:18740/health/"
+fi
+
 echo "Successful checks:${succeeded:- NONE}"
 echo "Failed checks:${failed:- NONE}"
 if [[ -z "$succeeded" ]] && [[ -z "$failed" ]]; then

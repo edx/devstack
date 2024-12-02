@@ -49,6 +49,7 @@ xqueue \
 coursegraph \
 insights \
 analyticsapi \
+edx-exams \
  "
 
 # What should we provision?

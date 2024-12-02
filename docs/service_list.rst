@@ -63,6 +63,8 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-ora-grading`_        | http://localhost:1993               | MFE (React.js) | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
+| `edx-exams`_                       | http://localhost:18740              | Python/Django  | Extra        |
++------------------------------------+-------------------------------------+----------------+--------------+
 
 Some common service combinations include:
 
@@ -95,3 +97,4 @@ Some common service combinations include:
 .. _frontend-app-ora-grading: https://github.com/edx/frontend-app-ora-grading
 .. _insights: https://github.com/edx/edx-analytics-dashboard
 .. _analyticsapi: https://github.com/edx/edx-analytics-data-api
+.. _edx-exams: https://github.com/edx/edx-exams

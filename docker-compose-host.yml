@@ -71,6 +71,10 @@ services:
       - ${DEVSTACK_WORKSPACE}/edx-analytics-data-api:/edx/app/analytics_api/analytics_api
       - ${DEVSTACK_WORKSPACE}/src:/edx/src
       - ${PWD}/py_configuration_files/analytics_data_api.py:/edx/app/analytics_api/analytics_api/analyticsdataserver/settings/devstack.py
+  edx-exams:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/edx-exams:/edx/app/edx-exams
+
 
   # Note that frontends mount `src` to /edx/app/src instead of /edx/src.
   # See ADR #5 for rationale.
