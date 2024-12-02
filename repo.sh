@@ -36,6 +36,7 @@ repos=(
     "https://github.com/openedx/frontend-app-publisher.git"
     "https://github.com/edx/edx-analytics-dashboard.git"
     "https://github.com/edx/edx-analytics-data-api.git"
+    "https://github.com/edx/portal-designer.git"
 )
 
 non_release_repos=(
@@ -66,6 +67,7 @@ ssh_repos=(
     "git@github.com:openedx/frontend-app-publisher.git"
     "git@github.com:edx/edx-analytics-dashboard.git"
     "git@github.com:edx/edx-analytics-data-api.git"
+    "git@github.com:edx/portal-designer.git"
 )
 
 non_release_ssh_repos=(
