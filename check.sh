@@ -114,6 +114,12 @@ if should_check ecommerce; then
         "curl --fail -L http://localhost:18130/health/"
 fi
 
+if should_check enterprise_access; then
+    echo "Checking enterprise-access health:"
+    run_check enterprise_access_heartbeat enterprise-access \
+        "curl --fail -L http://localhost:18130/health/"
+fi
+
 if should_check discovery; then
     echo "Checking discovery health:"
     run_check discovery_heartbeat discovery \
