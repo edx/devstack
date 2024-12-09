@@ -693,6 +693,32 @@ services:
         aliases:
           - edx.devstack.xqueue_consumer
 
+  designer:
+    image: portal-designer-designer
+    container_name: edx.devstack.designer
+    volumes:
+      - .:/edx/app/designer
+    command: bash -c 'while true; do python /edx/app/designer/manage.py runserver 0.0.0.0:18808; sleep 2; done'
+    ports:
+      - "18809:18808"
+    depends_on:
+      - mysql80
+    networks:
+      default:
+        aliases:
+          - edx.devstack.designer
+    # Allows attachment to this container using 'docker attach <containerID>'.
+    stdin_open: true
+    tty: true
+    environment:
+      DJANGO_SETTINGS_MODULE: designer.settings.devstack
+      ENABLE_DJANGO_TOOLBAR: 1
+      DB_HOST: edx.devstack.mysql80
+      DB_NAME: designer
+      DB_PORT: 3306
+      DB_USER: designer001
+      DB_PASSWORD: password
+
   # ==========================================================================
   # edX Microfrontends
   #
@@ -910,3 +936,4 @@ volumes:
   mysql57_data:
   mysql80_data:
   redis_data:
+  designer_mysql:

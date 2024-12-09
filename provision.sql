@@ -33,5 +33,8 @@ GRANT ALL ON `reports`.* TO 'analytics001'@'%' IDENTIFIED BY 'password';
 CREATE DATABASE IF NOT EXISTS `reports_v1`;
 GRANT ALL ON `reports_v1`.* TO 'analytics001'@'%' IDENTIFIED BY 'password';
 
+CREATE DATABASE IF NOT EXISTS designer;
+GRANT ALL ON discovery.* TO 'designer001'@'%' IDENTIFIED BY 'password';
+
 
 FLUSH PRIVILEGES;
