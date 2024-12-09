@@ -693,6 +693,82 @@ services:
         aliases:
           - edx.devstack.xqueue_consumer
 
+  enterprise-catalog:
+    image: edxops/enterprise-catalog-dev
+    container_name: edx.devstack.enterprise-catalog
+    hostname: enterprise-catalog.devstack.edx
+    command: bash -c 'while true; do python /edx/app/enterprise_catalog/enterprise_catalog/manage.py runserver 0.0.0.0:18160; sleep 2; done'
+    ports:
+      - "18160:18160"
+    depends_on:
+      - memcached
+      - mysql80
+      - enterprise-catalog-worker
+    networks:
+      default:
+          aliases:
+            - edx.devstack.enterprise-catalog
+    # Allows attachment to this container using 'docker attach <containerID>'.
+    stdin_open: true
+    tty: true
+    environment:
+      CELERY_ALWAYS_EAGER: 'false'
+      CELERY_BROKER_TRANSPORT: redis
+      CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379
+      CELERY_BROKER_VHOST: 0
+      CELERY_BROKER_PASSWORD: password
+      DJANGO_SETTINGS_MODULE: enterprise_catalog.settings.devstack
+      ENABLE_DJANGO_TOOLBAR: 1
+      DB_HOST: edx.devstack.mysql80
+      DB_NAME: enterprise_catalog
+      DB_PORT: 3306
+      DB_USER: catalog001
+      DB_PASSWORD: 'password'
+
+  enterprise-catalog-worker:
+    image: edxops/enterprise-catalog-dev
+    command: bash -c 'cd /edx/app/enterprise_catalog/enterprise_catalog && celery -A enterprise_catalog worker -Q enterprise_catalog.default -l DEBUG'
+    container_name: edx.devstack.enterprise.catalog.worker
+    depends_on:
+      - mysql80
+    environment:
+      CELERY_ALWAYS_EAGER: 'false'
+      CELERY_BROKER_TRANSPORT: redis
+      CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379
+      CELERY_BROKER_VHOST: 0
+      CELERY_BROKER_PASSWORD: password
+      DJANGO_SETTINGS_MODULE: enterprise_catalog.settings.devstack
+      COLUMNS: 80
+    hostname: worker.catalog.enterprise
+    ports:
+      - "18161:18161"
+    restart: always
+    # Allows attachment to this container using 'docker attach <containerID>'.
+    stdin_open: true
+    tty: true
+
+  enterprise-catalog-curations-worker:
+    image: edxops/enterprise-catalog-dev
+    command: bash -c 'cd /edx/app/enterprise_catalog/enterprise_catalog && celery -A enterprise_catalog worker -Q enterprise_catalog.curations -l DEBUG'
+    container_name: enterprise.catalog.curations
+    depends_on:
+      - mysql80
+    environment:
+      CELERY_ALWAYS_EAGER: 'false'
+      CELERY_BROKER_TRANSPORT: redis
+      CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379
+      CELERY_BROKER_VHOST: 0
+      CELERY_BROKER_PASSWORD: password
+      DJANGO_SETTINGS_MODULE: enterprise_catalog.settings.devstack
+      COLUMNS: 80
+    hostname: curations.catalog.enterprise
+    ports:
+      - "18162:18162"
+    restart: always
+    # Allows attachment to this container using 'docker attach <containerID>'.
+    stdin_open: true
+    tty: true
+
   # ==========================================================================
   # edX Microfrontends
   #
