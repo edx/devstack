@@ -61,6 +61,8 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `analyticsapi`_                    | http://localhost:19001              | Python/Django  | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
+| `license-manager`_                 | http://localhost:18171              | Python/Django  | Extra        |
++------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-ora-grading`_        | http://localhost:1993               | MFE (React.js) | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
 
@@ -95,3 +97,4 @@ Some common service combinations include:
 .. _frontend-app-ora-grading: https://github.com/edx/frontend-app-ora-grading
 .. _insights: https://github.com/edx/edx-analytics-dashboard
 .. _analyticsapi: https://github.com/edx/edx-analytics-data-api
+.. _license-manager: https://github.com/openedx/license-manager
