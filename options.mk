@@ -61,7 +61,7 @@ ALWAYS_CACHE_PROGRAMS ?= false
 #       The current value was chosen such that it would not change the existing
 #       Devstack behavior.
 DEFAULT_SERVICES ?= \
-credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-authn+frontend-app-gradebook+frontend-app-payment+frontend-app-publisher+frontend-app-learning+lms+cms
+credentials+discovery+ecommerce+edx_notes_api+forum+frontend-app-authn+frontend-app-gradebook+frontend-app-payment+frontend-app-publisher+frontend-app-learning+lms+cms+designer
 
 # All edX services, whether or not they are run by default.
 # Separated by plus signs.

@@ -10,6 +10,10 @@ CREATE DATABASE IF NOT EXISTS discovery;
 CREATE USER IF NOT EXISTS 'discov001'@'%' IDENTIFIED BY 'password';
 GRANT ALL ON discovery.* TO 'discov001'@'%';
 
+CREATE DATABASE IF NOT EXISTS designer;
+CREATE USER IF NOT EXISTS 'designer001'@'%' IDENTIFIED BY 'password';
+GRANT ALL ON designer.* TO 'designer001'@'%';
+
 CREATE DATABASE IF NOT EXISTS ecommerce;
 CREATE USER IF NOT EXISTS 'ecomm001'@'%' IDENTIFIED BY 'password';
 GRANT ALL ON ecommerce.* TO 'ecomm001'@'%';
