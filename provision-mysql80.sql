@@ -6,6 +6,10 @@ CREATE DATABASE IF NOT EXISTS credentials;
 CREATE USER IF NOT EXISTS 'credentials001'@'%' IDENTIFIED BY 'password';
 GRANT ALL ON credentials.* TO 'credentials001'@'%';
 
+CREATE DATABASE IF NOT EXISTS enterprise_catalog;
+CREATE USER IF NOT EXISTS 'catalog001'@'%' IDENTIFIED BY 'password';
+GRANT ALL ON enterprise_catalog.* TO 'catalog001'@'%';
+
 CREATE DATABASE IF NOT EXISTS discovery;
 CREATE USER IF NOT EXISTS 'discov001'@'%' IDENTIFIED BY 'password';
 GRANT ALL ON discovery.* TO 'discov001'@'%';
