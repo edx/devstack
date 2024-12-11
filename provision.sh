@@ -49,6 +49,7 @@ xqueue \
 coursegraph \
 insights \
 analyticsapi \
+enterprise-access \
  "
 
 # What should we provision?
