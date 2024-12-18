@@ -36,6 +36,7 @@ repos=(
     "https://github.com/openedx/frontend-app-publisher.git"
     "https://github.com/edx/edx-analytics-dashboard.git"
     "https://github.com/edx/edx-analytics-data-api.git"
+    "https://github.com/openedx/enterprise-catalog.git"
 )
 
 non_release_repos=(
@@ -56,6 +57,7 @@ ssh_repos=(
     "git@github.com:openedx/cs_comments_service.git"
     "git@github.com:edx/ecommerce.git"
     "git@github.com:openedx/edx-notes-api.git"
+    "git@github.com:openedx/enterprise-catalog.git"
     "git@github.com:openedx/edx-platform.git"
     "git@github.com:openedx/xqueue.git"
     "git@github.com:edx/edx-analytics-dashboard.git"
