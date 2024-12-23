@@ -156,6 +156,12 @@ if should_check analyticsapi; then
         "curl --fail -L http://localhost:19001/health/"
 fi
 
+if should_check license-manager; then
+    echo "Running License Manager Devstack tests: "
+    run_check license_manager_heartbeat license-manager \
+        "curl --fail -L http://localhost:18170/health/"
+fi
+
 echo "Successful checks:${succeeded:- NONE}"
 echo "Failed checks:${failed:- NONE}"
 if [[ -z "$succeeded" ]] && [[ -z "$failed" ]]; then
