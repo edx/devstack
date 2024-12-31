@@ -192,6 +192,32 @@ clone_ssh ()
     _clone "${ssh_repos[@]}"
 }
 
+checkout_and_pull_default_branch ()
+{
+    local name=$1
+    local dir_path=${2:-$1}
+    if [ -d "$name" ]; then
+        DEFAULT_BRANCH=$(cd ${dir_path}; git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+        # Try to switch branch and pull, but fail if there are uncommitted changes.
+        if (cd "$dir_path"; git checkout -q ${DEFAULT_BRANCH} && git pull -q --ff-only);
+        then
+            # Echo untracked files to simplify debugging and make it easier to see that resetting does not remove everything
+            untracked_files="$(cd ${dir_path} && git ls-files --others --exclude-standard)"
+            if [[ $untracked_files ]];
+            then
+                echo "The following untracked files are in ${name} repository:"
+                echo "$untracked_files"
+            fi
+        else
+            echo >&2 "Failed to reset $name repo. Exiting."
+            echo >&2 "Please go to the repo and clean up any issues that are keeping 'git checkout $DEFAULT_BRANCH' and 'git pull' from working."
+            exit 1
+        fi
+    else
+        printf "The [%s] repo is not cloned. Skipping.\n" "$name"
+    fi
+}
+
 reset ()
 {
     read -p "This will switch to the default branch and pull changes in your local git checkouts. Would you like to proceed? [y/n] " -r
@@ -207,28 +233,14 @@ reset ()
             exit 1
         fi
         name="${BASH_REMATCH[1]}"
-
-        if [ -d "$name" ]; then
-            DEFAULT_BRANCH=$(cd ${name}; git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
-            # Try to switch branch and pull, but fail if there are uncommitted changes.
-            if (cd "$name"; git checkout -q ${DEFAULT_BRANCH} && git pull -q --ff-only);
-            then
-                # Echo untracked files to simplify debugging and make it easier to see that resetting does not remove everything
-                untracked_files="$(cd ${name} && git ls-files --others --exclude-standard)"
-                if [[ $untracked_files ]];
-                then
-                    echo "The following untracked files are in ${name} repository:"
-                    echo "$untracked_files"
-                fi
-            else
-                echo >&2 "Failed to reset $name repo. Exiting."
-                echo >&2 "Please go to the repo and clean up any issues that are keeping 'git checkout $DEFAULT_BRANCH' and 'git pull' from working."
-                exit 1
-            fi
-        else
-            printf "The [%s] repo is not cloned. Skipping.\n" "$name"
-        fi
+        checkout_and_pull_default_branch "$name"
     done
+
+    echo "Updating edx-themes repo..."
+    themes_directory="src/edx-themes"
+    if [ -d "$themes_directory" ]; then
+        checkout_and_pull_default_branch "edx-themes" "$themes_directory"
+    fi
 }
 
 status ()
