@@ -13,6 +13,7 @@ services:
       - discovery_tox:/edx/app/discovery/discovery/.tox
       - ${DEVSTACK_WORKSPACE}/src:/edx/src
       - ${PWD}/py_configuration_files/course_discovery.py:/edx/app/discovery/discovery/course_discovery/settings/devstack.py
+      - ${PWD}/datadog:/edx/datadog
   ecommerce:
     volumes:
       - ${DEVSTACK_WORKSPACE}/ecommerce:/edx/app/ecommerce/ecommerce

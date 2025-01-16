@@ -299,7 +299,7 @@ services:
       - "18150:18150"
 
   discovery:
-    command: bash -c 'source /edx/app/discovery/discovery_env && while true; do python /edx/app/discovery/discovery/manage.py runserver 0.0.0.0:18381; sleep 2; done'
+    command: cat
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.discovery"
     hostname: discovery.devstack.edx
     depends_on:
@@ -319,6 +319,7 @@ services:
       TEST_ELASTICSEARCH_URL: "edx.devstack.elasticsearch710"
       ENABLE_DJANGO_TOOLBAR: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
+      PATH: "/edx/app/discovery/venvs/discovery/bin:/edx/app/discovery/nodeenvs/discovery/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/edx/datadog:${PATH}"
     image: edxops/discovery-dev:latest
     networks:
       default:

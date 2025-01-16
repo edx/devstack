@@ -91,6 +91,12 @@ EVENT_BUS_PRODUCER = 'edx_event_bus_redis.create_producer'
 EVENT_BUS_REDIS_CONNECTION_URL = 'redis://:password@edx.devstack.redis:6379/'
 EVENT_BUS_TOPIC_PREFIX = 'dev'
 
+###################### Datadog ######################
+
+OPENEDX_TELEMETRY = [
+    'edx_django_utils.monitoring.DatadogBackend',
+]
+
 #####################################################################
 # Lastly, see if the developer has any local overrides.
 if os.path.isfile(join(dirname(abspath(__file__)), 'private.py')):
