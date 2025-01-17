@@ -102,7 +102,8 @@ services:
 
   # Events broker
   kafka:
-    image: confluentinc/cp-server:6.2.1
+    # image: confluentinc/cp-server:6.2.1
+    image: confluentinc/cp-server:7.2.0.arm64
     hostname: kafka.devstack.edx
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.kafka"
     depends_on:
@@ -136,7 +137,8 @@ services:
 
   # browser app for monitoring local Kafka cluster. This is quite memory- and CPU-intensive, so it should only be used for local Kafka debugging
   kafka-control-center:
-    image: confluentinc/cp-enterprise-control-center:6.2.1
+    # image: confluentinc/cp-enterprise-control-center:6.2.1
+    image: confluentinc/cp-enterprise-control-center:7.2.0.arm64
     hostname: kafka-control-center.devstack.edx
     container_name: edx.${COMPOSE_PROJECT_NAME:-devstack}.kafka-control-center
     depends_on:
@@ -236,7 +238,8 @@ services:
 
   # storage layer for data schemas in Kafka
   schema-registry:
-    image: confluentinc/cp-schema-registry:6.2.1
+    # image: confluentinc/cp-schema-registry:6.2.1
+    image: confluentinc/cp-schema-registry:7.2.0.arm64
     hostname: schema-registry.devstack.edx
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.schema-registry"
     depends_on:
@@ -254,7 +257,8 @@ services:
 
   # needed by Kafka to keep track of nodes, topics, and messages.
   zookeeper:
-    image: confluentinc/cp-zookeeper:6.2.1
+    # image: confluentinc/cp-zookeeper:6.2.1
+    image: confluentinc/cp-zookeeper:7.2.0.arm64
     hostname: zookeeper.devstack.edx
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.zookeeper"
     ports:
