@@ -41,6 +41,8 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-authn`_              | http://localhost:1999/              | MFE (React.js) | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
+| `codejail`_                        | http://localhost:18030/             | Python/Django  | Extra        |
++------------------------------------+-------------------------------------+----------------+--------------+
 | `registrar`_                       | http://localhost:18734/api-docs/    | Python/Django  | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-program-console`_    | http://localhost:1976/              | MFE (React.js) | Extra        |
@@ -84,6 +86,7 @@ Some common service combinations include:
 .. _frontend-app-gradebook: https://github.com/openedx/frontend-app-gradebook
 .. _lms: https://github.com/openedx/edx-platform
 .. _frontend-app-program-console: https://github.com/edx/frontend-app-program-console
+.. _codejail: https://github.com/openedx/codejail-service
 .. _registrar: https://github.com/edx/registrar
 .. _cms: https://github.com/openedx/edx-platform
 .. _frontend-app-learner-dashboard: https://github.com/openedx/frontend-app-learner-dashboard

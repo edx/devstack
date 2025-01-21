@@ -61,6 +61,11 @@ services:
   cms-worker:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform
+  codejail:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/codejail-service:/app
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src
+      - ${PWD}/py_configuration_files/codejail.py:/app/codejail_service/settings/devstack.py
   insights:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-analytics-dashboard:/edx/app/insights/insights

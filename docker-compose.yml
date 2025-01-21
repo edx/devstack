@@ -657,6 +657,17 @@ services:
       # Dangerous to run Celery as root normally, but it's how we do things in devstack for some reason
       C_FORCE_ROOT: "true"
 
+  codejail:
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.codejail"
+    hostname: codejail.devstack.edx
+    stdin_open: true
+    tty: true
+    image: edxops/codejail-dev:latest
+    environment:
+      DJANGO_SETTINGS_MODULE: codejail_service.settings.devstack
+    ports:
+      - "18030:8080"
+
   xqueue:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.xqueue"
     image: edxops/xqueue-dev:latest
