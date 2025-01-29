@@ -43,7 +43,7 @@ pbr==6.1.0
     # via stevedore
 pydata-sphinx-theme==0.16.1
     # via sphinx-book-theme
-pygments==2.18.0
+pygments==2.19.1
     # via
     #   accessible-pygments
     #   doc8
@@ -85,5 +85,7 @@ stevedore==5.4.0
     # via doc8
 typing-extensions==4.12.2
     # via pydata-sphinx-theme
-urllib3==2.3.0
-    # via requests
+urllib3==2.2.3
+    # via
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
+    #   requests
