@@ -658,6 +658,7 @@ services:
       C_FORCE_ROOT: "true"
 
   codejail:
+    command: bash -c 'source /venv/bin/activate; while true; do python ./manage.py runserver 0.0.0.0:8080; sleep 2; done'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.codejail"
     hostname: codejail.devstack.edx
     stdin_open: true
