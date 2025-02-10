@@ -5,7 +5,7 @@ set -euf -o pipefail
 name="enterprise-access"
 port="18270"
 
-docker-compose up -d $name lms
+docker compose up -d $name lms
 
 echo -e "${GREEN}Installing requirements for ${name}...${NC}"
 docker compose exec -T ${name}  bash -e -c 'cd /edx/app/enterprise-access && make requirements' -- "$name"
