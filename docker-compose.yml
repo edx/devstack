@@ -726,11 +726,13 @@ services:
     hostname: codejail.devstack.edx
     stdin_open: true
     tty: true
-    image: edxops/codejail-dev:latest
+    image: edxops/codejail-service-dev:latest
     environment:
       DJANGO_SETTINGS_MODULE: codejail_service.settings.devstack
     ports:
       - "18030:8080"
+    security_opt:
+      - apparmor=codejail_service
 
   xqueue:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.xqueue"

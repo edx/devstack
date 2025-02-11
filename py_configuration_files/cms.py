@@ -312,6 +312,13 @@ xblock_deleted_event_setting['course-authoring-xblock-lifecycle']['enabled'] = T
 xblock_duplicated_event_setting = EVENT_BUS_PRODUCER_CONFIG['org.openedx.content_authoring.xblock.duplicated.v1']
 xblock_duplicated_event_setting['course-authoring-xblock-lifecycle']['enabled'] = True
 
+############################ Codejail ############################
+
+# Disabled by default since codejail service needs to be configured
+# and started separately. See docs/codejail.rst for details.
+ENABLE_CODEJAIL_REST_SERVICE = False
+CODE_JAIL_REST_SERVICE_HOST = "http://edx.devstack.codejail:8080"
+
 
 ################# New settings must go ABOVE this line #################
 ########################################################################
