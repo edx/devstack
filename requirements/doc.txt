@@ -8,13 +8,13 @@ accessible-pygments==0.0.5
     # via pydata-sphinx-theme
 alabaster==1.0.0
     # via sphinx
-babel==2.16.0
+babel==2.17.0
     # via
     #   pydata-sphinx-theme
     #   sphinx
-beautifulsoup4==4.12.3
+beautifulsoup4==4.13.3
     # via pydata-sphinx-theme
-certifi==2024.12.14
+certifi==2025.1.31
     # via requests
 charset-normalizer==3.4.1
     # via requests
@@ -39,11 +39,11 @@ nh3==0.2.20
     # via readme-renderer
 packaging==24.2
     # via sphinx
-pbr==6.1.0
+pbr==6.1.1
     # via stevedore
 pydata-sphinx-theme==0.16.1
     # via sphinx-book-theme
-pygments==2.18.0
+pygments==2.19.1
     # via
     #   accessible-pygments
     #   doc8
@@ -84,6 +84,13 @@ sphinxcontrib-serializinghtml==2.0.0
 stevedore==5.4.0
     # via doc8
 typing-extensions==4.12.2
-    # via pydata-sphinx-theme
-urllib3==2.3.0
-    # via requests
+    # via
+    #   beautifulsoup4
+    #   pydata-sphinx-theme
+urllib3==2.2.3
+    # via
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
+    #   requests
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools
