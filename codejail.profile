@@ -27,7 +27,7 @@ abi <abi/3.0>,
 # the outer one is going to help. But there may be some small value in
 # defense-in-depth, as it's possible that a bug in the child (sandbox)
 # profile isn't present in the outer one.
-profile codejail_service flags=(attach_disconnected,mediate_deleted) {
+profile codejail_service flags=(mediate_deleted) {
 
     # Allow access to a variety of commonly needed, generally safe things
     # (such as reading /dev/random, free memory, etc.)
@@ -50,13 +50,20 @@ profile codejail_service flags=(attach_disconnected,mediate_deleted) {
     # runs beyond time limits.
     signal (send) set=(kill) peer=codejail_service//child,
 
-    # Allow executing this binary, but force a transition to the specified
-    # profile (and scrub the environment).
+    # The core of the confinement: When the sandbox Python is executed, switch to
+    # the (extremely constrained) child profile.
+    #
+    # Manpage: "Cx: transition to subprofile on execute -- scrub the environment"
     /sandbox/venv/bin/python Cx -> child,
 
     # This is the important apparmor profile -- the one that actually
     # constrains the sandbox Python process.
-    profile child flags=(attach_disconnected,mediate_deleted) {
+    #
+    # mediate_deleted is not well documented, but it seems to indicate that
+    # apparmor will continue to make policy decisions in cases where a confined
+    # executable has a handle to a file's inode even after the file is removed
+    # from the filesystem.
+    profile child flags=(mediate_deleted) {
 
         # This inner profile also gets general access to "safe"
         # actions; we could list those explicitly out of caution but
@@ -69,13 +76,17 @@ profile codejail_service flags=(attach_disconnected,mediate_deleted) {
         # sandboxes.
         /sandbox/venv/** rm,
 
+        # Allow access to the temporary directories that are set up by
+        # codejail, one for each code-exec call. Each /tmp/code-XXXXX
+        # contains one execution.
+        #
         # Codejail has a hardcoded reference to this file path, although the
         # use of /tmp specifically may be controllable with environment variables:
         # https://github.com/openedx/codejail/blob/0165d9ca351/codejail/util.py#L15
         /tmp/codejail-*/ r,
         /tmp/codejail-*/** rw,
 
-        # Allow interactive terminal during development
+        # Allow interactive terminal in devstack.
         /dev/pts/* rw,
 
         # Allow receiving a kill signal from the webapp when the execution
