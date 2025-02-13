@@ -55,6 +55,8 @@ profile codejail_service flags=(mediate_deleted) {
     # The core of the confinement: When the sandbox Python is executed, switch to
     # the (extremely constrained) child profile.
     #
+    # This path needs to be coordinated with the Dockerfile and Django settings.
+    #
     # Manpage: "Cx: transition to subprofile on execute -- scrub the environment"
     /sandbox/venv/bin/python Cx -> child,
 
