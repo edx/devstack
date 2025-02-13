@@ -19,7 +19,7 @@ In order to run the codejail devstack component:
 
 1. Install AppArmor: ``sudo apt install apparmor``
 2. Add the codejail AppArmor profile to your OS, or update it: ``sudo apparmor_parser --replace -W codejail.profile``
-3. Configure LMS and CMS to use the codejail-service by changing ``ENABLE_CODEJAIL_REST_SERVICE`` to ``True`` in ``py_configuration_files/{lms,cms}.py``
+3. Configure LMS and CMS to use the codejail-service by uncommenting ``# ENABLE_CODEJAIL_REST_SERVICE = True`` in ``py_configuration_files/{lms,cms}.py``
 4. Run ``make codejail-up``
 
 The service does not need any provisioning, and does not have dependencies.

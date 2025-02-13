@@ -558,7 +558,8 @@ CSRF_TRUSTED_ORIGINS = [
 
 # Disabled by default since codejail service needs to be configured
 # and started separately. See docs/codejail.rst for details.
-ENABLE_CODEJAIL_REST_SERVICE = False
+
+# ENABLE_CODEJAIL_REST_SERVICE = True
 CODE_JAIL_REST_SERVICE_HOST = "http://edx.devstack.codejail:8080"
 
 ################# New settings must go ABOVE this line #################

@@ -316,7 +316,8 @@ xblock_duplicated_event_setting['course-authoring-xblock-lifecycle']['enabled'] 
 
 # Disabled by default since codejail service needs to be configured
 # and started separately. See docs/codejail.rst for details.
-ENABLE_CODEJAIL_REST_SERVICE = False
+
+# ENABLE_CODEJAIL_REST_SERVICE = True
 CODE_JAIL_REST_SERVICE_HOST = "http://edx.devstack.codejail:8080"
 
 
