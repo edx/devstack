@@ -18,8 +18,10 @@
 # by OS, see /etc/apparmor.d/tunables/global for contents.
 include <tunables/global>
 
-# Declare ABI version explicitly to ensure that confinement is
-# actually applied appropriately on newer Ubuntu.
+# Require that the system understands the feature set that this policy was written
+# for. If we didn't include this, then on Ubuntu >= 22.04, AppArmor might assume
+# the wrong feature set was requested, and some rules might become too permissive.
+# See https://github.com/netblue30/firejail/issues/3659#issuecomment-711074899
 abi <abi/3.0>,
 
 # This outer profile applies to the entire container, and isn't as
