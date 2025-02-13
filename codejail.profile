@@ -14,8 +14,9 @@
 # We may at some point make this file good enough for confinement in
 # production, but for now it is only intended to be used in devstack.
 
-
-#include <tunables/global>
+# Sets standard variables used by abstractions/base, later. Controlled
+# by OS, see /etc/apparmor.d/tunables/global for contents.
+include <tunables/global>
 
 # Declare ABI version explicitly to ensure that confinement is
 # actually applied appropriately on newer Ubuntu.
@@ -27,7 +28,12 @@ abi <abi/3.0>,
 # defense-in-depth, as it's possible that a bug in the child (sandbox)
 # profile isn't present in the outer one.
 profile codejail_service flags=(attach_disconnected,mediate_deleted) {
-    #include <abstractions/base>
+
+    # Allow access to a variety of commonly needed, generally safe things
+    # (such as reading /dev/random, free memory, etc.)
+    #
+    # Manpage: "Includes files that should be readable and writable in all profiles."
+    include <abstractions/base>
 
     # Filesystem access -- self-explanatory
     file,
@@ -51,7 +57,11 @@ profile codejail_service flags=(attach_disconnected,mediate_deleted) {
     # This is the important apparmor profile -- the one that actually
     # constrains the sandbox Python process.
     profile child flags=(attach_disconnected,mediate_deleted) {
-        #include <abstractions/base>
+
+        # This inner profile also gets general access to "safe"
+        # actions; we could list those explicitly out of caution but
+        # it could get pretty verbose.
+        include <abstractions/base>
 
         # Read and run binaries and libraries in the virtualenv. This
         # includes the sandbox's copy of Python as well as any
