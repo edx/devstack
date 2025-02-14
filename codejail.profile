@@ -40,13 +40,18 @@ profile codejail_service flags=(mediate_deleted) {
     # Filesystem access -- self-explanatory
     file,
 
-    # `network` is required for sudo
-    # TODO: Restrict this so that general network access is not permitted
-    network,
+    # netlink is needed for sudo's interprocess communication
+    network netlink raw,
 
-    # Various capabilities required for sudoing to sandbox (setuid,
-    # setgid, audit_write) and for sending a kill signal (kill).
-    capability setuid setgid audit_write kill,
+    # Allow all of the various network operations required to listen, accept connection, etc.
+    network tcp,
+    # But then deny making a new *outbound* connection.
+    deny network (connect) tcp,
+
+    # Required for sudoing to sandbox
+    capability setuid setgid audit_write,
+    # Allow sending a kill signal
+    capability kill,
 
     # Allow sending a kill signal to the sandbox when the execution
     # runs beyond time limits.
