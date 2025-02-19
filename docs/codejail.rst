@@ -33,9 +33,7 @@ Changes to the AppArmor profile must be coordinated with changes to the Dockerfi
 
 Any time you update the profile, you'll need to update the profile in your OS as well: ``sudo apparmor_parser --replace -W ./codejail.profile``
 
-The profile file contains the directive ``profile codejail_service``. That defines the name of the profile when it is installed into the kernel. In order to change that name, you must first remove the profile **under the old name**, then install a new profile under the new name. To remove a profile, use the ``--remove`` action instead of the ``-replace`` action: : ``sudo apparmor_parser --remove -W codejail.profile``
-
-The profile name must also agree with the relevant ``security_opt`` line in devstack's ``docker-compose.yml``.
+The profile file contains the directive ``profile codejail_service``. That defines the name of the profile when it is installed into the OS, and must agree with the relevant ``security_opt`` line in ``docker-compose.yml``. This name should not be changed, as it creates a confusing situation and would require every developer who uses codejail-service to do a number of manual steps. (Profiles can't be renamed *within* the OS; they must first be removed **under the old name**, and then a new profile must be installed under the new name.)
 
 Debugging
 *********
