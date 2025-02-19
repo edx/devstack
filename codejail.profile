@@ -53,7 +53,7 @@ profile codejail_service flags=(mediate_deleted) {
     # Allow sending a kill signal
     capability kill,
 
-    # Allow sending a kill signal to the sandbox when the execution
+    # Allow sending a kill signal to the child subprofile when the execution
     # runs beyond time limits.
     signal (send) set=(kill) peer=codejail_service//child,
 
