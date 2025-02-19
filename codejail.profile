@@ -30,9 +30,9 @@ include <tunables/global>
 abi <abi/3.0>,
 
 # This outer profile applies to the entire container, and isn't as
-# important. If the sandbox profile doesn't work, it's not likely that
+# important. If the inner profile doesn't work, it's not likely that
 # the outer one is going to help. But there may be some small value in
-# defense-in-depth, as it's possible that a bug in the child (sandbox)
+# defense-in-depth, as it's possible that a bug in the codejail_sandbox (inner)
 # profile isn't present in the outer one.
 profile codejail_service flags=(mediate_deleted) {
 
@@ -58,17 +58,17 @@ profile codejail_service flags=(mediate_deleted) {
     # Allow sending a kill signal
     capability kill,
 
-    # Allow sending a kill signal to the child subprofile when the execution
+    # Allow sending a kill signal to the codejail_sandbox subprofile when the execution
     # runs beyond time limits.
-    signal (send) set=(kill) peer=codejail_service//child,
+    signal (send) set=(kill) peer=codejail_service//codejail_sandbox,
 
     # The core of the confinement: When the sandbox Python is executed, switch to
-    # the (extremely constrained) child profile.
+    # the (extremely constrained) codejail_sandbox profile.
     #
     # This path needs to be coordinated with the Dockerfile and Django settings.
     #
     # Manpage: "Cx: transition to subprofile on execute -- scrub the environment"
-    /sandbox/venv/bin/python Cx -> child,
+    /sandbox/venv/bin/python Cx -> codejail_sandbox,
 
     # This is the important apparmor profile -- the one that actually
     # constrains the sandbox Python process.
@@ -77,7 +77,7 @@ profile codejail_service flags=(mediate_deleted) {
     # apparmor will continue to make policy decisions in cases where a confined
     # executable has a handle to a file's inode even after the file is removed
     # from the filesystem.
-    profile child flags=(mediate_deleted) {
+    profile codejail_sandbox flags=(mediate_deleted) {
 
         # This inner profile also gets general access to "safe"
         # actions; we could list those explicitly out of caution but
