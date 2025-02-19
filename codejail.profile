@@ -88,6 +88,9 @@ profile codejail_service flags=(mediate_deleted) {
         # includes the sandbox's copy of Python as well as any
         # dependencies that have been installed for inclusion in
         # sandboxes.
+        #
+        # m: executable mapping, required for shared libraries used by some
+        #    Python dependencies with C compontents, eg `nltk`.
         /sandbox/venv/** rm,
 
         # Allow access to the temporary directories that are set up by
