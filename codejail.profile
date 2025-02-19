@@ -30,7 +30,7 @@ include <tunables/global>
 abi <abi/3.0>,
 
 # This outer profile applies to the entire container, and isn't as
-# important. If the inner profile doesn't work, it's not likely that
+# important as the inner (codejail_sandbox) profile. If the inner profile doesn't work, it's not likely that
 # the outer one is going to help. But there may be some small value in
 # defense-in-depth, as it's possible that a bug in the codejail_sandbox (inner)
 # profile isn't present in the outer one.
