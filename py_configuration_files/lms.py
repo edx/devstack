@@ -558,8 +558,10 @@ CSRF_TRUSTED_ORIGINS = [
 
 # Disabled by default since codejail service needs to be configured
 # and started separately. See docs/codejail.rst for details.
+#ENABLE_CODEJAIL_REST_SERVICE = True
 
-# ENABLE_CODEJAIL_REST_SERVICE = True
+# Note that this is exposed on port 8080 to other devstack services,
+# but 18030 outside of Docker.
 CODE_JAIL_REST_SERVICE_HOST = "http://edx.devstack.codejail:8080"
 
 ################# New settings must go ABOVE this line #################
