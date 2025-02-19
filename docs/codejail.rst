@@ -13,7 +13,7 @@ References to "codejail" can mean either the library or the service. In devstack
 Configuration
 *************
 
-**TODO**: These instructions are for Linux. We need some instructions for how to do this on Mac; it probably involves accessing the Linux VM that docker is run inside of.
+These instructions are for Linux only. Additional research would be required to create instructions for a Mac, which probably involves accessing the Linux VM that docker is run inside of.
 
 In order to run the codejail devstack component:
 
