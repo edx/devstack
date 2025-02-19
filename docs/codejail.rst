@@ -6,11 +6,9 @@ The ``codejail`` devstack component (codejail-service) requires some additional 
 Background
 **********
 
-Both LMS and CMS can run Python code submitted by instructors and learners in order to implement custom Python-graded problems. By default this involves running the code on the same host as edxapp itself. Ordinarily this would be quite dangerous, but we use a sandboxing library called `codejail <https://github.com/openedx/codejail>`__ in order to confine the code execution in terms of disk and network access as well as memory, CPU, and other resource limits. Part of these restrictions are implemented via AppArmor, a utility available in some Linux distributions (including Debian and Ubuntu).
+The `codejail-service <https://github.com/openedx/codejail-service>`__ webapp is a wrapper around the `codejail <https://github.com/openedx/codejail>`__ library. See the READMEs of each repo for more information on the special requirements for deploying codejail, in particular the AppArmor-based sandboxing.
 
-While AppArmor provides good protection, a sandbox escape could still be possible due to misconfiguration or bugs in AppArmor. For defense in depth, we're setting up a dedicated `codejail service <https://github.com/openedx/codejail-service>`__ that will perform code execution for edxapp and which will allow further isolation.
-
-The default edxapp codejail defaults to unsafe, direct execution of Python code, and this remains true in devstack. We don't even have a way to run on-host codejail securely in devstack. In constrast, the codejail service refuses to run if codejail has not been configured properly, and we've included a way to run it in devstack.
+References to "codejail" can mean either the library or the service. In devstack, "codejail" usually refers to the service.
 
 Configuration
 *************
