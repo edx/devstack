@@ -13,21 +13,25 @@ References to "codejail" can mean either the library or the service. In devstack
 Configuration
 *************
 
+**TODO**: These instructions are for Linux. We need some instructions for how to do this on Mac; it probably involves accessing the Linux VM that docker is run inside of.
+
 In order to run the codejail devstack component:
 
 1. Install AppArmor: ``sudo apt install apparmor``
-2. Add the codejail AppArmor profile to your OS, or update it: ``sudo apparmor_parser --replace -W codejail.profile``
+2. Add the provided codejail AppArmor profile to your OS: ``sudo apparmor_parser --add -W ./codejail.profile``
 3. Configure LMS and CMS to use the codejail-service by uncommenting ``# ENABLE_CODEJAIL_REST_SERVICE = True`` in ``py_configuration_files/{lms,cms}.py``
 4. Run ``make codejail-up``
 
 The service does not need any provisioning, and does not have dependencies.
+
+Over time, the AppArmor profile may need to be updated. Changes to the file do not automatically cause changes to the version that has been installed in the OS. When significant changes have been made to the profile, you'll need to re-install the profile. This can be done by passing ``--replace`` instead of ``--add``, like so: ``sudo apparmor_parser --replace -W ./codejail.profile``
 
 Development
 ***********
 
 Changes to the AppArmor profile must be coordinated with changes to the Dockerfile, as they need to agree on filesystem paths.
 
-Any time you update the profile, you'll need to re-run the command to apply the profile.
+Any time you update the profile, you'll need to update the profile in your OS as well: ``sudo apparmor_parser --replace -W ./codejail.profile``
 
 The profile file contains the directive ``profile codejail_service``. That defines the name of the profile when it is installed into the kernel. In order to change that name, you must first remove the profile **under the old name**, then install a new profile under the new name. To remove a profile, use the ``--remove`` action instead of the ``-replace`` action: : ``sudo apparmor_parser --remove -W codejail.profile``
 
