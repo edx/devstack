@@ -8,11 +8,16 @@
 # in any deployed environment (even a staging environment) without
 # careful inspection and modification to fit your needs.
 #
+# See https://manpages.ubuntu.com/manpages/noble/man5/apparmor.d.5.html
+# or `man apparmor.d` for documentation of syntax and options.
+#
 # Failure to apply a secure apparmor profile *will* likely result in a
 # compromise of your environment by an attacker.
 #
 # We may at some point make this file good enough for confinement in
 # production, but for now it is only intended to be used in devstack.
+
+
 
 # Sets standard variables used by abstractions/base, later. Controlled
 # by OS, see /etc/apparmor.d/tunables/global for contents.
