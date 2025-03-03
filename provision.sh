@@ -53,6 +53,7 @@ enterprise-catalog \
 license-manager \
 designer \
 enterprise-access \
+enterprise-subsidy \
  "
 
 # What should we provision?

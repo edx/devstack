@@ -36,6 +36,10 @@ GRANT ALL ON `reports`.* TO 'analytics001'@'%' IDENTIFIED BY 'password';
 CREATE DATABASE IF NOT EXISTS `reports_v1`;
 GRANT ALL ON `reports_v1`.* TO 'analytics001'@'%' IDENTIFIED BY 'password';
 
+CREATE DATABASE IF NOT EXISTS enterprise_subsidy;
+CREATE USER IF NOT EXISTS 'subsidy001'@'%' IDENTIFIED BY 'password';
+GRANT ALL ON enterprise_subsidy.* TO 'subsidy001'@'%';
+
 CREATE DATABASE IF NOT EXISTS `enterprise_catalog`;
 GRANT ALL ON `enterprise_catalog`.* TO 'catalog001'@'%' IDENTIFIED BY 'password';
 
