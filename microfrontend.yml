@@ -16,18 +16,7 @@ services:
     #
     # Fail fast if package install fails to avoid mysterious
     # errors later.
-    command:
-      - bash
-      - -c
-      - |
-          npm ci || exit 1
-          if [ -n "$(printenv PARAGON_BRAND_PACKAGE)" ]; then
-              npx paragon install-theme "$(printenv PARAGON_BRAND_PACKAGE)" || exit 1
-          fi
-          while true; do
-              npm start
-              sleep 2
-          done
+    command: bash -c 'npm ci || exit 1; while true; do npm start; sleep 2; done'
     stdin_open: true
     tty: true
     image: node:18
