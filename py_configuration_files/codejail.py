@@ -12,8 +12,8 @@ ALLOWED_HOSTS = [
 CODEJAIL_ENABLED = True
 
 CODE_JAIL = {
-    # These values are coordinated with the Dockerfile and the AppArmor profile,
-    # both in edx/public-dockerfiles.
+    # These values are coordinated with the Dockerfile and the AppArmor
+    # profile (openedx_codejail_service.profile) both in edx/public-dockerfiles.
     'python_bin': '/sandbox/venv/bin/python',
     'user': 'sandbox',
 
