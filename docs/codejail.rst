@@ -17,21 +17,22 @@ These instructions are for Linux only. Additional research would be required to 
 
 In order to run the codejail devstack component:
 
-1. Install AppArmor: ``sudo apt install apparmor``
-2. Add the provided codejail AppArmor profile to your OS: ``sudo apparmor_parser --add -W ./codejail.profile``
-3. Configure LMS and CMS to use the codejail-service by uncommenting ``# ENABLE_CODEJAIL_REST_SERVICE = True`` in ``py_configuration_files/{lms,cms}.py``
-4. Run ``make codejail-up``
+#. Install AppArmor: ``sudo apt install apparmor``
+#. Clone the `<https://github.com/edx/public-dockerfiles>`__ repo as a sibling to your devstack checkout.
+#. Add the provided codejail AppArmor profile to your OS: ``sudo apparmor_parser --replace -W ../public-dockerfiles/apparmor/openedx_codejail_service.profile``
+#. Configure LMS and CMS to use the codejail-service by uncommenting ``# ENABLE_CODEJAIL_REST_SERVICE = True`` in ``py_configuration_files/{lms,cms}.py``
+#. Run ``make codejail-up``
 
 The service does not need any provisioning, and does not have dependencies.
 
-Over time, the AppArmor profile may need to be updated. Changes to the file do not automatically cause changes to the version that has been installed in the OS. When significant changes have been made to the profile, you'll need to re-install the profile. This can be done by passing ``--replace`` instead of ``--add``, like so: ``sudo apparmor_parser --replace -W ./codejail.profile``
+Over time, the AppArmor profile may need to be updated. Changes to the file do not automatically cause changes to the version that has been installed in the OS. When significant changes have been made to the profile, you'll need to update the profile using the same ``apparmor_parser`` command you used to install it in the first place. (The ``--replace`` option acts to either add or update, as appropriate.)
 
 Development
 ***********
 
 Changes to the AppArmor profile must be coordinated with changes to the Dockerfile, as they need to agree on filesystem paths.
 
-Any time you update the profile file, you'll need to update the profile in your OS as well: ``sudo apparmor_parser --replace -W ./codejail.profile``
+Any time you update the profile file, you'll need to re-run the ``apparmor_parser`` command to add/replace the profile.
 
 The profile file contains the directive ``profile openedx_codejail_service``. That defines the name of the profile when it is installed into the OS, and must agree with the relevant ``security_opt`` line in ``docker-compose.yml``. This name should not be changed, as it creates a confusing situation and would require every developer who uses codejail-service to do a number of manual steps. (Profiles can't be renamed *within* the OS; they must first be removed **under the old name**, and then a new profile must be installed under the new name.)
 
