@@ -23,8 +23,9 @@ CODE_JAIL = {
         'CPU': 3,
         # Clock seconds
         'REALTIME': 3,
-        # 100 MiB memory
-        'VMEM': 100 * 1024 * 1024,
+        # Need at least 300 MiB memory for matplotlib alone. 512 MiB should be
+        # enough headroom in general.
+        'VMEM': 512 * 1024 * 1024,
         # 1 MB file write limit
         'FSIZE': 1 * 1024 * 1024,
     },
