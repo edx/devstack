@@ -120,9 +120,9 @@ if should_check enterprise_access; then
         "curl --fail -L http://localhost:18130/health/"
 fi
 
-if should_check enterprise-subsidy; then
-    echo "Checking enterprise-subsidy health:"
-    run_check enterprise_subsidy_heartbeat enterprise-subsidy \
+if should_check enterprise_subsidy; then
+    echo "Checking enterprise_subsidy health:"
+    run_check enterprise_subsidy_heartbeat enterprise_subsidy \
         "curl --fail -L http://localhost:18280/health/"
 fi
 
