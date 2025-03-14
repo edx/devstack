@@ -928,8 +928,8 @@ services:
       DB_PORT: 3306
       DB_USER: subsidy001
       DB_PASSWORD: password
+      DB_NAME: enterprise_subsidy
       DJANGO_SETTINGS_MODULE: enterprise_subsidy.settings.devstack
-      MEMCACHE_HOST: memcached.devstack.edx:11211
     working_dir: /edx/app/enterprise-subsidy
     ports:
       - "18280:18280"
