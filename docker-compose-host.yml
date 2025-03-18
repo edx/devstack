@@ -44,6 +44,7 @@ services:
   lms-worker:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src
   edx_notes_api:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-notes-api:/edx/app/notes/
