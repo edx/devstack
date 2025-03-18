@@ -26,7 +26,11 @@ CODE_JAIL = {
         # Need at least 300 MiB memory for matplotlib alone. 512 MiB should be
         # enough headroom in general.
         'VMEM': 512 * 1024 * 1024,
-        # 1 MB file write limit
+        # 1 MB file size limit
         'FSIZE': 1 * 1024 * 1024,
+        # 15 processes and threads (codejail default)
+        'NPROC': 15,
+        # Match production configuration
+        'PROXY': 0,
     },
 }

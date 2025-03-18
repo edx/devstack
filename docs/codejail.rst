@@ -42,3 +42,5 @@ Debugging
 To check whether the profile has been applied, run ``sudo aa-status | grep codejail``. This won't tell you if the profile is out of date, but it will tell you if you have *some* version of it installed.
 
 If you need to debug the confinement, either because it is restricting too much or too little, a good strategy is to run ``tail -F /var/log/kern.log | grep codejail`` and watch for ``DENIED`` lines. You should expect to see several appear during service startup, as the service is designed to probe the confinement as part of its initial healthcheck.
+
+Unlike other devstack services, this one runs as the ``app`` user rather than as ``root``. In order to enter the container as root, you can use ``docker compose exec -it --user root codejail bash`` rather than ``make codejail-shell``.

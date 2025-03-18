@@ -731,6 +731,7 @@ services:
       DJANGO_SETTINGS_MODULE: codejail_service.settings.devstack
     ports:
       - "18030:8080"
+    user: app
     security_opt:
       - apparmor=openedx_codejail_service
 
