@@ -24,7 +24,7 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/enterprise-access:/edx/app/enterprise-access/
       - ${DEVSTACK_WORKSPACE}/src:/edx/src
-      - ${PWD}/py_configuration_files/enterprise_access.py:/edx/app/enterprise-access/license_manager/settings/devstack.py      
+      - ${PWD}/py_configuration_files/enterprise_access.py:/edx/app/enterprise-access/license_manager/settings/devstack.py
   enterprise-access-worker:
     volumes:
       - ${DEVSTACK_WORKSPACE}/enterprise-access:/edx/app/enterprise-access/
@@ -74,6 +74,7 @@ services:
   cms-worker:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src
   codejail:
     volumes:
       - ${DEVSTACK_WORKSPACE}/codejail-service:/app
