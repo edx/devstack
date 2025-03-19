@@ -43,4 +43,4 @@ To check whether the profile has been applied, run ``sudo aa-status | grep codej
 
 If you need to debug the confinement, either because it is restricting too much or too little, a good strategy is to run ``tail -F /var/log/kern.log | grep codejail`` and watch for ``DENIED`` lines. You should expect to see several appear during service startup, as the service is designed to probe the confinement as part of its initial healthcheck.
 
-Unlike other devstack services, this one runs as the ``app`` user rather than as ``root``. In order to enter the container as root, you can use ``docker compose exec -it --user root codejail bash`` rather than ``make codejail-shell``.
+Unlike other devstack services, this one runs as the ``app`` user rather than as ``root``. (Although this isn't strictly needed to develop, it better matches our production environment, and allows proper testing of several aspects of the sandboxing.) In order to enter the container as root, you can use ``docker compose exec -it --user root codejail bash`` rather than ``make codejail-shell``.
