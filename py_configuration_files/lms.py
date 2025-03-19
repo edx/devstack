@@ -384,6 +384,7 @@ EDXNOTES_CLIENT_NAME = 'edx_notes_api-backend-service'
 ############## Settings for Microfrontends  #########################
 LEARNING_MICROFRONTEND_URL = 'http://localhost:2000'
 ACCOUNT_MICROFRONTEND_URL = 'http://localhost:1997'
+PROFILE_MICROFRONTEND_URL = 'http://localhost:1995'
 COMMUNICATIONS_MICROFRONTEND_URL = 'http://localhost:1984'
 AUTHN_MICROFRONTEND_URL = 'http://localhost:1999'
 AUTHN_MICROFRONTEND_DOMAIN = 'localhost:1999'
@@ -480,7 +481,7 @@ DCS_SESSION_COOKIE_SAMESITE_FORCE_ALL = True
 # COMPREHENSIVE_THEME_DIRS = [
 #     "/edx/app/edxapp/edx-platform/themes/"
 # ]
-# TEMPLATES[1]["DIRS"] = _make_mako_template_dirs
+# TEMPLATES[1]["DIRS"] = Derived(_make_mako_template_dirs)
 # derive_settings(__name__)
 
 # Uncomment the lines below if you'd like to see SQL statements in your devstack LMS log.
@@ -558,6 +559,15 @@ CSRF_TRUSTED_ORIGINS = [
 OPENEDX_TELEMETRY = [
     'edx_django_utils.monitoring.DatadogBackend',
 ]
+############################ Codejail ############################
+
+# Disabled by default since codejail service needs to be configured
+# and started separately. See docs/codejail.rst for details.
+#ENABLE_CODEJAIL_REST_SERVICE = True
+
+# Note that this is exposed on port 8080 to other devstack services,
+# but 18030 outside of Docker.
+CODE_JAIL_REST_SERVICE_HOST = "http://edx.devstack.codejail:8080"
 
 ################# New settings must go ABOVE this line #################
 ########################################################################

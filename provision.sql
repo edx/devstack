@@ -7,6 +7,9 @@ GRANT ALL ON discovery.* TO 'discov001'@'%' IDENTIFIED BY 'password';
 CREATE DATABASE IF NOT EXISTS ecommerce;
 GRANT ALL ON ecommerce.* TO 'ecomm001'@'%' IDENTIFIED BY 'password';
 
+CREATE DATABASE IF NOT EXISTS enterprise_access;
+GRANT ALL ON enterprise_access.* TO 'enterprise_access001'@'%' IDENTIFIED BY 'password';
+
 CREATE DATABASE IF NOT EXISTS notes;
 GRANT ALL ON notes.* TO 'notes001'@'%' IDENTIFIED BY 'password';
 
@@ -35,6 +38,9 @@ GRANT ALL ON `reports_v1`.* TO 'analytics001'@'%' IDENTIFIED BY 'password';
 
 CREATE DATABASE IF NOT EXISTS `enterprise_catalog`;
 GRANT ALL ON `enterprise_catalog`.* TO 'catalog001'@'%' IDENTIFIED BY 'password';
+
+CREATE DATABASE IF NOT EXISTS designer;
+GRANT ALL ON discovery.* TO 'designer001'@'%' IDENTIFIED BY 'password';
 
 CREATE DATABASE IF NOT EXISTS license_manager;
 GRANT ALL ON license_manager.* TO 'license_manager001'@'%' IDENTIFIED BY 'password';

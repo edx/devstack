@@ -114,6 +114,12 @@ if should_check ecommerce; then
         "curl --fail -L http://localhost:18130/health/"
 fi
 
+if should_check enterprise_access; then
+    echo "Checking enterprise-access health:"
+    run_check enterprise_access_heartbeat enterprise-access \
+        "curl --fail -L http://localhost:18130/health/"
+fi
+
 if should_check discovery; then
     echo "Checking discovery health:"
     run_check discovery_heartbeat discovery \
@@ -130,6 +136,12 @@ if should_check edx_notes_api; then
     echo "Checking edx_notes_api heartbeat:"
     run_check edx_notes_api_heartbeat edx_notes_api \
         "curl --fail -L http://localhost:18120/heartbeat"
+fi
+
+if should_check designer; then
+    echo "Checking designer health:"
+    run_check designer_heartbeat designer \
+        "curl --fail -L http://localhost:18808/health/"
 fi
 
 if should_check credentials; then

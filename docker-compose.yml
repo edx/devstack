@@ -386,6 +386,69 @@ services:
       ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch710:9200"
       ELASTICSEARCH_DSL: "http://edx.devstack.elasticsearch710:9200"
 
+  enterprise-access:
+    image: edxops/enterprise-access-dev
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.enterprise-access"
+    hostname: enterprise-access.devstack.edx
+    command: bash -c 'while true; do python /edx/app/enterprise-access/manage.py runserver 0.0.0.0:18270; sleep 2; done'
+    ports:
+      - "18270:18270"
+    depends_on:
+      - mysql80
+      - memcached
+      - enterprise-access-worker
+    networks:
+      default:
+        aliases:
+          - edx.devstack.enterprise-access
+    stdin_open: true
+    tty: true
+    environment:
+      CELERY_ALWAYS_EAGER: 'false'
+      CELERY_BROKER_TRANSPORT: redis
+      CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379
+      CELERY_BROKER_VHOST: 0
+      CELERY_BROKER_PASSWORD: password
+      DJANGO_SETTINGS_MODULE: enterprise_access.settings.devstack
+      DJANGO_WATCHMAN_TIMEOUT: 30
+      ENABLE_DJANGO_TOOLBAR: 1
+      DB_HOST: edx.devstack.mysql80
+      DB_NAME: enterprise_access
+      DB_PORT: 3306
+      DB_USER: enterprise_access001
+      DB_PASSWORD: password
+
+  enterprise-access-worker:
+    image: edxops/enterprise-access-dev
+    command: bash -c 'cd /edx/app/enterprise-access/ && celery -A enterprise_access worker -l DEBUG'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.enterprise-access-worker"
+    hostname: enterprise-access-worker.devstack.edx
+    depends_on:
+      - mysql80
+      - memcached
+    environment:
+      CELERY_ALWAYS_EAGER: 'false'
+      CELERY_BROKER_TRANSPORT: redis
+      CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379
+      CELERY_BROKER_VHOST: 0
+      CELERY_BROKER_PASSWORD: password
+      DJANGO_SETTINGS_MODULE: enterprise_access.settings.devstack
+      COLUMNS: 80
+      DB_HOST: edx.devstack.mysql80
+      DB_NAME: enterprise_access
+      DB_PORT: 3306
+      DB_USER: enterprise_access001
+      DB_PASSWORD: password
+    networks:
+      default:
+        aliases:
+          - edx.devstack.enterprise-access-worker
+    ports:
+      - "18271:18271"
+    restart: always
+    stdin_open: true
+    tty: true
+
   forum:
     command: bash -c 'source /edx/app/forum/ruby_env && source /edx/app/forum/devstack_forum_env && cd /edx/app/forum/cs_comments_service && bundle install && while true; do ./bin/unicorn -c config/unicorn_tcp.rb -I .; sleep 2; done'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.forum"
@@ -658,15 +721,19 @@ services:
       C_FORCE_ROOT: "true"
 
   codejail:
+    command: bash -c 'source /venv/bin/activate; while true; do python ./manage.py runserver 0.0.0.0:8080; sleep 2; done'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.codejail"
     hostname: codejail.devstack.edx
     stdin_open: true
     tty: true
-    image: edxops/codejail-dev:latest
+    image: edxops/codejail-service-dev:latest
     environment:
       DJANGO_SETTINGS_MODULE: codejail_service.settings.devstack
     ports:
       - "18030:8080"
+    user: app
+    security_opt:
+      - apparmor=openedx_codejail_service
 
   xqueue:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.xqueue"
@@ -870,6 +937,32 @@ services:
       - "1997:1997"
     depends_on:
       - lms
+
+  designer:
+    image: edxops/designer-dev:latest
+    container_name: edx.devstack.designer
+    hostname: designer.devstack.edx
+    volumes:
+      - .:/edx/app/designer
+    command: bash -c 'while true; do python /edx/app/designer/manage.py runserver 0.0.0.0:18808; sleep 2; done'
+    ports:
+      - "18808:18808"
+    depends_on:
+      - mysql80
+    networks:
+      default:
+        aliases:
+          - edx.devstack.designer
+    stdin_open: true
+    tty: true
+    environment:
+      DJANGO_SETTINGS_MODULE: designer.settings.devstack
+      ENABLE_DJANGO_TOOLBAR: 1
+      DB_HOST: "edx.devstack.mysql80"
+      DB_NAME: "designer"
+      DB_PASSWORD: "password"
+      DB_PORT: "3306"
+      DB_USER: "designer001"
 
   frontend-app-profile:
     extends:

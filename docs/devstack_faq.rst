@@ -127,7 +127,7 @@ Make sure that you enable the following code in ./edx-platform/lms/envs/devstack
        "/edx/app/edxapp/edx-platform/themes/",
        "/edx/app/edx-themes/edx-platform/",
    ]
-   TEMPLATES[1]["DIRS"] = _make_mako_template_dirs
+   TEMPLATES[1]["DIRS"] = Derived(_make_mako_template_dirs)
    derive_settings(__name__)
 
 Enabling a theme

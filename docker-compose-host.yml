@@ -20,6 +20,14 @@ services:
       - ecommerce_tox:/edx/app/ecommerce/ecommerce/.tox
       - ${DEVSTACK_WORKSPACE}/src:/edx/src
       - ${PWD}/py_configuration_files/ecommerce.py:/edx/app/ecommerce/ecommerce/ecommerce/settings/devstack.py
+  enterprise-access:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/enterprise-access:/edx/app/enterprise-access/
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src
+      - ${PWD}/py_configuration_files/enterprise_access.py:/edx/app/enterprise-access/license_manager/settings/devstack.py
+  enterprise-access-worker:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/enterprise-access:/edx/app/enterprise-access/
   forum:
     volumes:
       - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service
@@ -37,6 +45,7 @@ services:
   lms-worker:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src
   edx_notes_api:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-notes-api:/edx/app/notes/
@@ -46,6 +55,10 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar
       - ${PWD}/py_configuration_files/registrar.py:/edx/app/registrar/registrar/registrar/settings/devstack.py
+  designer:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/portal-designer:/edx/app/designer
+      - ${PWD}/py_configuration_files/portal_designer.py:/edx/app/designer/designer/settings/devstack.py
   registrar-worker:
     volumes:
       - ${DEVSTACK_WORKSPACE}/registrar:/edx/app/registrar
@@ -63,6 +76,7 @@ services:
   cms-worker:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edx-platform:/edx/app/edxapp/edx-platform
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src
   codejail:
     volumes:
       - ${DEVSTACK_WORKSPACE}/codejail-service:/app

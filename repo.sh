@@ -37,8 +37,10 @@ repos=(
     "https://github.com/edx/edx-analytics-dashboard.git"
     "https://github.com/edx/edx-analytics-data-api.git"
     "https://github.com/openedx/enterprise-catalog.git"
+    "https://github.com/edx/portal-designer.git"
     "https://github.com/openedx/license-manager.git"
     "https://github.com/openedx/codejail-service.git"
+    "https://github.com/openedx/enterprise-access.git"
 )
 
 non_release_repos=(
@@ -70,8 +72,10 @@ ssh_repos=(
     "git@github.com:openedx/frontend-app-publisher.git"
     "git@github.com:edx/edx-analytics-dashboard.git"
     "git@github.com:edx/edx-analytics-data-api.git"
+    "git@github.com:edx/portal-designer.git"
     "git@github.com:openedx/license-manager.git"
     "git@github.com:openedx/codejail-service.git"
+    "git@github.com:openedx/enterprise-access.git"
 )
 
 non_release_ssh_repos=(

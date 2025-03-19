@@ -51,6 +51,8 @@ insights \
 analyticsapi \
 enterprise-catalog \
 license-manager \
+designer \
+enterprise-access \
  "
 
 # What should we provision?

@@ -27,3 +27,4 @@ Contents
    troubleshoot_general_tips
    manual_upgrades
    advanced_configuration
+   codejail
