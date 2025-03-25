@@ -690,6 +690,8 @@ services:
       LMS_CFG: "/edx/etc/lms.yml"
       CMS_CFG: "/edx/etc/studio.yml"
       SERVICE_VARIANT: cms
+    env_file:
+      - datadog-apm.env
     image: edxops/lms-dev:latest
     networks:
       default:
@@ -734,6 +736,29 @@ services:
     user: app
     security_opt:
       - apparmor=openedx_codejail_service
+
+  datadog-agent:
+    container_name: "datadog-agent"
+    image: datadog/agent:latest
+    # Put the agent in the host process namespace so it can see other containers
+    pid: "host"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc/:/host/proc/:ro
+      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
+    environment:
+      - DD_APM_ENABLED=true
+      - DD_APM_NON_LOCAL_TRAFFIC=true
+      - DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
+      - DD_AC_EXCLUDE=name:datadog-agent
+      - DD_SITE=datadoghq.com
+      - DD_ENV=dev
+    # Follow docs/datadog.rst to create this file.
+    env_file: private/datadog-agent.env
+    networks:
+      default:
+        aliases:
+          - datadog-agent
 
   xqueue:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.xqueue"

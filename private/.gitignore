@@ -1,0 +1,4 @@
+# Ignore this directory, except for a couple of files
+/*
+!/.gitignore
+!/README.rst
