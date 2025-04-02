@@ -19,7 +19,11 @@ In order to run the codejail devstack component:
 
 #. Install AppArmor: ``sudo apt install apparmor``
 #. Clone the `<https://github.com/edx/public-dockerfiles>`__ repo as a sibling to your devstack checkout.
-#. Add the provided codejail AppArmor profile to your OS: ``sudo apparmor_parser --replace -W ../public-dockerfiles/apparmor/openedx_codejail_service.profile``
+#. Add the provided codejail AppArmor profile to your OS: ``sudo apparmor_parser --replace -W --warn=all --warn=no-debug-cache --Werror ../public-dockerfiles/apparmor/openedx_codejail_service.profile``.
+
+   * You can also copy the file into ``/etc/apparmor.d/`` to make it persistent across reboots.
+   * During profile development you may need to remove the ``--Werror``, which is there to block loading of profiles that validate with warnings. Be sure to address all warnings before making a PR for any profile changes.
+
 #. Configure LMS and CMS to use the codejail-service by uncommenting ``# ENABLE_CODEJAIL_REST_SERVICE = True`` in ``py_configuration_files/{lms,cms}.py``
 #. Run ``make codejail-up``
 
