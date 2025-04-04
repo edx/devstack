@@ -122,7 +122,7 @@ fi
 
 if should_check enterprise-subsidy; then
     echo "Checking enterprise_subsidy health:"
-    run_check enterprise-subsidy_heartbeat enterprise_subsidy \
+    run_check enterprise-subsidy_heartbeat enterprise-subsidy \
         "curl --fail -L http://localhost:18280/health/"
 fi
 
