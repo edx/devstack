@@ -127,7 +127,6 @@ fi
 echo -e "${GREEN}Will provision the following:\n  ${to_provision_ordered}${NC}"
 
 # Bring the databases online.
-docker compose up -d mysql57
 docker compose up -d mysql80
 if needs_mongo "$to_provision_ordered"; then
 	docker compose up -d mongo
@@ -135,13 +134,11 @@ fi
 
 # Ensure the MySQL server is online and usable
 echo -e "${GREEN}Waiting for MySQL.${NC}"
-make dev.wait-for.mysql57+mysql80
+make dev.wait-for.mysql80
 echo -e "${GREEN}MySQL is ready.${NC}"
 
 # Ensure that the MySQL databases and users are created for all IDAs.
 # (A no-op for databases and users that already exist).
-echo -e "${GREEN}Ensuring MySQL 5.7 databases and users exist...${NC}"
-docker compose exec -T mysql57 bash -e -c "mysql -uroot mysql" < provision.sql
 echo -e "${GREEN}Ensuring MySQL 8.0 databases and users exist...${NC}"
 docker compose exec -T mysql80 bash -e -c "mysql -uroot mysql" < provision-mysql80.sql
 

@@ -70,11 +70,6 @@ mysql_run_check() {
         "docker compose exec -T $(printf %q "$container_name") mysql --protocol tcp -uroot -se $(printf %q "$mysql_probe")"
 }
 
-if should_check mysql57; then
-    echo "Checking MySQL 5.7 query endpoint:"
-    mysql_run_check mysql57
-fi
-
 if should_check mysql80; then
     echo "Checking MySQL 8.0 query endpoint:"
     mysql_run_check mysql80

@@ -186,16 +186,14 @@ dev.provision.%: dev.check-memory ## Provision specified services.
 	echo $*
 	bash ./provision.sh $*
 
-dev.backup: dev.up.mysql57+mysql80+mongo+elasticsearch710+opensearch12+coursegraph ## Write all data volumes to the host.
-	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mysql57) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql57.tar.gz /var/lib/mysql
+dev.backup: dev.up.mysql80+mongo+elasticsearch710+opensearch12+coursegraph ## Write all data volumes to the host.
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mysql80) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql80.tar.gz /var/lib/mysql
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mongo) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mongo.tar.gz /data/db
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch710) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/elasticsearch710.tar.gz /usr/share/elasticsearch/data
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.opensearch12) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/opensearch12.tar.gz /usr/share/opensearch/data
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.coursegraph) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/coursegraph.tar.gz /data
 
-dev.restore: dev.up.mysql57+mysql80+mongo+elasticsearch710+opensearch12+coursegraph ## Restore all data volumes from the host. WILL OVERWRITE ALL EXISTING DATA!
-	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mysql57) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mysql57.tar.gz
+dev.restore: dev.up.mysql80+mongo+elasticsearch710+opensearch12+coursegraph ## Restore all data volumes from the host. WILL OVERWRITE ALL EXISTING DATA!
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mysql80) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mysql80.tar.gz
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.mongo) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/mongo.tar.gz
 	docker run --rm --volumes-from $$(make --silent --no-print-directory dev.print-container.elasticsearch710) -v $$(pwd)/.dev/backups:/backup debian:jessie tar zxvf /backup/elasticsearch710.tar.gz
@@ -412,23 +410,6 @@ dev.shell.%: ## Run a shell on the specified service's container.
 
 dev.dbshell:
 	docker compose exec mysql80 bash -c "mysql"
-
-DB_NAMES_LIST = credentials discovery ecommerce notes registrar xqueue edxapp edxapp_csmh dashboard analytics-api reports reports_v1
-_db_copy8_targets = $(addprefix dev.dbcopy8.,$(DB_NAMES_LIST))
-dev.dbcopyall8: ## Clean mysql80 container and copy data from old mysql 5.7 containers into new mysql8 dbs
-	$(MAKE) stop
-	$(MAKE) dev.remove-containers.mysql80
-	docker volume rm devstack_mysql80_data
-	$(MAKE) dev.up.mysql57+mysql80
-	$(MAKE) dev.wait-for.mysql57+mysql80
-	docker compose exec -T mysql80 mysql -uroot mysql < provision-mysql80.sql
-	$(MAKE) $(_db_copy8_targets)
-	$(MAKE) stop
-
-dev.dbcopy8.%: ## Copy data from old mysql 5.7 container into a new 8 db
-	docker compose exec mysql57 mysqldump "$*" > .dev/$*.sql
-	docker compose exec -T mysql80 mysql "$*" < .dev/$*.sql
-	rm .dev/$*.sql
 
 dev.dbshell.%: ## Run a SQL shell on the given database.
 	docker compose exec mysql80 bash -c "mysql $*"
