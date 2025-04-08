@@ -186,23 +186,6 @@ services:
       - mongo_data:/data/db
       - mongo_config_data:/data/configdb
 
-  mysql57:
-    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.mysql57"
-    hostname: mysql57.devstack.edx
-    environment:
-      MYSQL_ROOT_PASSWORD: ""
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-    image: edxops/mysql:5.7
-    networks:
-      default:
-        aliases:
-          - edx.devstack.mysql57
-    ports:
-      - "3506:3306"
-    volumes:
-      - mysql57_data:/var/lib/mysql
-
   mysql80:
     command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.mysql80"
@@ -280,7 +263,6 @@ services:
       - lms
       - memcached
       - mysql80
-      - mysql57
     # Allows attachment to the credentials service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -306,7 +288,6 @@ services:
       - elasticsearch710
       - memcached
       - mysql80
-      - mysql57
       - opensearch12
       - redis
     # Allows attachment to the discovery service using 'docker attach <containerID>'.
@@ -339,7 +320,6 @@ services:
       - lms
       - memcached
       - mysql80
-      - mysql57
     # Allows attachment to the ecommerce service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -366,7 +346,6 @@ services:
       - elasticsearch710
       - lms
       - mysql80
-      - mysql57
     image: edxops/edx-notes-api-dev:latest
     networks:
       default:
@@ -480,7 +459,6 @@ services:
       - memcached
       - mongo
       - mysql80
-      - mysql57
     # Allows attachment to the LMS service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -516,7 +494,6 @@ services:
     hostname: lms-worker.devstack.edx
     depends_on:
       - mysql80
-      - mysql57
       - redis
     stdin_open: true
     tty: true
@@ -533,7 +510,6 @@ services:
     depends_on:
       - analyticsapi
       - mysql80
-      - mysql57
       - lms
       - memcached
     # Allows attachment to the insights service using 'docker attach <containerID>'.
@@ -566,7 +542,6 @@ services:
     hostname: analyticsapi
     depends_on:
       - mysql80
-      - mysql57
       - elasticsearch710
     command: bash -c 'source /edx/app/analytics_api/analytics_api_env && while true;  do python /edx/app/analytics_api/analytics_api/manage.py runserver 0.0.0.0:19001 --settings analyticsdataserver.settings.devstack; sleep 2; done'
     stdin_open: true
@@ -592,7 +567,6 @@ services:
       - discovery
       - lms
       - mysql80
-      - mysql57
       - memcached
       - redis
       - registrar-worker
@@ -635,7 +609,6 @@ services:
     depends_on:
       - lms
       - mysql80
-      - mysql57
       - redis
     stdin_open: true
     tty: true
@@ -674,7 +647,6 @@ services:
       - memcached
       - mongo
       - mysql80
-      - mysql57
     # Allows attachment to the CMS service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -710,7 +682,6 @@ services:
     hostname: cms-worker.devstack.edx
     depends_on:
       - mysql80
-      - mysql57
       - redis
     stdin_open: true
     tty: true
@@ -745,7 +716,6 @@ services:
       - ${PWD}/configuration_files/xqueue.yml:/edx/etc/xqueue.yml
     depends_on:
       - mysql80
-      - mysql57
     environment:
       XQUEUE_CFG: "/edx/etc/xqueue.yml"
     networks:
@@ -765,7 +735,6 @@ services:
       - ${PWD}/configuration_files/xqueue.yml:/edx/etc/xqueue.yml
     depends_on:
       - mysql80
-      - mysql57
     networks:
       default:
         aliases:
@@ -1200,6 +1169,5 @@ volumes:
   mongo_data:
   mongo_config_data:
   opensearch12_data:
-  mysql57_data:
   mysql80_data:
   redis_data:
