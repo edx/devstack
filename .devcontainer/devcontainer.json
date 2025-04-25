@@ -1,0 +1,38 @@
+{
+    "name": "Dev Environment",
+    // "build": {
+    //     "dockerfile": "Dockerfile"
+    // },
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+    // "workspaceFolder": "/workspaces/devstack",
+    "customizations": {
+        // "codespaces": {
+        //     "repositories": {
+        //         "edx/repo_name": {
+        //             "permissions": {
+        //                 "contents": "read"
+        //             }
+        //         }
+        //     }
+        // },
+        "vscode": {
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash"
+            }
+        },
+        "extensions": [
+            "ms-azuretools.vscode-docker",
+            "dbaeumer.vscode-eslint",
+            "esbenp.prettier-vscode"
+        ]
+    },
+    // "postCreateCommand": "bash .devcontainer/post-start.sh",
+    // "postAttachCommand": "bash .devcontainer/post-attach.sh",
+    // "remoteUser": "codespace",
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:1": {},
+        "ghcr.io/devcontainers/features/aws-cli:1": {},
+        "ghcr.io/devcontainers/features/git:1": {},
+        "ghcr.io/devcontainers/features/github-cli": {}
+    }
+}
