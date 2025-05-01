@@ -23,7 +23,7 @@ jobs:
       matrix:
         os:
           - name: linux
-            image: ubuntu-20.04 # Focal Fossa
+            image: ubuntu-24.04
           - name: mac
             image: macos-13
         python-version:
