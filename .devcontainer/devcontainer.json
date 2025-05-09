@@ -1,0 +1,93 @@
+{
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.profiles.linux": { "zsh": { "path": "/bin/zsh" } },
+                "terminal.integrated.profiles.osx": { "zsh": { "path": "/bin/zsh" } },
+                "terminal.integrated.profiles.windows": { "zsh": { "path": "/bin/zsh" } },
+                "terminal.integrated.defaultProfile.osx": "zsh",
+                "terminal.integrated.defaultProfile.linux": "zsh",
+                "terminal.integrated.defaultProfile.windows": "zsh",
+                "terminal.integrated.scrollback": 10000
+            }
+        },
+        "codespaces": {
+            "repositories": {
+                "edx/edx-themes": {
+                    "permissions": "read-all"
+                }
+            }
+        }
+    },
+    "features": {
+        "ghcr.io/devcontainers/features/sshd:1": {
+            "version": "latest"
+        },
+        "ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
+            "packages": "ripgrep"
+        }
+    },
+    "containerEnv": {
+        "DEVSTACK_WORKSPACE": "${containerWorkspaceFolder}/edx-repos"
+    },
+    "updateContentCommand": ".devcontainer/updateContentCommand.sh",
+    "postCreateCommand": ".devcontainer/postCreateCommand.sh",
+    "postStartCommand": ".devcontainer/postStartCommand.sh",
+    "forwardPorts": [
+        1976, 1984, 1990, 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
+        2001, 3001, 3406, 5335, 7474, 8000, 8081, 8734, 8735, 9021, 9201, 9202,
+        9301, 9600, 18000, 18010, 18040, 18110, 18120, 18130, 18150, 18160,
+        18170, 18270, 18280, 18381, 18400, 18450, 18734, 18760, 18787, 19001,
+        27017, 44567
+    ],
+    "portsAttributes": {
+        "3406":  { "label": "mysql80" },
+        "27017": { "label": "mongo" },
+        "9201":  { "label": "elasticsearch710" },
+        "9301":  { "label": "elasticsearch710" },
+        "9202":  { "label": "opensearch12" },
+        "9600":  { "label": "opensearch12" },
+        "8081":  { "label": "schema-registry" },
+        "18000": { "label": "lms" },
+        "19876": { "label": "lms (JS test debugging)" },
+        "18010": { "label": "studio" },
+        "19877": { "label": "studio (JS test debugging)" },
+        "44567": { "label": "forum" },
+        "5335":  { "label": "prospectus" },
+        "18381": { "label": "discovery" },
+        "18130": { "label": "ecommerce" },
+        "18150": { "label": "credentials" },
+        "18120": { "label": "edx_notes_api" },
+        "2000":  { "label": "frontend-app-learning" },
+        "1998":  { "label": "frontend-app-payment" },
+        "18400": { "label": "frontend-app-publisher" },
+        "1994":  { "label": "frontend-app-gradebook" },
+        "1999":  { "label": "frontend-app-authn" },
+        "18734": { "label": "registrar" },
+        "1976":  { "label": "frontend-app-program-console" },
+        "3001":  { "label": "frontend-app-library-authoring" },
+        "2001":  { "label": "frontend-app-course-authoring" },
+        "1997":  { "label": "frontend-app-account" },
+        "1995":  { "label": "frontend-app-profile" },
+        "18040": { "label": "xqueue" },
+        "7474":  { "label": "coursegraph" },
+        "18110": { "label": "insights" },
+        "19001": { "label": "analyticsapi" },
+        "1993":  { "label": "frontend-app-ora-grading" },
+        "1984":  { "label": "frontend-app-communications" },
+        "1990":  { "label": "frontend-app-learner-record" },
+        "18450": { "label": "frontend-app-support-tools" },
+        "1996":  { "label": "frontend-app-learner-dashboard" },
+        "9021":  { "label": "kafka" },
+        "18787": { "label": "program-intent-engagement" },
+        "1991":  { "label": "frontend-app-admin-portal" },
+        "8734":  { "label": "frontend-app-learner-portal-enterprise" },
+        "8735":  { "label": "frontend-app-enterprise-public-catalog" },
+        "18170": { "label": "license-manager" },
+        "18160": { "label": "enterprise-catalog" },
+        "18270": { "label": "enterprise-access" },
+        "18280": { "label": "enterprise-subsidy" },
+        "8000":  { "label": "paragon-pattern-library" },
+        "18760": { "label": "ai-translations" }
+    }
+}
