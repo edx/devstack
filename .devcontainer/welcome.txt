@@ -1,0 +1,37 @@
+👋 Welcome to 2U Devstack for Open edX Platform in Github Codespaces!
+
+This pre-built codespace has virtualenvs configured, repositories cloned, and
+databases provisioned.  There's just a few more things for you to do...
+
+Initial Setup
+=============
+
+1. Authenticate with github from this new codespace:
+
+   GITHUB_TOKEN= gh auth login --hostname github.com --git-protocol ssh
+
+2. Navigate to your new ssh key in GitHub settings and configure SSO support:
+
+   https://github.com/settings/keys
+
+3. Connect to this codespace using VS Code with the Github Codespaces extension:
+
+   https://marketplace.visualstudio.com/items/?itemName=GitHub.codespaces
+
+Usage
+=====
+
+Start your day by connecting to this workspace from VS Code and start up
+services from a terminal:
+
+  make dev.up
+
+Important directories:
+
+* /workspaces/devstack - This is the main devstack repository.
+* /workspaces/devstack/edx-repos/* - Individual edx service repository clones.
+
+More Info
+=========
+
+* https://2u-internal.atlassian.net/wiki/spaces/SOL/pages/2003370007/Devstack+on+Codespaces+Guide

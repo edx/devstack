@@ -108,3 +108,6 @@ options.local.mk
 
 # emacs
 *~
+
+# GitHub Codespaces destination path for repo clones
+edx-repos/
