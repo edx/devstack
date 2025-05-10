@@ -2,18 +2,23 @@
 
 # This script sets up the edX theme in LMS and CMS.
 
-REPO_URL="git@github.com:edx/edx-themes.git"
+REPO_URL_HTTPS="https://github.com/edx/edx-themes.git"
+REPO_URL_SSH="git@github.com:edx/edx-themes.git"
 THEME_DIR="/edx/src/edx-themes/edx-platform"
 DEVSTACK_FILE="./py_configuration_files/lms.py"
 
 # Clone the edx-themes repository into the src directory
-cd ../src
+mkdir -p ${DEVSTACK_WORKSPACE}/src
+pushd ${DEVSTACK_WORKSPACE}/src
 if [ ! -d "edx-themes" ]; then
-    git clone "$REPO_URL"
+    # Make a best effort to use SSH, but if that doesn't work then fallback to HTTPS.
+    # Also make a best effort to avoid terminal prompting which breaks automation.
+    GIT_TERMINAL_PROMPT=0 GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=accept-new" git clone --depth=1 "$REPO_URL_SSH"
+    [[ ! -d "edx-themes" ]] && GIT_TERMINAL_PROMPT=0 git clone --depth=1 "$REPO_URL_HTTPS"
 else
     echo "Directory 'edx-themes' already exists. Skipping clone."
 fi
-cd ../devstack
+popd
 
 # Uncomment relevant lines in the devstack.py file
 sed -i '' "s|^# from .common import _make_mako_template_dirs|from .common import _make_mako_template_dirs|" "$DEVSTACK_FILE"
