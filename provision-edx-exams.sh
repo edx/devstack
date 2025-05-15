@@ -10,6 +10,10 @@ port="18740"
 docker compose up -d lms
 docker compose up -d ${name}
 
+# Install requirements
+echo -e "${GREEN}Installing requirements for ${name}...${NC}"
+docker compose exec -T ${name}  bash -e -c 'cd /edx/app/edx-exams/ && make requirements' -- f"$name"
+
 # Run migrations
 echo -e "${GREEN}Running migrations for ${name}...${NC}"
 docker compose exec -T ${name} bash -e -c "cd /edx/app/edx-exams/ && make migrate"
