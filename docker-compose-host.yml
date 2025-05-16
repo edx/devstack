@@ -130,6 +130,11 @@ services:
       - ${DEVSTACK_WORKSPACE}/license-manager:/edx/app/license_manager
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
       - ${PWD}/py_configuration_files/license_manager.py:/edx/app/license_manager/license_manager/settings/devstack.py
+  edx-exams:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/edx-exams:/edx/app/edx-exams
+      - ${DEVSTACK_WORKSPACE}/src:/edx/src
+      - ${PWD}/py_configuration_files/edx_exams.py:/edx/app/edx-exams/edx_exams/settings/devstack.py
 
   # Note that frontends mount `src` to /edx/app/src instead of /edx/src.
   # See ADR #5 for rationale.
