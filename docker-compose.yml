@@ -923,7 +923,7 @@ services:
     stdin_open: true
 
   edx-exams:
-    image: edxops/edx_exams
+    image: edxops/edx-exams-dev
     container_name: edx.devstack.edx_exams
     hostname: edx_exams.devstack.edx
     depends_on:
