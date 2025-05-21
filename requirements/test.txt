@@ -6,11 +6,11 @@
 #
 iniconfig==2.1.0
     # via pytest
-packaging==24.2
+packaging==25.0
     # via pytest
 pexpect==4.9.0
     # via -r requirements/test.in
-pluggy==1.5.0
+pluggy==1.6.0
     # via pytest
 ptyprocess==0.7.0
     # via pexpect
