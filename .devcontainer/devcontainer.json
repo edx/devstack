@@ -30,7 +30,7 @@
         }
     },
     "containerEnv": {
-        "DEVSTACK_WORKSPACE": "${containerWorkspaceFolder}/edx-repos"
+        "DEVSTACK_WORKSPACE": "/workspaces/edx-repos"
     },
     "updateContentCommand": ".devcontainer/updateContentCommand.sh",
     "postCreateCommand": ".devcontainer/postCreateCommand.sh",
