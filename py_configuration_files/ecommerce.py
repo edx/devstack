@@ -55,7 +55,7 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:1996',
     'http://localhost:1997', # Account MFE
     'http://localhost:1998',
-    'http://localhost:2000', # Learning MFE
+    'http://localhost:2010', # Learning MFE
     'http://localhost:8734', # Enterprise Learner Portal MFE
 )
 CORS_ALLOW_HEADERS = corsheaders_default_headers + (

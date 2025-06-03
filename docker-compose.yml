@@ -1126,7 +1126,7 @@ services:
         aliases:
           - edx.devstack.frontend-app-learning
     ports:
-      - "2000:2000"
+      - "2010:2000"
     depends_on:
       - lms
 

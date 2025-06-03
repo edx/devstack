@@ -60,7 +60,7 @@
         "18130": { "label": "ecommerce" },
         "18150": { "label": "credentials" },
         "18120": { "label": "edx_notes_api" },
-        "2000":  { "label": "frontend-app-learning" },
+        "2010":  { "label": "frontend-app-learning" },
         "1998":  { "label": "frontend-app-payment" },
         "18400": { "label": "frontend-app-publisher" },
         "1994":  { "label": "frontend-app-gradebook" },
