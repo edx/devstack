@@ -31,7 +31,7 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-learner-record`_     | http://localhost:1990/              | MFE (React.js) | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
-| `frontend-app-learning`_           | http://localhost:2000/              | MFE (React.js) | Default      |
+| `frontend-app-learning`_           | http://localhost:2010/              | MFE (React.js) | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-payment`_            | http://localhost:1998/              | MFE (React.js) | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+

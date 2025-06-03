@@ -253,7 +253,7 @@ Update as of 2023-08-03: The issue was moved to https://2u-internal.atlassian.ne
 
 CORS error from login_refresh in MFE
 ------------------------------------
-If you see "Access to XMLHttpRequest at 'http://localhost:18000/login_refresh' from origin 'http://localhost:2000' has been blocked by CORS policy: Request header field x-xsrf-token is not allowed by Access-Control-Allow-Headers in preflight response" it usually means you don't have a valid session.
+If you see "Access to XMLHttpRequest at 'http://localhost:18000/login_refresh' from origin 'http://localhost:2010' has been blocked by CORS policy: Request header field x-xsrf-token is not allowed by Access-Control-Allow-Headers in preflight response" it usually means you don't have a valid session.
 
 The fix is to get a new auth session. You can do any of the following:
 
