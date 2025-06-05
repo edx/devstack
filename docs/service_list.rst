@@ -87,6 +87,7 @@ Some common service combinations include:
 * ``lms``: LMS, along with dependencies ``forum``, ``discovery``, ``Authn`` and some databases
 * ``ecommerce``: Ecommerce, but also LMS as a dependency (for auth)
 * ``cms+credentials``: Services can be combined to affect both at once
+* **Reserved for Codespace**: The port `2000` is being used for github Codespace service & reserverd for Codespace use only.
 
 .. _credentials: https://github.com/openedx/credentials
 .. _discovery: https://github.com/openedx/course-discovery

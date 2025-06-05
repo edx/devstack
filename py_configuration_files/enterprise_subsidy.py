@@ -75,7 +75,7 @@ JWT_AUTH.update({
 LMS_URL = 'http://edx.devstack.lms:18000'
 ENTERPRISE_CATALOG_URL = 'http://edx.devstack.enterprise-catalog:18160'
 ENTERPRISE_SUBSIDY_URL = 'http://localhost:18280'
-FRONTEND_APP_LEARNING_URL = 'http://localhost:2010'  # Learning MFE
+FRONTEND_APP_LEARNING_URL = 'http://localhost:2010'  # Learning MFE (port changed from 2000 to 2010, due to conflict in codepsace)
 
 # Kafka Settings
 # "Standard" Kafka settings as defined in https://github.com/openedx/event-bus-kafka/tree/main
