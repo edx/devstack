@@ -1103,7 +1103,7 @@ services:
         aliases:
           - edx.devstack.frontend-app-learning
     ports:
-      - "2010:2000"
+      - "2010:2000" # avoid Codespaces port 2000 conflict
     depends_on:
       - lms
 
