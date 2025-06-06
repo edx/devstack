@@ -31,7 +31,7 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-learner-record`_     | http://localhost:1990/              | MFE (React.js) | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
-| `frontend-app-learning`_           | http://localhost:2000/              | MFE (React.js) | Default      |
+| `frontend-app-learning`_           | http://localhost:2010/              | MFE (React.js) | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-payment`_            | http://localhost:1998/              | MFE (React.js) | Default      |
 +------------------------------------+-------------------------------------+----------------+--------------+
@@ -75,12 +75,15 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 +------------------------------------+-------------------------------------+----------------+--------------+
 | `enterprise-subsidy`_              | http://localhost:18280              | Python/Django  | Extra        |
 +------------------------------------+-------------------------------------+----------------+--------------+
+| **Reserved for Codespace**         | http://localhost:2000               | **Codespace**  | Default      |
++------------------------------------+-------------------------------------+----------------+--------------+
 
 Some common service combinations include:
 
 * ``lms``: LMS, along with dependencies ``forum``, ``discovery``, ``Authn`` and some databases
 * ``ecommerce``: Ecommerce, but also LMS as a dependency (for auth)
 * ``cms+credentials``: Services can be combined to affect both at once
+* **Reserved for Codespace**: The port `2000` is being used for github Codespace service & reserverd for Codespace use only.
 
 .. _credentials: https://github.com/openedx/credentials
 .. _discovery: https://github.com/openedx/course-discovery
