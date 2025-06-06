@@ -18,7 +18,7 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:1991',  # frontend-app-admin-portal
     'http://localhost:18400',  # frontend-app-publisher
     'http://localhost:18450',  # frontend-app-support-tools
-    'http://localhost:2010',  # frontend-app-learning (port changed from 2000 to 2010, due to conflict in codepsace)
+    'http://localhost:2010',  # frontend-app-learning
 )
 
 ELASTICSEARCH_DSL['default']['hosts'] = 'edx.devstack.elasticsearch710:9200'

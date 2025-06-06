@@ -386,7 +386,7 @@ EDXNOTES_INTERNAL_API = 'http://edx.devstack.edxnotesapi:18120/api/v1'
 EDXNOTES_CLIENT_NAME = 'edx_notes_api-backend-service'
 
 ############## Settings for Microfrontends  #########################
-LEARNING_MICROFRONTEND_URL = 'http://localhost:2010' # (port changed from 2000 to 2010, due to conflict in codepsace)
+LEARNING_MICROFRONTEND_URL = 'http://localhost:2010'
 ACCOUNT_MICROFRONTEND_URL = 'http://localhost:1997'
 PROFILE_MICROFRONTEND_URL = 'http://localhost:1995'
 COMMUNICATIONS_MICROFRONTEND_URL = 'http://localhost:1984'
@@ -546,7 +546,7 @@ AI_TRANSLATIONS_API_URL = 'http://localhost:18760/api/v1'
 
 # MFEs that will call this service in devstack
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:2010',  # frontend-app-learning (port changed from 2000 to 2010, due to conflict in codepsace)
+    'http://localhost:2010',  # frontend-app-learning
     'http://localhost:2001',  # frontend-app-course-authoring
     'http://localhost:1997',  # frontend-app-account
     'http://localhost:1995',  # frontend-app-profile
