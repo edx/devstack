@@ -14,7 +14,7 @@ babel==2.17.0
     #   sphinx
 beautifulsoup4==4.13.4
     # via pydata-sphinx-theme
-certifi==2025.6.15
+certifi==2025.7.14
     # via requests
 charset-normalizer==3.4.2
     # via requests
@@ -35,7 +35,7 @@ jinja2==3.1.6
     # via sphinx
 markupsafe==3.0.2
     # via jinja2
-nh3==0.2.21
+nh3==0.2.22
     # via readme-renderer
 packaging==25.0
     # via
@@ -87,7 +87,7 @@ sphinxcontrib-serializinghtml==2.0.0
     # via sphinx
 stevedore==5.4.1
     # via doc8
-typing-extensions==4.14.0
+typing-extensions==4.14.1
     # via
     #   beautifulsoup4
     #   pydata-sphinx-theme
