@@ -47,8 +47,6 @@ Instead of a service name or list, you can also run commands like ``make dev.pro
 +-------------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-program-console`_           | http://localhost:1976/              | MFE (React.js) | Extra        |
 +-------------------------------------------+-------------------------------------+----------------+--------------+
-| `frontend-app-library-authoring`_         | http://localhost:3001/              | MFE (React.js) | Extra        |
-+-------------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-course-authoring`_          | http://localhost:2001/              | MFE (React.js) | Extra        |
 +-------------------------------------------+-------------------------------------+----------------+--------------+
 | `frontend-app-account`_                   | http://localhost:1997/              | MFE (React.js) | Extra        |
@@ -106,7 +104,6 @@ Some common service combinations include:
 .. _frontend-app-learner-dashboard: https://github.com/openedx/frontend-app-learner-dashboard
 .. _frontend-app-learner-record: https://github.com/openedx/frontend-app-learner-record
 .. _frontend-app-learning: https://github.com/openedx/frontend-app-learning
-.. _frontend-app-library-authoring: https://github.com/openedx/frontend-app-library-authoring
 .. _frontend-app-course-authoring: https://github.com/openedx/frontend-app-course-authoring
 .. _frontend-app-account: https://github.com/openedx/frontend-app-account
 .. _frontend-app-profile: https://github.com/openedx/frontend-app-profile

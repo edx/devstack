@@ -310,7 +310,6 @@ LOGIN_REDIRECT_WHITELIST.extend([
     'localhost:1994',  # frontend-app-gradebook
     'localhost:2000',  # frontend-app-learning
     'localhost:2001',  # frontend-app-course-authoring
-    'localhost:3001',  # frontend-app-library-authoring
     'localhost:18400',  # frontend-app-publisher
     'localhost:1993',  # frontend-app-ora-grading
     'localhost:1996',  # frontend-app-learner-dashboard

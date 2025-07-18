@@ -1130,24 +1130,6 @@ services:
     depends_on:
       - lms
 
-  frontend-app-library-authoring:
-    extends:
-      file: microfrontend.yml
-      service: microfrontend
-    working_dir: '/edx/app/frontend-app-library-authoring'
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-library-authoring"
-    environment:
-      PARAGON_BRAND_PACKAGE: '@edx/brand-edx.org@2.x'
-    networks:
-      default:
-        aliases:
-          - edx.devstack.frontend-app-library-authoring
-    ports:
-      - "3001:3001"
-    depends_on:
-      - lms
-      - cms
-
   frontend-app-payment:
     extends:
       file: microfrontend.yml
