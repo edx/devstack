@@ -231,19 +231,19 @@ How do I create new migrations?
 -------------------------------
 
 For LMS, log into the LMS shell and run the
-``makemigrations`` command with the ``devstack_docker`` settings:
+``makemigrations`` command with the ``devstack`` settings:
 
 .. code:: sh
 
    make dev.shell.lms
-   ./manage.py lms makemigrations <appname> --settings=devstack_docker
+   ./manage.py lms makemigrations <appname> --settings=devstack
 
 For CMS, it is similar:
 
 .. code:: sh
 
    make dev.shell.cms
-   ./manage.py cms makemigrations <appname> --settings=devstack_docker
+   ./manage.py cms makemigrations <appname> --settings=devstack
 
 Finally, for any other service, run:
 

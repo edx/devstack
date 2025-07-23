@@ -25,4 +25,4 @@ docker compose exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && python 
 echo 'generating course certificate'
 docker compose exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms cert_generation -u 3 -c course-v1:edX+DemoX+Demo_Course'
 echo 'notifying credentials'
-docker compose exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker notify_credentials --courses course-v1:edX+DemoX+Demo_Course --notify_programs'
+docker compose exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack notify_credentials --courses course-v1:edX+DemoX+Demo_Course --notify_programs'

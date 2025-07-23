@@ -29,24 +29,24 @@ done
 # Make migrate runs migrations for both lms and cms.
 docker compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && make migrate'
 
-docker compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py lms showmigrations --database student_module_history --traceback --pythonpath=. --settings devstack_docker'
-docker compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py lms migrate --database student_module_history --noinput --traceback --pythonpath=. --settings devstack_docker'
+docker compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py lms showmigrations --database student_module_history --traceback --pythonpath=. --settings devstack'
+docker compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py lms migrate --database student_module_history --noinput --traceback --pythonpath=. --settings devstack'
 
-docker compose exec -T cms bash -e -c 'source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py cms showmigrations --database student_module_history --traceback --pythonpath=. --settings devstack_docker'
-docker compose exec -T cms bash -e -c 'source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py cms migrate --database student_module_history --noinput --traceback --pythonpath=. --settings devstack_docker'
+docker compose exec -T cms bash -e -c 'source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py cms showmigrations --database student_module_history --traceback --pythonpath=. --settings devstack'
+docker compose exec -T cms bash -e -c 'source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py cms migrate --database student_module_history --noinput --traceback --pythonpath=. --settings devstack'
 
 # Create a superuser for edxapp
-docker compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker manage_user edx edx@example.com --superuser --staff'
-docker compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && echo "from django.contrib.auth import get_user_model; User = get_user_model(); user = User.objects.get(username=\"edx\"); user.set_password(\"edx\"); user.save()" | python /edx/app/edxapp/edx-platform/manage.py lms shell  --settings=devstack_docker'
+docker compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack manage_user edx edx@example.com --superuser --staff'
+docker compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && echo "from django.contrib.auth import get_user_model; User = get_user_model(); user = User.objects.get(username=\"edx\"); user.set_password(\"edx\"); user.save()" | python /edx/app/edxapp/edx-platform/manage.py lms shell  --settings=devstack'
 
 # Create an enterprise service user for edxapp and give them appropriate permissions
 ./enterprise/provision.sh
 
 # Enable the LMS-E-Commerce integration
-docker compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker configure_commerce'
+docker compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack configure_commerce'
 
 # Create demo course and users
-#docker compose exec -T lms bash -e -c '/edx/app/edx_ansible/venvs/edx_ansible/bin/ansible-playbook /edx/app/edx_ansible/edx_ansible/playbooks/demo.yml -v -c local -i "127.0.0.1," --extra-vars="COMMON_EDXAPP_SETTINGS=devstack_docker"'
+#docker compose exec -T lms bash -e -c '/edx/app/edx_ansible/venvs/edx_ansible/bin/ansible-playbook /edx/app/edx_ansible/edx_ansible/playbooks/demo.yml -v -c local -i "127.0.0.1," --extra-vars="COMMON_EDXAPP_SETTINGS=devstack"'
 if [[ ${DEVSTACK_SKIP_DEMO-false} == "true" ]]
 then
     echo "Skipping import of demo course. DEVSTACK_SKIP_DEMO is set to true"
@@ -54,7 +54,7 @@ else
     # FIXME: Using old version of demo course (open-release/quince.1) until we can
     # update devstack and other repos to match: https://github.com/openedx/devstack/issues/1273
     docker compose exec -T lms bash -e -c 'git clone https://github.com/openedx/edx-demo-course.git --branch open-release/quince.1 /tmp/edx-demo-course'
-    docker compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py cms --settings=devstack_docker import /edx/var/edxapp/data /tmp/edx-demo-course && rm -rf /tmp/edx-demo-course'
+    docker compose exec -T lms bash -e -c 'source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py cms --settings=devstack import /edx/var/edxapp/data /tmp/edx-demo-course && rm -rf /tmp/edx-demo-course'
 fi
 
 demo_hashed_password='pbkdf2_sha256$20000$TjE34FJjc3vv$0B7GUmH8RwrOc/BvMoxjb5j8EgnWTt3sxorDANeF7Qw='
@@ -62,14 +62,14 @@ for user in honor audit verified staff ; do
   email="$user@example.com"
   # Set staff flag for staff user
   if [[ $user == "staff" ]] ; then
-    docker compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker --service-variant lms manage_user $user $email --initial-password-hash '$demo_hashed_password' --staff"
+    docker compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack --service-variant lms manage_user $user $email --initial-password-hash '$demo_hashed_password' --staff"
   else
-    docker compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker --service-variant lms manage_user $user $email --initial-password-hash '$demo_hashed_password'"
+    docker compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack --service-variant lms manage_user $user $email --initial-password-hash '$demo_hashed_password'"
   fi
   if [[ "${DEVSTACK_SKIP_DEMO-false}" != "true" ]]
   then
   # Enroll users in the demo course
-      docker compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker --service-variant lms enroll_user_in_course -e $email -c course-v1:edX+DemoX+Demo_Course"
+      docker compose exec -T lms bash -e -c "source /edx/app/edxapp/edxapp_env && python /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack --service-variant lms enroll_user_in_course -e $email -c course-v1:edX+DemoX+Demo_Course"
   fi
 done
 

@@ -428,10 +428,10 @@ dev.static: | $(_asset_compilation_targets)
 EDXAPP_STATIC_ROOT_ENV=STATIC_ROOT_LMS=/edx/var/edxapp/staticfiles STATIC_ROOT_CMS=/edx/var/edxapp/staticfiles/studio
 
 dev.static.lms:
-	docker compose exec -T lms bash -c "source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && $(EDXAPP_STATIC_ROOT_ENV) npm run build-dev && ./manage.py lms collectstatic --no-input --settings devstack_docker"
+	docker compose exec -T lms bash -c "source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && $(EDXAPP_STATIC_ROOT_ENV) npm run build-dev && ./manage.py lms collectstatic --no-input --settings devstack"
 
 dev.static.cms:
-	docker compose exec -T cms bash -c "source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && $(EDXAPP_STATIC_ROOT_ENV) npm run build-dev && ./manage.py cms collectstatic --no-input --settings devstack_docker"
+	docker compose exec -T cms bash -c "source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && $(EDXAPP_STATIC_ROOT_ENV) npm run build-dev && ./manage.py cms collectstatic --no-input --settings devstack"
 
 dev.static.%: ## Rebuild static assets for the specified service's container.
 	docker compose exec -T $* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make static'

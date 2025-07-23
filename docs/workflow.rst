@@ -20,7 +20,7 @@ These instructions are written using the LMS as an example. Replace ``lms`` with
 
           edx.devstack.lms                  | System check identified no issues (0 silenced).
           edx.devstack.lms                  | November 25, 2020 - 19:04:18
-          edx.devstack.lms                  | Django version 2.2.17, using settings 'lms.envs.devstack_docker'
+          edx.devstack.lms                  | Django version 2.2.17, using settings 'lms.envs.devstack'
           edx.devstack.lms                  | Starting development server at http://0.0.0.0:18000/
           edx.devstack.lms                  | Quit the server with CONTROL-C.
 

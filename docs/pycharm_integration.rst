@@ -157,8 +157,8 @@ Configuration`_, with the following specific values.
 
 4. Environment variables, add the following for lms/cms:
 
-   - ``DJANGO_SETTINGS_MODULE=lms.envs.devstack_docker`` (or
-     cms.envs.devstack_docker)
+   - ``DJANGO_SETTINGS_MODULE=lms.envs.devstack`` (or
+     cms.envs.devstack)
    - ``PYTHONUNBUFFERED=1``
    - ``CONFIG_ROOT=/edx/app/edxapp``
    - ``LMS_CFG=/edx/etc/lms.yml``

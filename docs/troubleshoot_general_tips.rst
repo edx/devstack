@@ -39,11 +39,11 @@ Running LMS commands within a container
 
 Most of the commands require a settings flag. If omitted, the flag defaults to
 ``devstack``. If you run into issues running commands in a docker container, you should append
-the ``devstack_docker`` flag. For example:
+the ``devstack`` flag. For example:
 
 .. code:: sh
 
-  $ npm run build && ./manage.py lms collectstatic --no-input --settings=devstack_docker
+  $ npm run build && ./manage.py lms collectstatic --no-input --settings=devstack
 
 Resource busy or locked
 -----------------------
