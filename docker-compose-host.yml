@@ -41,6 +41,8 @@ services:
       - edxapp_tox:/edx/app/edxapp/edx-platform/.tox
       - edxapp_uploads:/edx/var/edxapp/uploads
       - ${DEVSTACK_WORKSPACE}/src:/edx/src
+      - ${PWD}/configuration_files/cms.yml:/edx/etc/studio.yml
+      - ${PWD}/configuration_files/lms.yml:/edx/etc/lms.yml
       - ${PWD}/py_configuration_files/cms.py:/edx/app/edxapp/edx-platform/cms/envs/devstack.py
       - ${PWD}/py_configuration_files/lms.py:/edx/app/edxapp/edx-platform/lms/envs/devstack.py
       - ${PWD}/py_private_requirements/lms.txt:/edx/private_requirements.txt
@@ -72,6 +74,8 @@ services:
       - edxapp_tox:/edx/app/edxapp/edx-platform/.tox
       - edxapp_uploads:/edx/var/edxapp/uploads
       - ${DEVSTACK_WORKSPACE}/src:/edx/src
+      - ${PWD}/configuration_files/cms.yml:/edx/etc/studio.yml
+      - ${PWD}/configuration_files/lms.yml:/edx/etc/lms.yml
       - ${PWD}/py_configuration_files/cms.py:/edx/app/edxapp/edx-platform/cms/envs/devstack.py
       - ${PWD}/py_configuration_files/lms.py:/edx/app/edxapp/edx-platform/lms/envs/devstack.py
       - ${PWD}/py_private_requirements/cms.txt:/edx/private_requirements.txt
