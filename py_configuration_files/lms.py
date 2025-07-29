@@ -290,8 +290,9 @@ ORA_MICROFRONTEND_URL = 'http://localhost:1992'
 LEARNER_HOME_MICROFRONTEND_URL = 'http://localhost:1996'
 
 ########################## LEARNING MFE ##############################
-LEARNING_MICROFRONTEND_URL = "http://localhost:2010"
-LEARNING_MICROFRONTEND_NETLOC = "localhost:2010"
+LEARNING_MFE_PORT = 2010
+LEARNING_MICROFRONTEND_URL = f"http://localhost:{LEARNING_MFE_PORT}"
+LEARNING_MICROFRONTEND_NETLOC = f"localhost:{LEARNING_MFE_PORT}"
 
 ###################### Cross-domain requests ######################
 FEATURES['ENABLE_CORS_HEADERS'] = True
