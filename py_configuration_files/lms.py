@@ -308,11 +308,11 @@ LOGIN_REDIRECT_WHITELIST.extend([
     'localhost:1997',  # frontend-app-account
     'localhost:1976',  # frontend-app-program-console
     'localhost:1994',  # frontend-app-gradebook
-    'localhost:2000',  # frontend-app-learning
     'localhost:2001',  # frontend-app-course-authoring
     'localhost:18400',  # frontend-app-publisher
     'localhost:1993',  # frontend-app-ora-grading
     'localhost:1996',  # frontend-app-learner-dashboard
+    LEARNING_MICROFRONTEND_NETLOC,  # frontend-app-learning
     ENTERPRISE_LEARNER_PORTAL_NETLOC,  # frontend-app-learner-portal-enterprise
     ENTERPRISE_ADMIN_PORTAL_NETLOC,  # frontend-app-admin-portal
     ENTERPRISE_CHECKOUT_NETLOC,  # frontend-app-enterprise-checkout
@@ -386,7 +386,7 @@ EDXNOTES_INTERNAL_API = 'http://edx.devstack.edxnotesapi:18120/api/v1'
 EDXNOTES_CLIENT_NAME = 'edx_notes_api-backend-service'
 
 ############## Settings for Microfrontends  #########################
-LEARNING_MICROFRONTEND_URL = 'http://localhost:2000'
+LEARNING_MICROFRONTEND_URL = os.environ.get('LEARNING_MICROFRONTEND_URL', 'http://localhost:2010')
 ACCOUNT_MICROFRONTEND_URL = 'http://localhost:1997'
 PROFILE_MICROFRONTEND_URL = 'http://localhost:1995'
 COMMUNICATIONS_MICROFRONTEND_URL = 'http://localhost:1984'
@@ -546,7 +546,7 @@ AI_TRANSLATIONS_API_URL = 'http://localhost:18760/api/v1'
 
 # MFEs that will call this service in devstack
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:2000',  # frontend-app-learning
+    LEARNING_MICROFRONTEND_URL,  # frontend-app-learning
     'http://localhost:2001',  # frontend-app-course-authoring
     'http://localhost:1997',  # frontend-app-account
     'http://localhost:1995',  # frontend-app-profile
