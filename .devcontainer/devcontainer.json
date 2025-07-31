@@ -30,7 +30,10 @@
         }
     },
     "containerEnv": {
-        "DEVSTACK_WORKSPACE": "/workspaces/edx-repos"
+        "DEVSTACK_WORKSPACE": "/workspaces/edx-repos",
+        "LEARNING_MICROFRONTEND_PORT": "2010",
+        "LEARNING_MICROFRONTEND_URL": "http://localhost:2010",
+        "LEARNING_MICROFRONTEND_NETLOC": "localhost:2010"
     },
     "updateContentCommand": ".devcontainer/updateContentCommand.sh",
     "postCreateCommand": ".devcontainer/postCreateCommand.sh",
