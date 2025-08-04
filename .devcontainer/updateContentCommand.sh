@@ -79,3 +79,27 @@ for repo_dir in ${repo_dirs[@]}; do
 
   popd
 done
+
+
+echo "Updating .env.development files for MFE apps..."
+
+# Define shared values
+PORT=${LEARNING_MICROFRONTEND_PORT:-2010}
+BASE_URL="http://localhost:$PORT"
+
+# Loop through frontend-app-* repos
+find "$DEVSTACK_WORKSPACE" -type d -name "frontend-app-*" | while read -r repo; do
+  ENV_FILE="$repo/.env.development"
+
+
+  if [ -f "$ENV_FILE" ]; then
+    echo "Updating $ENV_FILE..."
+    if [[ "$repo" == *"frontend-app-learning" ]]; then
+      sed -i.bak -E "s|^PORT=.*|PORT=$PORT|" "$ENV_FILE"
+      sed -i.bak -E "s|^BASE_URL=.*|BASE_URL='$BASE_URL'|" "$ENV_FILE"
+    else
+      sed -i.bak -E "s|^LEARNING_BASE_URL=.*|LEARNING_BASE_URL='$BASE_URL'|" "$ENV_FILE"
+    fi
+    rm -f "$ENV_FILE.bak"
+  fi
+done

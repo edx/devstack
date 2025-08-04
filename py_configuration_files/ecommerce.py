@@ -1,6 +1,7 @@
 """Devstack settings"""
 
 
+import os
 from corsheaders.defaults import default_headers as corsheaders_default_headers
 
 from ecommerce.settings.production import *
@@ -55,8 +56,8 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:1996',
     'http://localhost:1997', # Account MFE
     'http://localhost:1998',
-    'http://localhost:2000', # Learning MFE
     'http://localhost:8734', # Enterprise Learner Portal MFE
+    'http://localhost:' + os.environ.get('LEARNING_MICROFRONTEND_PORT', '2010'), # Learning MFE
 )
 CORS_ALLOW_HEADERS = corsheaders_default_headers + (
     'use-jwt-cookie',

@@ -269,6 +269,10 @@ LEARNER_PORTAL_URL_ROOT = 'http://localhost:8734'
 ENTERPRISE_LEARNER_PORTAL_NETLOC = 'localhost:8734'
 ENTERPRISE_LEARNER_PORTAL_BASE_URL = 'http://' + ENTERPRISE_LEARNER_PORTAL_NETLOC
 
+########################## LEARNING MICROFRONTEND ##############################
+LEARNING_MICROFRONTEND_PORT = os.environ.get('LEARNING_MICROFRONTEND_PORT', '2010')
+LEARNING_MICROFRONTEND_NETLOC = 'localhost:' + LEARNING_MICROFRONTEND_PORT
+
 ########################## ENTERPRISE ADMIN PORTAL ##############################
 ENTERPRISE_ADMIN_PORTAL_NETLOC = 'localhost:1991'
 ENTERPRISE_ADMIN_PORTAL_BASE_URL = 'http://' + ENTERPRISE_ADMIN_PORTAL_NETLOC
@@ -308,7 +312,6 @@ LOGIN_REDIRECT_WHITELIST.extend([
     'localhost:1997',  # frontend-app-account
     'localhost:1976',  # frontend-app-program-console
     'localhost:1994',  # frontend-app-gradebook
-    'localhost:2000',  # frontend-app-learning
     'localhost:2001',  # frontend-app-course-authoring
     'localhost:18400',  # frontend-app-publisher
     'localhost:1993',  # frontend-app-ora-grading
@@ -316,6 +319,7 @@ LOGIN_REDIRECT_WHITELIST.extend([
     ENTERPRISE_LEARNER_PORTAL_NETLOC,  # frontend-app-learner-portal-enterprise
     ENTERPRISE_ADMIN_PORTAL_NETLOC,  # frontend-app-admin-portal
     ENTERPRISE_CHECKOUT_NETLOC,  # frontend-app-enterprise-checkout
+    LEARNING_MICROFRONTEND_NETLOC,  # frontend-app-learning
 ])
 
 ###################### JWTs ######################
@@ -386,7 +390,7 @@ EDXNOTES_INTERNAL_API = 'http://edx.devstack.edxnotesapi:18120/api/v1'
 EDXNOTES_CLIENT_NAME = 'edx_notes_api-backend-service'
 
 ############## Settings for Microfrontends  #########################
-LEARNING_MICROFRONTEND_URL = 'http://localhost:2000'
+LEARNING_MICROFRONTEND_URL = 'http://localhost:' + LEARNING_MICROFRONTEND_PORT
 ACCOUNT_MICROFRONTEND_URL = 'http://localhost:1997'
 PROFILE_MICROFRONTEND_URL = 'http://localhost:1995'
 COMMUNICATIONS_MICROFRONTEND_URL = 'http://localhost:1984'
@@ -546,7 +550,6 @@ AI_TRANSLATIONS_API_URL = 'http://localhost:18760/api/v1'
 
 # MFEs that will call this service in devstack
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:2000',  # frontend-app-learning
     'http://localhost:2001',  # frontend-app-course-authoring
     'http://localhost:1997',  # frontend-app-account
     'http://localhost:1995',  # frontend-app-profile
@@ -559,6 +562,7 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:18450',  # frontend-app-support-tools
     'http://localhost:1994',  # frontend-app-gradebook
     'http://localhost:1996',  # frontend-app-learner-dashboard
+    LEARNING_MICROFRONTEND_URL  # frontend-app-learning
 ]
 
 ############################ Codejail ############################
