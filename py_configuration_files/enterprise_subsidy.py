@@ -1,3 +1,4 @@
+import os
 from enterprise_subsidy.settings.local import *
 
 CORS_ORIGIN_WHITELIST = (
@@ -54,6 +55,9 @@ BACKEND_SERVICE_EDX_OAUTH2_SECRET = os.environ.get(
     'BACKEND_SERVICE_EDX_OAUTH2_SECRET', 'enterprise-subsidy-backend-service-secret'
 )
 
+# This port is configured centrally in devcontainer.json
+LEARNING_MICROFRONTEND_PORT = os.environ.get('LEARNING_MICROFRONTEND_PORT', '2010')
+
 JWT_AUTH.update({
     'JWT_SECRET_KEY': 'lms-secret',
     'JWT_ISSUER': 'http://localhost:18000/oauth2',
@@ -75,7 +79,7 @@ JWT_AUTH.update({
 LMS_URL = 'http://edx.devstack.lms:18000'
 ENTERPRISE_CATALOG_URL = 'http://edx.devstack.enterprise-catalog:18160'
 ENTERPRISE_SUBSIDY_URL = 'http://localhost:18280'
-FRONTEND_APP_LEARNING_URL = 'http://localhost:2000'
+FRONTEND_APP_LEARNING_URL = 'http://localhost:' + LEARNING_MICROFRONTEND_PORT
 
 # Kafka Settings
 # "Standard" Kafka settings as defined in https://github.com/openedx/event-bus-kafka/tree/main

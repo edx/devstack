@@ -1,4 +1,5 @@
 # noinspection PyUnresolvedReferences
+import os
 from course_discovery.settings._debug_toolbar import *  # isort:skip
 
 from course_discovery.settings.production import *
@@ -18,7 +19,7 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:1991',  # frontend-app-admin-portal
     'http://localhost:18400',  # frontend-app-publisher
     'http://localhost:18450',  # frontend-app-support-tools
-    'http://localhost:2000',  # frontend-app-learning
+    'http://localhost:' + os.environ.get('LEARNING_MICROFRONTEND_PORT', '2010'),  # frontend-app-learning
 )
 
 ELASTICSEARCH_DSL['default']['hosts'] = 'edx.devstack.elasticsearch710:9200'
