@@ -14,9 +14,9 @@ babel==2.17.0
     #   sphinx
 beautifulsoup4==4.13.4
     # via pydata-sphinx-theme
-certifi==2025.7.14
+certifi==2025.8.3
     # via requests
-charset-normalizer==3.4.2
+charset-normalizer==3.4.3
     # via requests
 doc8==2.0.0
     # via -r requirements/doc.in
@@ -41,7 +41,7 @@ packaging==25.0
     # via
     #   pydata-sphinx-theme
     #   sphinx
-pbr==6.1.1
+pbr==7.0.0
     # via stevedore
 pydata-sphinx-theme==0.15.4
     # via sphinx-book-theme
@@ -56,7 +56,7 @@ pyyaml==6.0.2
     # via -r requirements/base.txt
 readme-renderer==44.0
     # via -r requirements/doc.in
-requests==2.32.4
+requests==2.32.5
     # via sphinx
 restructuredtext-lint==1.4.0
     # via doc8
@@ -91,10 +91,8 @@ typing-extensions==4.14.1
     # via
     #   beautifulsoup4
     #   pydata-sphinx-theme
-urllib3==2.2.3
-    # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
-    #   requests
+urllib3==2.5.0
+    # via requests
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
