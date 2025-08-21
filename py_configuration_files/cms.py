@@ -289,8 +289,8 @@ AI_TRANSLATIONS_API_URL = 'http://localhost:18760/api/v1'
 
 # MFEs that will call this service in devstack
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:2001',  # frontend-app-course-authoring
-    'http://localhost:1992',  # frontend-app-ora
+    COURSE_AUTHORING_MICROFRONTEND_URL,  # frontend-app-course-authoring
+    ORA_MICROFRONTEND_URL,  # frontend-app-ora
     'http://localhost:1999',  # frontend-app-authn
 ]
 

@@ -551,18 +551,18 @@ AI_TRANSLATIONS_API_URL = 'http://localhost:18760/api/v1'
 # MFEs that will call this service in devstack
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:2001',  # frontend-app-course-authoring
-    'http://localhost:1997',  # frontend-app-account
-    'http://localhost:1995',  # frontend-app-profile
-    'http://localhost:1992',  # frontend-app-ora
-    'http://localhost:2002',  # frontend-app-discussions
-    'http://localhost:1991',  # frontend-app-admin-portal
-    'http://localhost:8734',  # frontend-app-learner-portal-enterprise
-    'http://localhost:1989',  # frontend-app-enterprise-checkout
-    'http://localhost:1999',  # frontend-app-authn
+    ACCOUNT_MICROFRONTEND_URL,  # frontend-app-account
+    PROFILE_MICROFRONTEND_URL,  # frontend-app-profile
+    ORA_MICROFRONTEND_URL,  # frontend-app-ora
+    DISCUSSIONS_MICROFRONTEND_URL,  # frontend-app-discussions
+    ENTERPRISE_ADMIN_PORTAL_BASE_URL,  # frontend-app-admin-portal
+    ENTERPRISE_LEARNER_PORTAL_BASE_URL,  # frontend-app-learner-portal-enterprise
+    ENTERPRISE_CHECKOUT_BASE_URL,  # frontend-app-enterprise-checkout
+    AUTHN_MICROFRONTEND_URL,  # frontend-app-authn
     'http://localhost:18450',  # frontend-app-support-tools
-    'http://localhost:1994',  # frontend-app-gradebook
-    'http://localhost:1996',  # frontend-app-learner-dashboard
-    LEARNING_MICROFRONTEND_URL  # frontend-app-learning
+    WRITABLE_GRADEBOOK_URL,  # frontend-app-gradebook
+    LEARNER_HOME_MICROFRONTEND_URL,  # frontend-app-learner-dashboard
+    LEARNING_MICROFRONTEND_URL,  # frontend-app-learning
 ]
 
 ############################ Codejail ############################
