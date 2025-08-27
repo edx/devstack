@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Load the specified database from a file of the same name.
-#
+##
 # Example:
 #   $ load-db edxapp
 #
