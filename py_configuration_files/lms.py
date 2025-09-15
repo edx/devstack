@@ -15,6 +15,12 @@ from openedx.core.djangoapps.plugins.constants import ProjectType, SettingsType
 
 from .production import *  # pylint: disable=wildcard-import, unused-wildcard-import
 
+try:
+    from openedx.core.lib.features_setting_proxy import FeaturesProxy
+    FEATURES = FeaturesProxy(globals())
+except ImportError:
+    pass
+
 # Don't use S3 in devstack, fall back to filesystem
 STORAGES['default']['BACKEND'] = 'django.core.files.storage.FileSystemStorage'
 ORA2_FILEUPLOAD_BACKEND = 'django'
