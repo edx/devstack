@@ -422,7 +422,16 @@ MAILCHIMP_NEW_USER_LIST_ID: null
 MAINTENANCE_BANNER_TEXT: Sample banner message
 MEDIA_ROOT: /edx/var/edxapp/media/
 MEDIA_URL: /media/
-MKTG_URLS: {}
+MKTG_URLS:
+  ROOT: https://www.edx.org
+  ABOUT: /about
+  CONTACT: /contact
+  FAQ: /help
+  COURSES: /course
+  TOS: /edx-terms-service
+  HONOR: /honor
+  PRIVACY: /privacy
+  WHAT_IS_VERIFIED_CERT: /verified-certificate
 MKTG_URL_LINK_MAP: {}
 MOBILE_STORE_URLS: {}
 MODULESTORE:
