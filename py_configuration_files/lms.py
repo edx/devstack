@@ -465,7 +465,7 @@ SYSTEM_WIDE_ROLE_CLASSES.append(
     'system_wide_roles.SystemWideRoleAssignment',
 )
 
-if 'ENABLE_ENTERPRISE_INTEGRATION':
+if ENABLE_ENTERPRISE_INTEGRATION:
     SYSTEM_WIDE_ROLE_CLASSES.append(
         'enterprise.SystemWideEnterpriseUserRoleAssignment',
     )
