@@ -423,7 +423,7 @@ MAINTENANCE_BANNER_TEXT: Sample banner message
 MEDIA_ROOT: /edx/var/edxapp/media/
 MEDIA_URL: /media/
 MKTG_URLS:
-  ROOT: ""
+  ROOT: /https://localhost:18000
   ABOUT: /about
   CONTACT: /contact
   FAQ: /help
