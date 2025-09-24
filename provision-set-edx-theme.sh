@@ -21,7 +21,7 @@ fi
 popd
 
 # Uncomment relevant lines in the devstack.py file
-sed -i '' "s|^# from .common import _make_mako_template_dirs|from .common import _make_mako_template_dirs|" "$DEVSTACK_FILE"
+sed -i '' "s|^# from .common import make_mako_template_dirs|from .common import make_mako_template_dirs|" "$DEVSTACK_FILE"
 sed -i '' "s|^# ENABLE_COMPREHENSIVE_THEMING = True|ENABLE_COMPREHENSIVE_THEMING = True|" "$DEVSTACK_FILE"
 sed -i '' "s|^# COMPREHENSIVE_THEME_DIRS = \[|COMPREHENSIVE_THEME_DIRS = \[|" "$DEVSTACK_FILE"
 sed -i '' "s|^#     \"/edx/app/edxapp/edx-platform/themes/\"|    \"/edx/app/edxapp/edx-platform/themes/\",|" "$DEVSTACK_FILE"
@@ -29,7 +29,7 @@ sed -i '' "/COMPREHENSIVE_THEME_DIRS = \[/a\\
 \"$THEME_DIR\",
 " "$DEVSTACK_FILE"
 sed -i '' "s|^# \]|]|" "$DEVSTACK_FILE"
-sed -i '' "s|^# TEMPLATES\[1\]\[\"DIRS\"\] = Derived(_make_mako_template_dirs)|TEMPLATES[1][\"DIRS\"] = Derived(_make_mako_template_dirs)|" "$DEVSTACK_FILE"
+sed -i '' "s|^# TEMPLATES\[1\]\[\"DIRS\"\] = Derived(make_mako_template_dirs)|TEMPLATES[1][\"DIRS\"] = Derived(make_mako_template_dirs)|" "$DEVSTACK_FILE"
 sed -i '' "s|^# derive_settings(__name__)|derive_settings(__name__)|" "$DEVSTACK_FILE"
 
 
