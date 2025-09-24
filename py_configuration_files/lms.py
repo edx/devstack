@@ -484,18 +484,19 @@ DCS_SESSION_COOKIE_SAMESITE_FORCE_ALL = True
 # theme directories to COMPREHENSIVE_THEME_DIRS
 
 # We have to import the private method here because production.py calls
-# derive_settings('lms.envs.production') which runs _make_mako_template_dirs with
+# derive_settings('lms.envs.production') which runs make_mako_template_dirs with
 # the settings from production, which doesn't include these theming settings. Thus,
 # the templating engine is unable to find the themed templates because they don't exist
 # in it's path. Re-calling derive_settings doesn't work because the settings was already
 # changed from a function to a list, and it can't be derived again.
 
-# from .common import _make_mako_template_dirs
+# from .common import make_mako_template_dirs
 # ENABLE_COMPREHENSIVE_THEMING = True
 # COMPREHENSIVE_THEME_DIRS = [
+#     "/edx/src/edx-themes/edx-platform",
 #     "/edx/app/edxapp/edx-platform/themes/"
 # ]
-# TEMPLATES[1]["DIRS"] = Derived(_make_mako_template_dirs)
+# TEMPLATES[1]["DIRS"] = Derived(make_mako_template_dirs)
 # derive_settings(__name__)
 
 # Uncomment the lines below if you'd like to see SQL statements in your devstack LMS log.
