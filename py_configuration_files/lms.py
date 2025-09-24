@@ -483,7 +483,7 @@ DCS_SESSION_COOKIE_SAMESITE_FORCE_ALL = True
 # If you want to enable theming in devstack, uncomment this section and add any relevant
 # theme directories to COMPREHENSIVE_THEME_DIRS
 
-# We have to import the private method here because production.py calls
+# We have to import the function here because production.py calls
 # derive_settings('lms.envs.production') which runs make_mako_template_dirs with
 # the settings from production, which doesn't include these theming settings. Thus,
 # the templating engine is unable to find the themed templates because they don't exist
