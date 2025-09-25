@@ -16,7 +16,7 @@ ptyprocess==0.7.0
     # via pexpect
 pygments==2.19.2
     # via pytest
-pytest==8.4.1
+pytest==8.4.2
     # via -r requirements/test.in
 pyyaml==6.0.2
     # via -r requirements/base.txt
