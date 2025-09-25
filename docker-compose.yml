@@ -66,6 +66,21 @@ services:
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
 
+  meilisearch184:
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.meilisearch184"
+    hostname: meilisearch184.devstack.edx
+    image: getmeili/meilisearch:v1.8.4
+    networks:
+      default:
+        aliases:
+          - meilisearch
+    ports:
+      - "7700:7700"
+    volumes:
+      - meilisearch184_data:/usr/share/meilisearch/data
+    environment:
+      - MEILI_MASTER_KEY=my_super_secret_key
+
   # This is meant to be used to test OS upgrades.
   opensearch12:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.opensearch12"
@@ -642,7 +657,7 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.cms"
     hostname: cms.devstack.edx
     depends_on:
-      - elasticsearch710
+      - meilisearch184
       - lms
       - memcached
       - mongo
@@ -1242,6 +1257,7 @@ volumes:
   edxapp_lms_assets:
   edxapp_cms_assets:
   elasticsearch710_data:
+  meilisearch184_data:
   mongo_data:
   mongo_config_data:
   opensearch12_data:
