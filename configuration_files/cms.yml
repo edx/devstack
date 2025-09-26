@@ -280,6 +280,7 @@ ELASTIC_SEARCH_CONFIG:
 -   host: edx.devstack.elasticsearch
     port: 9200
     use_ssl: false
+ENABLE_MKTG_SITE: true    
 EMAIL_BACKEND: django.core.mail.backends.smtp.EmailBackend
 EMAIL_HOST: localhost
 EMAIL_HOST_PASSWORD: ''
@@ -315,7 +316,6 @@ FEATURES:
     ENABLE_EXPORT_GIT: false
     ENABLE_GRADE_DOWNLOADS: true
     ENABLE_LTI_PROVIDER: false
-    ENABLE_MKTG_SITE: true
     ENABLE_MOBILE_REST_API: false
     ENABLE_OAUTH2_PROVIDER: false
     ENABLE_PUBLISHER: false
