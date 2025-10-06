@@ -55,14 +55,14 @@ create_test_repo() {
 echo "TEST 1: EDX Origin Repository"
 TOTAL_TESTS=$((TOTAL_TESTS + 1))
 cd "$TEST_WORKSPACE"
-create_test_repo "ecommerce" "https://github.com/edx/ecommerce.git"
-show_remotes "ecommerce" "BEFORE"
+create_test_repo "frontend-app-gradebook" "https://github.com/edx/frontend-app-gradebook.git"
+show_remotes "frontend-app-gradebook" "BEFORE"
 cd /workspaces/devstack
 echo "  Output:"
 DEVSTACK_WORKSPACE="$TEST_WORKSPACE" make dev.setup-remotes
 cd "$TEST_WORKSPACE"
-show_remotes "ecommerce" "AFTER"
-cd ecommerce
+show_remotes "frontend-app-gradebook" "AFTER"
+cd frontend-app-gradebook
 if git remote | grep -q "edx" && git remote | grep -q "openedx" && ! git remote | grep -q "origin"; then
     print_pass "EDX origin handling"
 else
@@ -99,7 +99,8 @@ DEVSTACK_WORKSPACE="$TEST_WORKSPACE" make dev.setup-remotes
 cd "$TEST_WORKSPACE"
 show_remotes "course-discovery" "AFTER"
 cd course-discovery
-if git remote | grep -q "openedx" && git remote | grep -q "edx" && ! git remote | grep -q "origin"; then
+# course-discovery should be renamed from origin to openedx, and get an edx remote
+if git remote get-url openedx | grep -q "openedx/course-discovery" && git remote get-url edx | grep -q "edx/course-discovery" && [ $(git remote | wc -l) -eq 2 ]; then
     print_pass "OpenEDX origin handling (course-discovery)"
 else
     print_fail "OpenEDX origin handling (course-discovery)"
@@ -145,19 +146,19 @@ cd ..
 echo
 echo "TEST 6: Idempotent Operations"
 TOTAL_TESTS=$((TOTAL_TESTS + 1))
-create_test_repo "ecommerce" "https://github.com/edx/ecommerce.git"
-show_remotes "ecommerce" "BEFORE (fresh repo)"
+create_test_repo "frontend-app-gradebook" "https://github.com/edx/frontend-app-gradebook.git"
+show_remotes "frontend-app-gradebook" "BEFORE (fresh repo)"
 cd /workspaces/devstack
 echo "  First run output:"
 DEVSTACK_WORKSPACE="$TEST_WORKSPACE" make dev.setup-remotes
 cd "$TEST_WORKSPACE"
-show_remotes "ecommerce" "AFTER FIRST RUN"
+show_remotes "frontend-app-gradebook" "AFTER FIRST RUN"
 cd /workspaces/devstack
 echo "  Second run output (should be idempotent):"
 DEVSTACK_WORKSPACE="$TEST_WORKSPACE" make dev.setup-remotes
 cd "$TEST_WORKSPACE"
-show_remotes "ecommerce" "AFTER SECOND RUN (should be identical)"
-cd ecommerce
+show_remotes "frontend-app-gradebook" "AFTER SECOND RUN (should be identical)"
+cd frontend-app-gradebook
 if [ $(git remote | wc -l) -eq 2 ] && git remote | grep -q "edx" && git remote | grep -q "openedx"; then
     print_pass "Idempotent operations"
 else
