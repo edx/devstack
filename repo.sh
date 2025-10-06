@@ -26,14 +26,14 @@ repos=(
     "https://github.com/openedx/cs_comments_service.git"
     "https://github.com/edx/ecommerce.git"
     "https://github.com/openedx/edx-notes-api.git"
-    "https://github.com/openedx/edx-platform.git"
+    "https://github.com/edx/edx-platform.git"
     "https://github.com/openedx/xqueue.git"
     "https://github.com/edx/edx-analytics-dashboard.git"
-    "https://github.com/openedx/frontend-app-gradebook.git"
-    "https://github.com/openedx/frontend-app-learner-dashboard.git"
-    "https://github.com/openedx/frontend-app-learner-record.git"
+    "https://github.com/edx/frontend-app-gradebook.git"
+    "https://github.com/edx/frontend-app-learner-dashboard.git"
+    "https://github.com/edx/frontend-app-learner-record.git"
     "https://github.com/edx/frontend-app-payment.git"
-    "https://github.com/openedx/frontend-app-publisher.git"
+    "https://github.com/edx/frontend-app-publisher.git"
     "https://github.com/edx/edx-analytics-dashboard.git"
     "https://github.com/edx/edx-analytics-data-api.git"
     "https://github.com/openedx/enterprise-catalog.git"
@@ -46,17 +46,30 @@ repos=(
 non_release_repos=(
     "https://github.com/openedx/frontend-app-authn.git"
     "https://github.com/openedx/frontend-app-course-authoring.git"
-    "https://github.com/openedx/frontend-app-learning.git"
+    "https://github.com/edx/frontend-app-learning.git"
     "https://github.com/edx/registrar.git"
     "https://github.com/edx/frontend-app-program-console.git"
     "https://github.com/openedx/frontend-app-account.git"
-    "https://github.com/openedx/frontend-app-profile.git"
-    "https://github.com/openedx/frontend-app-ora-grading.git"
+    "https://github.com/edx/frontend-app-profile.git"
+    "https://github.com/edx/frontend-app-ora-grading.git"
     "https://github.com/openedx/enterprise-subsidy.git"
-    "https://github.com/openedx/frontend-app-admin-portal.git"
-    "https://github.com/openedx/frontend-app-learner-portal-enterprise.git"
+    "https://github.com/edx/frontend-app-admin-portal.git"
+    "https://github.com/edx/frontend-app-learner-portal-enterprise.git"
     "https://github.com/edx/frontend-app-enterprise-checkout.git"
     "https://github.com/edx/edx-exams.git"
+    "https://github.com/edx/frontend-app-skills.git"
+    "https://github.com/edx/frontend-app-ora.git"
+    "https://github.com/edx/frontend-app-exams-dashboard.git"
+    "https://github.com/edx/frontend-app-learner-portal-programs.git"
+    "https://github.com/edx/frontend-app-communications.git"
+    "https://github.com/edx/frontend-app-discussions.git"
+    "https://github.com/edx/frontend-app-enterprise-api-doc.git"
+    "https://github.com/edx/frontend-app-enterprise-public-catalog.git"
+    "https://github.com/edx/frontend-app-support-tools.git"
+    "https://github.com/edx/frontend-app-authoring.git"
+    "https://github.com/edx/frontend-app-instruct.git"
+    "https://github.com/edx/frontend-app-catalog.git"
+    "https://github.com/edx/openedx-translations.git"
 )
 
 ssh_repos=(
@@ -66,14 +79,14 @@ ssh_repos=(
     "git@github.com:edx/ecommerce.git"
     "git@github.com:openedx/edx-notes-api.git"
     "git@github.com:openedx/enterprise-catalog.git"
-    "git@github.com:openedx/edx-platform.git"
+    "git@github.com:edx/edx-platform.git"
     "git@github.com:openedx/xqueue.git"
     "git@github.com:edx/edx-analytics-dashboard.git"
-    "git@github.com:openedx/frontend-app-gradebook.git"
-    "git@github.com:openedx/frontend-app-learner-dashboard.git"
-    "git@github.com:openedx/frontend-app-learner-record.git"
+    "git@github.com:edx/frontend-app-gradebook.git"
+    "git@github.com:edx/frontend-app-learner-dashboard.git"
+    "git@github.com:edx/frontend-app-learner-record.git"
     "git@github.com:edx/frontend-app-payment.git"
-    "git@github.com:openedx/frontend-app-publisher.git"
+    "git@github.com:edx/frontend-app-publisher.git"
     "git@github.com:edx/edx-analytics-dashboard.git"
     "git@github.com:edx/edx-analytics-data-api.git"
     "git@github.com:edx/portal-designer.git"
@@ -85,17 +98,30 @@ ssh_repos=(
 non_release_ssh_repos=(
     "git@github.com:openedx/frontend-app-authn.git"
     "git@github.com:openedx/frontend-app-course-authoring.git"
-    "git@github.com:openedx/frontend-app-learning.git"
+    "git@github.com:edx/frontend-app-learning.git"
     "git@github.com:edx/registrar.git"
     "git@github.com:edx/frontend-app-program-console.git"
     "git@github.com:openedx/frontend-app-account.git"
-    "git@github.com:openedx/frontend-app-profile.git"
-    "git@github.com:openedx/frontend-app-ora-grading.git"
+    "git@github.com:edx/frontend-app-profile.git"
+    "git@github.com:edx/frontend-app-ora-grading.git"
     "git@github.com:openedx/enterprise-subsidy.git"
-    "git@github.com:openedx/frontend-app-admin-portal.git"
-    "git@github.com:openedx/frontend-app-learner-portal-enterprise.git"
+    "git@github.com:edx/frontend-app-admin-portal.git"
+    "git@github.com:edx/frontend-app-learner-portal-enterprise.git"
     "git@github.com:edx/frontend-app-enterprise-checkout.git"
     "git@github.com:edx/edx-exams.git"
+    "git@github.com:edx/frontend-app-skills.git"
+    "git@github.com:edx/frontend-app-ora.git"
+    "git@github.com:edx/frontend-app-exams-dashboard.git"
+    "git@github.com:edx/frontend-app-learner-portal-programs.git"
+    "git@github.com:edx/frontend-app-communications.git"
+    "git@github.com:edx/frontend-app-discussions.git"
+    "git@github.com:edx/frontend-app-enterprise-api-doc.git"
+    "git@github.com:edx/frontend-app-enterprise-public-catalog.git"
+    "git@github.com:edx/frontend-app-support-tools.git"
+    "git@github.com:edx/frontend-app-authoring.git"
+    "git@github.com:edx/frontend-app-instruct.git"
+    "git@github.com:edx/frontend-app-catalog.git"
+    "git@github.com:edx/openedx-translations.git"
 )
 
 if [ -n "${OPENEDX_RELEASE}" ]; then
@@ -287,6 +313,245 @@ status ()
     cd - &> /dev/null
 }
 
+# Define repositories that exist in both edx and openedx organizations
+# These are the ones that need remote setup for forked repositories
+declare -A FORKED_REPOS
+FORKED_REPOS=(
+    ["course-discovery"]="openedx"
+    ["credentials"]="openedx"
+    ["cs_comments_service"]="openedx"
+    ["ecommerce"]="edx"
+    ["edx-notes-api"]="openedx"
+    ["edx-platform"]="edx"
+    ["xqueue"]="openedx"
+    ["edx-analytics-dashboard"]="edx"
+    ["frontend-app-gradebook"]="edx"
+    ["frontend-app-learner-dashboard"]="edx"
+    ["frontend-app-learner-record"]="edx"
+    ["frontend-app-skills"]="edx"
+    ["frontend-app-learning"]="edx"
+    ["frontend-app-ora"]="edx"
+    ["frontend-app-ora-grading"]="edx"
+    ["frontend-app-exams-dashboard"]="edx"
+    ["frontend-app-learner-portal-programs"]="edx"
+    ["frontend-app-program-console"]="edx"
+    ["frontend-app-communications"]="edx"
+    ["frontend-app-discussions"]="edx"
+    ["frontend-app-profile"]="edx"
+    ["frontend-app-enterprise-api-doc"]="edx"
+    ["frontend-app-enterprise-public-catalog"]="edx"
+    ["frontend-app-publisher"]="edx"
+    ["frontend-app-support-tools"]="edx"
+    ["frontend-app-admin-portal"]="edx"
+    ["frontend-app-learner-portal-enterprise"]="edx"
+    ["frontend-app-enterprise-checkout"]="edx"
+    ["frontend-app-authoring"]="edx"
+    ["frontend-app-instruct"]="edx"
+    ["frontend-app-catalog"]="edx"
+    ["openedx-translations"]="edx"
+    ["frontend-app-payment"]="edx"
+    ["edx-analytics-data-api"]="edx"
+    ["enterprise-catalog"]="openedx"
+    ["portal-designer"]="edx"
+    ["license-manager"]="openedx"
+    ["codejail-service"]="openedx"
+    ["enterprise-access"]="openedx"
+    ["frontend-app-authn"]="openedx"
+    ["frontend-app-course-authoring"]="openedx"
+    ["registrar"]="edx"
+    ["frontend-app-account"]="openedx"
+    ["enterprise-subsidy"]="openedx"
+    ["edx-exams"]="edx"
+)
+
+setup_forked_repo_remotes ()
+{
+    local repo_name=$1
+    local expected_primary_org=${FORKED_REPOS[$repo_name]}
+    
+    if [ -z "$expected_primary_org" ]; then
+        echo "Repository $repo_name is not configured as a forked repo. Skipping remote setup."
+        return 0
+    fi
+    
+    echo "Setting up remotes for forked repository: $repo_name"
+    
+    # Check if we're in a git repository
+    if [ ! -d ".git" ]; then
+        echo "ERROR: $repo_name is not a git repository"
+        return 1
+    fi
+    
+    # Check if both remotes already exist (idempotency check)
+    local edx_remote_exists
+    local openedx_remote_exists
+    local origin_exists
+    edx_remote_exists=$(git remote | grep "^edx$" || true)
+    openedx_remote_exists=$(git remote | grep "^openedx$" || true)
+    origin_exists=$(git remote | grep "^origin$" || true)
+    
+    if [ -n "$edx_remote_exists" ] && [ -n "$openedx_remote_exists" ] && [ -z "$origin_exists" ]; then
+        echo "Both edx and openedx remotes already exist in $repo_name. No changes needed."
+        return 0
+    fi
+    
+    # Determine the origin URL and organization
+    local origin_url=""
+    local origin_org=""
+    
+    # Try to get origin URL first
+    origin_url=$(git remote get-url origin 2>/dev/null || true)
+    
+    if [ -n "$origin_url" ]; then
+        # Origin exists, determine its organization
+        if [[ $origin_url =~ github\.com[:/]edx/ ]]; then
+            origin_org="edx"
+        elif [[ $origin_url =~ github\.com[:/]openedx/ ]]; then
+            origin_org="openedx"
+        else
+            echo "ERROR: Unexpected origin URL in $repo_name: $origin_url"
+            echo "Expected URL to be from either edx or openedx organization"
+            return 1
+        fi
+        
+        # Rename origin to the correct organization name if not already done
+        if [ -z "$(git remote | grep "^${origin_org}$")" ]; then
+            echo "Renaming origin to '$origin_org' in $repo_name"
+            git remote rename origin "$origin_org"
+            if [ $? -ne 0 ]; then
+                echo "ERROR: Failed to rename origin to $origin_org in $repo_name"
+                return 1
+            fi
+        else
+            echo "Remote '$origin_org' already exists, removing origin"
+            git remote remove origin 2>/dev/null || true
+        fi
+    else
+        # No origin, check if either edx or openedx remote exists to determine URL format
+        if [ -n "$edx_remote_exists" ]; then
+            origin_url=$(git remote get-url edx)
+            origin_org="edx"
+        elif [ -n "$openedx_remote_exists" ]; then
+            origin_url=$(git remote get-url openedx)
+            origin_org="openedx"
+        else
+            echo "ERROR: No origin remote and no edx/openedx remotes found in $repo_name"
+            return 1
+        fi
+    fi
+    
+    # Determine the other organization and add its remote if missing
+    local other_org
+    if [ "$origin_org" = "edx" ]; then
+        other_org="openedx"
+    else
+        other_org="edx"
+    fi
+    
+    # Check if the other remote exists
+    local other_remote_exists
+    other_remote_exists=$(git remote | grep "^${other_org}$" || true)
+    
+    if [ -z "$other_remote_exists" ]; then
+        # Construct the URL for the other organization
+        local other_url
+        if [[ $origin_url =~ ^git@ ]]; then
+            # SSH URL format
+            other_url="git@github.com:${other_org}/${repo_name}.git"
+        else
+            # HTTPS URL format
+            other_url="https://github.com/${other_org}/${repo_name}.git"
+        fi
+        
+        echo "Adding $other_org remote: $other_url"
+        git remote add "$other_org" "$other_url"
+        if [ $? -ne 0 ]; then
+            echo "ERROR: Failed to add $other_org remote in $repo_name"
+            return 1
+        fi
+    else
+        echo "Remote '$other_org' already exists in $repo_name"
+    fi
+    
+    echo "Successfully configured remotes for $repo_name"
+    return 0
+}
+
+setup_all_forked_repo_remotes ()
+{
+    local successful_repos=()
+    local failed_repos=()
+    local skipped_repos=()
+    
+    echo "Setting up remotes for all forked repositories..."
+    echo "========================================"
+    
+    for repo in "${repos[@]}" "${non_release_repos[@]}"
+    do
+        # Extract repo name from URL
+        if [[ ! $repo =~ $name_pattern ]]; then
+            echo "Cannot setup remotes for repo; URL did not match expected pattern: $repo"
+            continue
+        fi
+        local name="${BASH_REMATCH[1]}"
+        
+        # Check if directory exists
+        if [ ! -d "$name" ]; then
+            echo "Repository $name is not cloned. Skipping."
+            skipped_repos+=("$name")
+            continue
+        fi
+        
+        # Check if this repo is configured as a forked repo
+        if [ -z "${FORKED_REPOS[$name]}" ]; then
+            echo "Repository $name is not configured as a forked repo. Skipping."
+            skipped_repos+=("$name")
+            continue
+        fi
+        
+        # Change to repo directory and setup remotes
+        cd "$name"
+        if setup_forked_repo_remotes "$name"; then
+            successful_repos+=("$name")
+        else
+            failed_repos+=("$name")
+        fi
+        cd "$DEVSTACK_WORKSPACE"
+        echo ""
+    done
+    
+    # Print summary report
+    echo "========================================"
+    echo "Remote Setup Summary:"
+    echo "========================================"
+    
+    if [ ${#successful_repos[@]} -gt 0 ]; then
+        echo "✓ Successfully configured remotes for ${#successful_repos[@]} repositories:"
+        printf "  - %s\n" "${successful_repos[@]}"
+        echo ""
+    fi
+    
+    if [ ${#failed_repos[@]} -gt 0 ]; then
+        echo "✗ Failed to configure remotes for ${#failed_repos[@]} repositories:"
+        printf "  - %s\n" "${failed_repos[@]}"
+        echo ""
+    fi
+    
+    if [ ${#skipped_repos[@]} -gt 0 ]; then
+        echo "◦ Skipped ${#skipped_repos[@]} repositories (not cloned or not forked):"
+        printf "  - %s\n" "${skipped_repos[@]}"
+        echo ""
+    fi
+    
+    echo "Total repositories processed: $((${#successful_repos[@]} + ${#failed_repos[@]} + ${#skipped_repos[@]}))"
+    
+    if [ ${#failed_repos[@]} -gt 0 ]; then
+        return 1
+    else
+        return 0
+    fi
+}
+
 if [ "$1" == "checkout" ]; then
     checkout
 elif [ "$1" == "clone" ]; then
@@ -297,4 +562,6 @@ elif [ "$1" == "reset" ]; then
     reset
 elif [ "$1" == "status" ]; then
     status
+elif [ "$1" == "setup-remotes" ]; then
+    setup_all_forked_repo_remotes
 fi
