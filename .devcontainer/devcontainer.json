@@ -1,4 +1,7 @@
 {
+    "hostRequirements": {
+        "cpus": 8
+    },
     "customizations": {
         "vscode": {
             "settings": {
