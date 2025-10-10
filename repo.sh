@@ -361,15 +361,17 @@ FORKED_REPOS=(
 
 setup_forked_repo_remotes ()
 {
+    # Declare all local variables at the top
     local repo_name=$1
     local expected_primary_org=${FORKED_REPOS[$repo_name]}
-    
-    if [ -z "$expected_primary_org" ]; then
-        echo "Repository $repo_name is not configured as a forked repo. Skipping remote setup."
-        return 0
-    fi
-    
-    echo "Setting up remotes for forked repository: $repo_name"
+    local edx_remote_exists
+    local openedx_remote_exists
+    local origin_exists
+    local origin_url=""
+    local origin_org=""
+    local other_org
+    local other_remote_exists
+    local other_url
     
     # Check if we're in a git repository
     if [ ! -d ".git" ]; then
@@ -378,9 +380,6 @@ setup_forked_repo_remotes ()
     fi
     
     # Check if both remotes already exist (idempotency check)
-    local edx_remote_exists
-    local openedx_remote_exists
-    local origin_exists
     edx_remote_exists=$(git remote | grep "^edx$" || true)
     openedx_remote_exists=$(git remote | grep "^openedx$" || true)
     origin_exists=$(git remote | grep "^origin$" || true)
@@ -390,9 +389,7 @@ setup_forked_repo_remotes ()
         return 0
     fi
     
-    # Determine the origin URL and organization
-    local origin_url=""
-    local origin_org=""
+    echo "Setting up remotes for forked repository: $repo_name"
     
     # Try to get origin URL first
     origin_url=$(git remote get-url origin 2>/dev/null || true)
@@ -436,7 +433,6 @@ setup_forked_repo_remotes ()
     fi
     
     # Determine the other organization and add its remote if missing
-    local other_org
     if [ "$origin_org" = "edx" ]; then
         other_org="openedx"
     else
@@ -444,12 +440,10 @@ setup_forked_repo_remotes ()
     fi
     
     # Check if the other remote exists
-    local other_remote_exists
     other_remote_exists=$(git remote | grep "^${other_org}$" || true)
     
     if [ -z "$other_remote_exists" ]; then
         # Construct the URL for the other organization
-        local other_url
         if [[ $origin_url =~ ^git@ ]]; then
             # SSH URL format
             other_url="git@github.com:${other_org}/${repo_name}.git"
@@ -474,9 +468,12 @@ setup_forked_repo_remotes ()
 
 setup_all_forked_repo_remotes ()
 {
+    # Declare all local variables at the top
     local successful_repos=()
     local failed_repos=()
     local skipped_repos=()
+    local repo
+    local name
     
     echo "Setting up remotes for all forked repositories..."
     echo "========================================"
@@ -488,7 +485,7 @@ setup_all_forked_repo_remotes ()
             echo "Cannot setup remotes for repo; URL did not match expected pattern: $repo"
             continue
         fi
-        local name="${BASH_REMATCH[1]}"
+        name="${BASH_REMATCH[1]}"
         
         # Check if directory exists
         if [ ! -d "$name" ]; then
