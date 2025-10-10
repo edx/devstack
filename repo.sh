@@ -361,7 +361,6 @@ FORKED_REPOS=(
 
 setup_forked_repo_remotes ()
 {
-    # Declare all local variables at the top
     local repo_name=$1
     local expected_primary_org=${FORKED_REPOS[$repo_name]}
     local edx_remote_exists
@@ -468,7 +467,6 @@ setup_forked_repo_remotes ()
 
 setup_all_forked_repo_remotes ()
 {
-    # Declare all local variables at the top
     local successful_repos=()
     local failed_repos=()
     local skipped_repos=()
