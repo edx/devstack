@@ -311,156 +311,151 @@ status ()
 
 # Define repositories that exist in both edx and openedx organizations
 # These are the ones that need remote setup for forked repositories
-declare -A FORKED_REPOS
 FORKED_REPOS=(
-    ["course-discovery"]="openedx"
-    ["credentials"]="openedx"
-    ["cs_comments_service"]="openedx"
-    ["ecommerce"]="edx"
-    ["edx-notes-api"]="openedx"
-    ["edx-platform"]="edx"
-    ["xqueue"]="openedx"
-    ["edx-analytics-dashboard"]="edx"
-    ["frontend-app-gradebook"]="edx"
-    ["frontend-app-learner-dashboard"]="edx"
-    ["frontend-app-learner-record"]="edx"
-    ["frontend-app-skills"]="edx"
-    ["frontend-app-learning"]="edx"
-    ["frontend-app-ora"]="edx"
-    ["frontend-app-ora-grading"]="edx"
-    ["frontend-app-exams-dashboard"]="edx"
-    ["frontend-app-learner-portal-programs"]="edx"
-    ["frontend-app-program-console"]="edx"
-    ["frontend-app-communications"]="edx"
-    ["frontend-app-discussions"]="edx"
-    ["frontend-app-profile"]="edx"
-    ["frontend-app-enterprise-public-catalog"]="edx"
-    ["frontend-app-publisher"]="edx"
-    ["frontend-app-support-tools"]="edx"
-    ["frontend-app-admin-portal"]="edx"
-    ["frontend-app-learner-portal-enterprise"]="edx"
-    ["frontend-app-enterprise-checkout"]="edx"
-    ["frontend-app-authoring"]="edx"
-    ["frontend-app-instruct"]="edx"
-    ["frontend-app-catalog"]="edx"
-    ["openedx-translations"]="edx"
-    ["frontend-app-payment"]="edx"
-    ["edx-analytics-data-api"]="edx"
-    ["enterprise-catalog"]="openedx"
-    ["portal-designer"]="edx"
-    ["license-manager"]="openedx"
-    ["codejail-service"]="openedx"
-    ["enterprise-access"]="openedx"
-    ["frontend-app-authn"]="openedx"
-    ["frontend-app-course-authoring"]="openedx"
-    ["registrar"]="edx"
-    ["frontend-app-account"]="openedx"
-    ["enterprise-subsidy"]="openedx"
-    ["edx-exams"]="edx"
+    "course-discovery"
+    "credentials"
+    "cs_comments_service"
+    "ecommerce"
+    "edx-notes-api"
+    "edx-platform"
+    "xqueue"
+    "edx-analytics-dashboard"
+    "frontend-app-gradebook"
+    "frontend-app-learner-dashboard"
+    "frontend-app-learner-record"
+    "frontend-app-skills"
+    "frontend-app-learning"
+    "frontend-app-ora"
+    "frontend-app-ora-grading"
+    "frontend-app-exams-dashboard"
+    "frontend-app-learner-portal-programs"
+    "frontend-app-program-console"
+    "frontend-app-communications"
+    "frontend-app-discussions"
+    "frontend-app-profile"
+    "frontend-app-enterprise-public-catalog"
+    "frontend-app-publisher"
+    "frontend-app-support-tools"
+    "frontend-app-admin-portal"
+    "frontend-app-learner-portal-enterprise"
+    "frontend-app-enterprise-checkout"
+    "frontend-app-authoring"
+    "frontend-app-instruct"
+    "frontend-app-catalog"
+    "openedx-translations"
+    "frontend-app-payment"
+    "edx-analytics-data-api"
+    "enterprise-catalog"
+    "portal-designer"
+    "license-manager"
+    "codejail-service"
+    "enterprise-access"
+    "frontend-app-authn"
+    "frontend-app-course-authoring"
+    "registrar"
+    "frontend-app-account"
+    "enterprise-subsidy"
+    "edx-exams"
 )
 
 setup_forked_repo_remotes ()
 {
     local repo_name=$1
-    local expected_primary_org=${FORKED_REPOS[$repo_name]}
     local edx_remote_exists
     local openedx_remote_exists
     local origin_exists
-    local origin_url=""
-    local origin_org=""
+    local existing_url=""
+    local existing_org=""
     local other_org
     local other_remote_exists
     local other_url
-    
+
     # Check if we're in a git repository
     if [ ! -d ".git" ]; then
         echo "ERROR: $repo_name is not a git repository"
         return 1
     fi
-    
+
     # Check if both remotes already exist (idempotency check)
     edx_remote_exists=$(git remote | grep "^edx$" || true)
     openedx_remote_exists=$(git remote | grep "^openedx$" || true)
     origin_exists=$(git remote | grep "^origin$" || true)
-    
+
     if [ -n "$edx_remote_exists" ] && [ -n "$openedx_remote_exists" ] && [ -z "$origin_exists" ]; then
         echo "Both edx and openedx remotes already exist in $repo_name. No changes needed."
         return 0
     fi
-    
+
     echo "Setting up remotes for forked repository: $repo_name"
-    
-    # Try to get origin URL first
-    origin_url=$(git remote get-url origin 2>/dev/null || true)
-    
-    if [ -n "$origin_url" ]; then
-        # Origin exists, determine its organization
-        if [[ $origin_url =~ github\.com[:/]edx/ ]]; then
-            origin_org="edx"
-        elif [[ $origin_url =~ github\.com[:/]openedx/ ]]; then
-            origin_org="openedx"
+
+    # First, try to find an existing remote and its URL
+    if [ -n "$origin_exists" ]; then
+        # We have an 'origin' remote - determine its organization
+        existing_url=$(git remote get-url origin 2>/dev/null || true)
+
+        if [[ $existing_url =~ github\.com[:/]edx/ ]]; then
+            existing_org="edx"
+        elif [[ $existing_url =~ github\.com[:/]openedx/ ]]; then
+            existing_org="openedx"
         else
-            echo "ERROR: Unexpected origin URL in $repo_name: $origin_url"
+            echo "ERROR: Unexpected origin URL in $repo_name: $existing_url"
             echo "Expected URL to be from either edx or openedx organization"
             return 1
         fi
-        
+
         # Rename origin to the correct organization name if not already done
-        if [ -z "$(git remote | grep "^${origin_org}$")" ]; then
-            echo "Renaming origin to '$origin_org' in $repo_name"
-            git remote rename origin "$origin_org"
-            if [ $? -ne 0 ]; then
-                echo "ERROR: Failed to rename origin to $origin_org in $repo_name"
+        if ! git remote | grep -q "^${existing_org}$"; then
+            echo "Renaming origin to '$existing_org' in $repo_name"
+            if ! git remote rename origin "$existing_org"; then
+                echo "ERROR: Failed to rename origin to $existing_org in $repo_name"
                 return 1
             fi
         else
-            echo "Remote '$origin_org' already exists, removing origin"
+            echo "Remote '$existing_org' already exists, removing origin"
             git remote remove origin 2>/dev/null || true
         fi
+    elif [ -n "$edx_remote_exists" ]; then
+        # No origin, but we have an 'edx' remote - use it as reference
+        existing_url=$(git remote get-url edx)
+        existing_org="edx"
+    elif [ -n "$openedx_remote_exists" ]; then
+        # No origin or edx, but we have an 'openedx' remote - use it as reference
+        existing_url=$(git remote get-url openedx)
+        existing_org="openedx"
     else
-        # No origin, check if either edx or openedx remote exists to determine URL format
-        if [ -n "$edx_remote_exists" ]; then
-            origin_url=$(git remote get-url edx)
-            origin_org="edx"
-        elif [ -n "$openedx_remote_exists" ]; then
-            origin_url=$(git remote get-url openedx)
-            origin_org="openedx"
-        else
-            echo "ERROR: No origin remote and no edx/openedx remotes found in $repo_name"
-            return 1
-        fi
+        echo "ERROR: No remotes found in $repo_name"
+        return 1
     fi
-    
+
     # Determine the other organization and add its remote if missing
-    if [ "$origin_org" = "edx" ]; then
+    if [ "$existing_org" = "edx" ]; then
         other_org="openedx"
     else
         other_org="edx"
     fi
-    
+
     # Check if the other remote exists
     other_remote_exists=$(git remote | grep "^${other_org}$" || true)
-    
+
     if [ -z "$other_remote_exists" ]; then
         # Construct the URL for the other organization
-        if [[ $origin_url =~ ^git@ ]]; then
+        if [[ $existing_url =~ ^git@ ]]; then
             # SSH URL format
             other_url="git@github.com:${other_org}/${repo_name}.git"
         else
             # HTTPS URL format
             other_url="https://github.com/${other_org}/${repo_name}.git"
         fi
-        
+
         echo "Adding $other_org remote: $other_url"
-        git remote add "$other_org" "$other_url"
-        if [ $? -ne 0 ]; then
+        if ! git remote add "$other_org" "$other_url"; then
             echo "ERROR: Failed to add $other_org remote in $repo_name"
             return 1
         fi
     else
         echo "Remote '$other_org' already exists in $repo_name"
     fi
-    
+
     echo "Successfully configured remotes for $repo_name"
     return 0
 }
@@ -472,10 +467,12 @@ setup_all_forked_repo_remotes ()
     local skipped_repos=()
     local repo
     local name
-    
+    local is_forked
+    local forked_repo
+
     echo "Setting up remotes for all forked repositories..."
     echo "========================================"
-    
+
     for repo in "${repos[@]}" "${non_release_repos[@]}"
     do
         # Extract repo name from URL
@@ -484,21 +481,29 @@ setup_all_forked_repo_remotes ()
             continue
         fi
         name="${BASH_REMATCH[1]}"
-        
+
         # Check if directory exists
         if [ ! -d "$name" ]; then
             echo "Repository $name is not cloned. Skipping."
             skipped_repos+=("$name")
             continue
         fi
-        
+
         # Check if this repo is configured as a forked repo
-        if [ -z "${FORKED_REPOS[$name]}" ]; then
+        is_forked=false
+        for forked_repo in "${FORKED_REPOS[@]}"; do
+            if [[ "$forked_repo" == "$name" ]]; then
+                is_forked=true
+                break
+            fi
+        done
+
+        if [[ "$is_forked" == false ]]; then
             echo "Repository $name is not configured as a forked repo. Skipping."
             skipped_repos+=("$name")
             continue
         fi
-        
+
         # Change to repo directory and setup remotes
         cd "$name"
         if setup_forked_repo_remotes "$name"; then
@@ -509,32 +514,32 @@ setup_all_forked_repo_remotes ()
         cd "$DEVSTACK_WORKSPACE"
         echo ""
     done
-    
+
     # Print summary report
     echo "========================================"
     echo "Remote Setup Summary:"
     echo "========================================"
-    
+
     if [ ${#successful_repos[@]} -gt 0 ]; then
         echo "✓ Successfully configured remotes for ${#successful_repos[@]} repositories:"
         printf "  - %s\n" "${successful_repos[@]}"
         echo ""
     fi
-    
+
     if [ ${#failed_repos[@]} -gt 0 ]; then
         echo "✗ Failed to configure remotes for ${#failed_repos[@]} repositories:"
         printf "  - %s\n" "${failed_repos[@]}"
         echo ""
     fi
-    
+
     if [ ${#skipped_repos[@]} -gt 0 ]; then
         echo "◦ Skipped ${#skipped_repos[@]} repositories (not cloned or not forked):"
         printf "  - %s\n" "${skipped_repos[@]}"
         echo ""
     fi
-    
+
     echo "Total repositories processed: $((${#successful_repos[@]} + ${#failed_repos[@]} + ${#skipped_repos[@]}))"
-    
+
     if [ ${#failed_repos[@]} -gt 0 ]; then
         return 1
     else
