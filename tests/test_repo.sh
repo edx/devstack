@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Determine the script's directory and devstack root
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+DEVSTACK_ROOT="$( cd "$SCRIPT_DIR/.." && pwd )"
+
 TEST_WORKSPACE="/tmp/devstack_test_$$"
 mkdir -p "$TEST_WORKSPACE"
 
@@ -57,7 +61,7 @@ TOTAL_TESTS=$((TOTAL_TESTS + 1))
 cd "$TEST_WORKSPACE"
 create_test_repo "frontend-app-gradebook" "https://github.com/edx/frontend-app-gradebook.git"
 show_remotes "frontend-app-gradebook" "BEFORE"
-cd /workspaces/devstack
+cd "$DEVSTACK_ROOT"
 echo "  Output:"
 DEVSTACK_WORKSPACE="$TEST_WORKSPACE" make dev.setup-remotes
 cd "$TEST_WORKSPACE"
@@ -75,7 +79,7 @@ echo "TEST 2: EDX Origin Repository (edx-platform)"
 TOTAL_TESTS=$((TOTAL_TESTS + 1))
 create_test_repo "edx-platform" "https://github.com/edx/edx-platform.git"
 show_remotes "edx-platform" "BEFORE"
-cd /workspaces/devstack
+cd "$DEVSTACK_ROOT"
 echo "  Output:"
 DEVSTACK_WORKSPACE="$TEST_WORKSPACE" make dev.setup-remotes
 cd "$TEST_WORKSPACE"
@@ -93,7 +97,7 @@ echo "TEST 3: OpenEDX Origin Repository (course-discovery)"
 TOTAL_TESTS=$((TOTAL_TESTS + 1))
 create_test_repo "course-discovery" "https://github.com/openedx/course-discovery.git"
 show_remotes "course-discovery" "BEFORE"
-cd /workspaces/devstack
+cd "$DEVSTACK_ROOT"
 echo "  Output:"
 DEVSTACK_WORKSPACE="$TEST_WORKSPACE" make dev.setup-remotes
 cd "$TEST_WORKSPACE"
@@ -112,7 +116,7 @@ echo "TEST 4: Personal Fork Error"
 TOTAL_TESTS=$((TOTAL_TESTS + 1))
 create_test_repo "credentials" "https://github.com/personaluser/credentials.git"
 show_remotes "credentials" "BEFORE"
-cd /workspaces/devstack
+cd "$DEVSTACK_ROOT"
 echo "  Output:"
 DEVSTACK_WORKSPACE="$TEST_WORKSPACE" make dev.setup-remotes
 cd "$TEST_WORKSPACE"
@@ -130,7 +134,7 @@ echo "TEST 5: Non-Forked Repository"
 TOTAL_TESTS=$((TOTAL_TESTS + 1))
 create_test_repo "unknown-repo" "https://github.com/edx/unknown-repo.git"
 show_remotes "unknown-repo" "BEFORE"
-cd /workspaces/devstack
+cd "$DEVSTACK_ROOT"
 echo "  Output:"
 DEVSTACK_WORKSPACE="$TEST_WORKSPACE" make dev.setup-remotes
 cd "$TEST_WORKSPACE"
@@ -148,12 +152,12 @@ echo "TEST 6: Idempotent Operations"
 TOTAL_TESTS=$((TOTAL_TESTS + 1))
 create_test_repo "frontend-app-gradebook" "https://github.com/edx/frontend-app-gradebook.git"
 show_remotes "frontend-app-gradebook" "BEFORE (fresh repo)"
-cd /workspaces/devstack
+cd "$DEVSTACK_ROOT"
 echo "  First run output:"
 DEVSTACK_WORKSPACE="$TEST_WORKSPACE" make dev.setup-remotes
 cd "$TEST_WORKSPACE"
 show_remotes "frontend-app-gradebook" "AFTER FIRST RUN"
-cd /workspaces/devstack
+cd "$DEVSTACK_ROOT"
 echo "  Second run output (should be idempotent):"
 DEVSTACK_WORKSPACE="$TEST_WORKSPACE" make dev.setup-remotes
 cd "$TEST_WORKSPACE"
@@ -169,7 +173,7 @@ cd ..
 echo
 echo "TEST 7: Make Integration"
 TOTAL_TESTS=$((TOTAL_TESTS + 1))
-cd /workspaces/devstack
+cd "$DEVSTACK_ROOT"
 if make -n dev.setup-remotes >/dev/null 2>&1 && make help | grep -q "dev.setup-remotes"; then
     print_pass "Make command integration"
 else
