@@ -72,6 +72,4 @@ jobs:
         run: pytest -s ./tests/*.py
 
       - name: Repo setup-remotes tests
-        run: |
-          chmod +x ./tests/test_repo.sh
-          ./tests/test_repo.sh
+        run: ./tests/test_repo.sh
