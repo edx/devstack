@@ -1,7 +1,7 @@
 -c constraints.txt
 # Core dependencies for installing other packages
 
-pip < 24.1
+pip
 setuptools
 wheel
 
