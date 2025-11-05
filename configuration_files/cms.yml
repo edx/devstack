@@ -244,7 +244,6 @@ DATABASES:
 DATA_DIR: /edx/var/edxapp
 DEFAULT_COURSE_VISIBILITY_IN_CATALOG: both
 DEFAULT_FEEDBACK_EMAIL: feedback@example.com
-DEFAULT_FILE_STORAGE: django.core.files.storage.FileSystemStorage
 DEFAULT_FROM_EMAIL: registration@example.com
 DEFAULT_JWT_ISSUER:
     AUDIENCE: lms-key
@@ -280,6 +279,7 @@ ELASTIC_SEARCH_CONFIG:
 -   host: edx.devstack.elasticsearch
     port: 9200
     use_ssl: false
+ENABLE_MKTG_SITE: true    
 EMAIL_BACKEND: django.core.mail.backends.smtp.EmailBackend
 EMAIL_HOST: localhost
 EMAIL_HOST_PASSWORD: ''
@@ -314,7 +314,6 @@ ENABLE_ENROLLMENT_RESET: false
 ENABLE_EXPORT_GIT: false
 ENABLE_GRADE_DOWNLOADS: true
 ENABLE_LTI_PROVIDER: false
-ENABLE_MKTG_SITE: false
 ENABLE_MOBILE_REST_API: false
 ENABLE_OAUTH2_PROVIDER: false
 ENABLE_PUBLISHER: false
@@ -381,8 +380,16 @@ LOG_DIR: /edx/var/log/edx
 MAINTENANCE_BANNER_TEXT: Sample banner message
 MEDIA_ROOT: /edx/var/edxapp/media/
 MEDIA_URL: /media/
-MKTG_URLS: {}
-MKTG_URL_LINK_MAP: {}
+MKTG_URLS:
+  ROOT: http://localhost:18010
+  ABOUT: /about
+  CONTACT: /contact
+  FAQ: /help
+  COURSES: /course
+  TOS: /edx-terms-service
+  HONOR: /honor
+  PRIVACY: /privacy
+  WHAT_IS_VERIFIED_CERT: /verified-certificate
 MOBILE_STORE_ACE_URLS: {}
 MODULESTORE:
     default:
@@ -493,6 +500,11 @@ SOCIAL_SHARING_SETTINGS:
     DASHBOARD_TWITTER: false
 STATIC_ROOT_BASE: /edx/var/edxapp/staticfiles
 STATIC_URL_BASE: /static/
+STORAGES:
+    default:
+        BACKEND: django.core.files.storage.FileSystemStorage
+    staticfiles:
+        BACKEND: django.contrib.staticfiles.storage.StaticFilesStorage
 STUDIO_NAME: Studio
 STUDIO_SHORT_NAME: Studio
 SUPPORT_SITE_LINK: ''

@@ -143,13 +143,18 @@ dev.status: ## Prints the status of all git repositories.
 dev.checkout: ## Check out "openedx-release/$OPENEDX_RELEASE" in each repo if set, use default branch otherwise.
 	./repo.sh checkout
 
+dev.setup-remotes: ## Set up edx and openedx remotes for all forked repositories.
+	./repo.sh setup-remotes
+
 dev.clone: dev.clone.ssh ## Clone service repos to the parent directory.
 
 dev.clone.https: ## Clone service repos using HTTPS method to the parent directory.
 	./repo.sh clone
+	make dev.setup-remotes
 
 dev.clone.ssh: ## Clone service repos using SSH method to the parent directory.
 	./repo.sh clone_ssh
+	make dev.setup-remotes
 
 ########################################################################################
 # Developer interface: Docker image management.

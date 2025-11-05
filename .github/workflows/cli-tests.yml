@@ -70,3 +70,6 @@ jobs:
 
       - name: CLI tests
         run: pytest -s ./tests/*.py
+
+      - name: Repo setup-remotes tests
+        run: ./tests/test_repo.sh

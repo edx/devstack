@@ -742,8 +742,8 @@ services:
 
   enterprise-catalog:
     image: edxops/enterprise-catalog-dev
-    container_name: edx.devstack.enterprise-catalog
-    hostname: enterprise-catalog.devstack.edx
+    container_name: enterprise.catalog.app
+    hostname: enterprise.catalog.app 
     command: bash -c 'while true; do python /edx/app/enterprise-catalog/manage.py runserver 0.0.0.0:18160; sleep 2; done'
     ports:
       - "18160:18160"
