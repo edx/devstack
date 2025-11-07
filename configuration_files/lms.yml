@@ -303,7 +303,7 @@ ELASTIC_SEARCH_CONFIG:
 -   host: edx.devstack.elasticsearch
     port: 9200
     use_ssl: false
-ENABLE_MKTG_SITE: true    
+ENABLE_MKTG_SITE: true 
 EMAIL_BACKEND: django.core.mail.backends.smtp.EmailBackend
 EMAIL_HOST: localhost
 EMAIL_HOST_PASSWORD: ''
@@ -425,8 +425,10 @@ MKTG_URLS:
   ROOT: http://localhost:18000
   ABOUT: /about
   CONTACT: /contact
-  FAQ: /help
-  COURSES: /course
+  COURSES: /courses
+  BLOG: /blog
+  DONATE: /donate
+  TOS_AND_HONOR: /tos
   TOS: /edx-terms-service
   HONOR: /honor
   PRIVACY: /privacy
