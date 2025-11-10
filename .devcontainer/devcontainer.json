@@ -51,6 +51,7 @@
         "27017": { "label": "mongo" },
         "9201":  { "label": "elasticsearch710" },
         "9301":  { "label": "elasticsearch710" },
+        "7700":  { "label": "meilisearch184" },
         "9202":  { "label": "opensearch12" },
         "9600":  { "label": "opensearch12" },
         "8081":  { "label": "schema-registry" },
