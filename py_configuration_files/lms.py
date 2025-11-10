@@ -425,7 +425,7 @@ FEATURES.update({
 })
 
 ENABLE_MKTG_SITE = os.environ.get('ENABLE_MARKETING_SITE', True)
-MARKETING_SITE_ROOT = os.environ.get('MARKETING_SITE_ROOT', 'http://localhost:8080')
+MARKETING_SITE_ROOT = os.environ.get('MARKETING_SITE_ROOT', '/')
 
 MKTG_URLS = {
     'ABOUT': '/about',
