@@ -434,7 +434,6 @@ MKTG_URLS = {
     'CONTACT': '/support/contact_us',
     'COURSES': '/courses',
     'DONATE': '/donate',
-    'FAQ': '/student-faq',
     'HONOR': '/edx-terms-service',
     'HOW_IT_WORKS': '/how-it-works',
     'PRESS': '/press',
