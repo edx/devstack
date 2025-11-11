@@ -10,3 +10,7 @@
 
 # Common constraints for edx repos
 -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
+
+# pip 25.x is incompatible with pip-tools 7.5.1 causing 'use_pep517' AttributeError
+# Keeping pip < 25.0 until pip-tools is updated to support pip 25.x
+pip<25.0
