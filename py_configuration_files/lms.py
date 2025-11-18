@@ -421,10 +421,10 @@ SHOW_HEADER_LANGUAGE_SELECTOR = True
 # Toggle this off if you don't want anything to do with enterprise in devstack.
 ENABLE_ENTERPRISE_INTEGRATION = True
 
-ENABLE_MKTG_SITE = os.environ.get('ENABLE_MARKETING_SITE', True)
-MARKETING_SITE_ROOT = os.environ.get('MARKETING_SITE_ROOT', 'http://localhost:8080')
+ENABLE_MKTG_SITE = os.environ.get('ENABLE_MARKETING_SITE', False)
 
 MKTG_URLS = {
+    'ROOT': '/',
     'ABOUT': '/about',
     'ACCESSIBILITY': '/accessibility',
     'AFFILIATES': '/affiliate-program',
@@ -441,12 +441,11 @@ MKTG_URLS = {
     'NEWS': '/news-announcements',
     'PRESS': '/press',
     'PRIVACY': '/edx-privacy-policy',
-    'ROOT': MARKETING_SITE_ROOT,
     'SCHOOLS': '/schools-partners',
     'SITE_MAP': '/sitemap',
     'TRADEMARKS': '/trademarks',
     'TOS': '/edx-terms-service',
-    'TOS_AND_HONOR': '/edx-terms-service',
+    'TOS_AND_HONOR': '/tos_and_honor',
     'WHAT_IS_VERIFIED_CERT': '/verified-certificate',
     'PROGRAM_SUBSCRIPTIONS': '/program-subscriptions',
 }

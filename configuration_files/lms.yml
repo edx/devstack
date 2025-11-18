@@ -303,7 +303,7 @@ ELASTIC_SEARCH_CONFIG:
 -   host: edx.devstack.elasticsearch
     port: 9200
     use_ssl: false
-ENABLE_MKTG_SITE: true    
+ENABLE_MKTG_SITE: true 
 EMAIL_BACKEND: django.core.mail.backends.smtp.EmailBackend
 EMAIL_HOST: localhost
 EMAIL_HOST_PASSWORD: ''
@@ -423,13 +423,28 @@ MEDIA_URL: /media/
 MKTG_URLS:
   ROOT: http://localhost:18000
   ABOUT: /about
+  ACCESSIBILITY: /accessibility
+  AFFILIATES: /affiliate-program
+  BLOG: /blog
+  CAREERS: /careers
   CONTACT: /contact
-  FAQ: /help
   COURSES: /course
-  TOS: /edx-terms-service
+  DONATE: /donate
+  ENTERPRISE: /enterprise
+  FAQ: /help
   HONOR: /honor
+  HOW_IT_WORKS: /how-it-works
+  MEDIA_KIT: /media-kit
+  NEWS: /news-announcements
+  PRESS: /press
   PRIVACY: /privacy
+  SCHOOLS: /schools-partners
+  SITE_MAP: /sitemap
+  TRADEMARKS: /trademarks
+  TOS: /edx-terms-service
+  TOS_AND_HONOR: /tos_and_honor
   WHAT_IS_VERIFIED_CERT: /verified-certificate
+  PROGRAM_SUBSCRIPTIONS: /program-subscriptions
 MOBILE_STORE_URLS: {}
 MODULESTORE:
     default:
