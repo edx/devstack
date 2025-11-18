@@ -424,25 +424,31 @@ FEATURES.update({
     'ENABLE_ENTERPRISE_INTEGRATION': True,
 })
 
-ENABLE_MKTG_SITE = os.environ.get('ENABLE_MARKETING_SITE', True)
-MARKETING_SITE_ROOT = os.environ.get('MARKETING_SITE_ROOT', '/')
+ENABLE_MKTG_SITE = os.environ.get('ENABLE_MARKETING_SITE', False)
 
 MKTG_URLS = {
+    'ROOT': '/',
     'ABOUT': '/about',
+    'ACCESSIBILITY': '/accessibility',
     'AFFILIATES': '/affiliate-program',
     'BLOG': '/blog',
+    'CAREERS': '/careers',
     'CONTACT': '/support/contact_us',
-    'COURSES': '/courses',
+    'COURSES': '/course',
     'DONATE': '/donate',
+    'ENTERPRISE': '/enterprise',
+    'FAQ': '/student-faq',
     'HONOR': '/edx-terms-service',
     'HOW_IT_WORKS': '/how-it-works',
+    'MEDIA_KIT': '/media-kit',
+    'NEWS': '/news-announcements',
     'PRESS': '/press',
-    'PRIVACY': '/privacy',
-    'ROOT': MARKETING_SITE_ROOT,
+    'PRIVACY': '/edx-privacy-policy',
     'SCHOOLS': '/schools-partners',
+    'SITE_MAP': '/sitemap',
     'TRADEMARKS': '/trademarks',
     'TOS': '/edx-terms-service',
-    'TOS_AND_HONOR': '/tos',
+    'TOS_AND_HONOR': '/tos_and_honor',
     'WHAT_IS_VERIFIED_CERT': '/verified-certificate',
     'PROGRAM_SUBSCRIPTIONS': '/program-subscriptions',
 }

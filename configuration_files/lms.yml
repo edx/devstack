@@ -424,15 +424,28 @@ MEDIA_URL: /media/
 MKTG_URLS:
   ROOT: http://localhost:18000
   ABOUT: /about
-  CONTACT: /contact
-  COURSES: /courses
+  ACCESSIBILITY: /accessibility
+  AFFILIATES: /affiliate-program
   BLOG: /blog
+  CAREERS: /careers
+  CONTACT: /contact
+  COURSES: /course
   DONATE: /donate
-  TOS_AND_HONOR: /tos
-  TOS: /edx-terms-service
+  ENTERPRISE: /enterprise
+  FAQ: /help
   HONOR: /honor
+  HOW_IT_WORKS: /how-it-works
+  MEDIA_KIT: /media-kit
+  NEWS: /news-announcements
+  PRESS: /press
   PRIVACY: /privacy
+  SCHOOLS: /schools-partners
+  SITE_MAP: /sitemap
+  TRADEMARKS: /trademarks
+  TOS: /edx-terms-service
+  TOS_AND_HONOR: /tos_and_honor
   WHAT_IS_VERIFIED_CERT: /verified-certificate
+  PROGRAM_SUBSCRIPTIONS: /program-subscriptions
 MOBILE_STORE_URLS: {}
 MODULESTORE:
     default:
