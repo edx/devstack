@@ -220,4 +220,3 @@ If you want to ensure you are getting the latest listing, simply use ``make help
       selfcheck                    Check that the Makefile is free of Make syntax errors.
       upgrade                      Upgrade requirements with pip-tools.
       validate-lms-volume          Validate that changes to the local workspace are reflected in the LMS container.
-      vnc-passwords                Get the VNC passwords for the Chrome and Firefox Selenium containers.

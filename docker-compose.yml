@@ -14,20 +14,6 @@ services:
   # Third-party services
   # ================================================
 
-  chrome:
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.chrome"
-    hostname: chrome.devstack.edx
-    image: edxops/chrome:latest
-    shm_size: 2g
-    networks:
-      default:
-        aliases:
-          - edx.devstack.chrome
-    ports:
-      - "15900:5900"
-    volumes:  # for file uploads
-      - ../edx-platform/common/test/data:/edx/app/edxapp/edx-platform/common/test/data
-
   coursegraph:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.coursegraph"
     hostname: coursegraph.devstack.edx
@@ -85,20 +71,6 @@ services:
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - "plugins.security.disabled=true"
-
-  firefox:
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.firefox"
-    hostname: firefox.devstack.edx
-    image: edxops/firefox:latest
-    shm_size: 2g
-    networks:
-      default:
-        aliases:
-          - edx.devstack.firefox
-    ports:
-      - "25900:5900"
-    volumes:  # for file uploads
-      - ../edx-platform/common/test/data:/edx/app/edxapp/edx-platform/common/test/data
 
   # Events broker
   kafka:
