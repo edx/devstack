@@ -90,4 +90,4 @@ credentials+cms+discovery+ecommerce+insights+lms+registrar
 # All third-party services.
 # Separated by plus signs. Listed in alphabetical order for clarity.
 THIRD_PARTY_SERVICES ?= \
-chrome+coursegraph+elasticsearch710+firefox+memcached+mongo+mysql80+opensearch12+redis+namenode+datanode+resourcemanager+nodemanager+sparkmaster+sparkworker+vertica
+coursegraph+elasticsearch710+memcached+mongo+mysql80+opensearch12+redis+namenode+datanode+resourcemanager+nodemanager+sparkmaster+sparkworker+vertica
