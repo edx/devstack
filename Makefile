@@ -60,7 +60,7 @@
         help requirements impl-dev.clone.https impl-dev.clone.ssh impl-dev.provision \
         impl-dev.pull impl-dev.pull.without-deps impl-dev.up impl-dev.up.attach \
         impl-dev.up.without-deps selfcheck upgrade \
-        validate-lms-volume vnc-passwords
+        validate-lms-volume
 
 # Load up options (configurable through options.local.mk).
 include options.mk
@@ -551,10 +551,6 @@ validate-lms-volume: ## Validate that changes to the local workspace are reflect
 	touch $(DEVSTACK_WORKSPACE)/edx-platform/testfile
 	docker compose exec -T lms ls /edx/app/edxapp/edx-platform/testfile
 	rm $(DEVSTACK_WORKSPACE)/edx-platform/testfile
-
-vnc-passwords: ## Get the VNC passwords for the Chrome and Firefox Selenium containers.
-	@docker compose logs chrome 2>&1 | grep "VNC password" | tail -1
-	@docker compose logs firefox 2>&1 | grep "VNC password" | tail -1
 
 hadoop-application-logs-%: ## View hadoop logs by application Id.
 	docker compose exec nodemanager yarn logs -applicationId $*
