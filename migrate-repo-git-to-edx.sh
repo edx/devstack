@@ -25,6 +25,11 @@ REPOS=(
   # edx-enterprise-subsidy-client
 )
 
+# If a specific repo has been requested, limit execution to that one only.
+if [[ $# -eq 1 ]] ; then
+  REPOS=($1)
+fi
+
 for repo in "${REPOS[@]}"; do
   echo "Updating $repo ..."
   if [ ! -d "$DEVSTACK_WORKSPACE/$repo" ]; then

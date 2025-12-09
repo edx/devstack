@@ -60,7 +60,7 @@
         help requirements impl-dev.clone.https impl-dev.clone.ssh impl-dev.provision \
         impl-dev.pull impl-dev.pull.without-deps impl-dev.up impl-dev.up.attach \
         impl-dev.up.without-deps selfcheck upgrade \
-        validate-lms-volume migrate-enterprise-repos
+        validate-lms-volume migrate-repo-git-to-edx
 
 # Load up options (configurable through options.local.mk).
 include options.mk
@@ -292,6 +292,9 @@ dev.restart-container: ## Restart all service containers.
 dev.restart-container.%: ## Restart specific services' containers.
 	docker compose restart $$(echo $* | tr + " ")
 
+dev.migrate-repo-git-to-edx.%: ## Migrate enterprise repository clones from openedx to edx GitHub org.
+	./migrate-repo-git-to-edx.sh $$(echo $* | tr + " ")
+
 dev.stop: ## Stop all running services.
 	docker compose stop
 
@@ -503,6 +506,7 @@ $(addsuffix -logs, $(ALL_SERVICES_LIST)): %-logs: dev.logs.%
 $(addsuffix -attach, $(ALL_SERVICES_LIST)): %-attach: dev.attach.%
 $(addsuffix -shell, $(ALL_SERVICES_LIST)): %-shell: dev.shell.%
 $(addsuffix -static, $(ASSET_SERVICES_LIST)): %-static: dev.static.%
+$(addsuffix -migrate-repo-git-to-edx, $(ALL_SERVICES_LIST)): %-migrate-repo-git-to-edx: dev.migrate-repo-git-to-edx.%
 
 
 ########################################################################################
@@ -564,5 +568,5 @@ build-courses: ## Build course and provision cms, and ecommerce with it.
 	bash ./course-generator/create-courses.sh --cms --ecommerce course-generator/tmp-config.json
 	rm course-generator/tmp-config.json
 
-migrate-enterprise-repos: ## Migrate enterprise repository clones from openedx to edx GitHub org.
-	./migrate-enterprise-repos.sh
+migrate-repo-git-to-edx: ## Migrate enterprise repository clones from openedx to edx GitHub org.
+	./migrate-repo-git-to-edx.sh
