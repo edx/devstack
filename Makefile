@@ -60,7 +60,7 @@
         help requirements impl-dev.clone.https impl-dev.clone.ssh impl-dev.provision \
         impl-dev.pull impl-dev.pull.without-deps impl-dev.up impl-dev.up.attach \
         impl-dev.up.without-deps selfcheck upgrade \
-        validate-lms-volume
+        validate-lms-volume migrate-enterprise-repos
 
 # Load up options (configurable through options.local.mk).
 include options.mk
@@ -563,3 +563,6 @@ build-courses: ## Build course and provision cms, and ecommerce with it.
 	bash ./course-generator/build-course-json.sh course-generator/tmp-config.json
 	bash ./course-generator/create-courses.sh --cms --ecommerce course-generator/tmp-config.json
 	rm course-generator/tmp-config.json
+
+migrate-enterprise-repos: ## Migrate enterprise repository clones from openedx to edx GitHub org.
+	./migrate-enterprise-repos.sh
