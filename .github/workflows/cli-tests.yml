@@ -25,7 +25,7 @@ jobs:
           - name: linux
             image: ubuntu-24.04
           - name: mac
-            image: macos-latest
+            image: macos-15
         python-version:
           - '3.11'
       fail-fast: false
@@ -54,8 +54,8 @@ jobs:
       - name: Docker installation - Mac
         if: ${{ matrix.os.name == 'mac' }}
         run: |
-          brew install qemu colima docker docker-compose
-          colima start --vm-type qemu --memory 8
+          brew install colima docker docker-compose
+          colima start --memory 8
           echo "DOCKER_HOST=unix://${HOME}/.colima/docker.sock" >> $GITHUB_ENV
           mkdir -p ~/.docker/cli-plugins
           ln -sfn /usr/local/bin/docker-compose ~/.docker/cli-plugins/docker-compose
