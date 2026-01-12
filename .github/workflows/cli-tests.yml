@@ -23,7 +23,7 @@ jobs:
       matrix:
         os:
           - name: linux
-            image: ubuntu-24.04
+            image: ubuntu-latest
           - name: mac
             image: macos-13
         python-version:
