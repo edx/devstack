@@ -336,7 +336,6 @@ FORKED_REPOS=(
     "frontend-app-enterprise-public-catalog"
     "frontend-app-publisher"
     "frontend-app-support-tools"
-    "frontend-app-learner-portal-enterprise"
     "frontend-app-enterprise-checkout"
     "frontend-app-authoring"
     "frontend-app-instruct"
