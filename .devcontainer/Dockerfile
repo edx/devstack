@@ -4,4 +4,5 @@ FROM mcr.microsoft.com/devcontainers/universal:latest
 
 RUN rm -f /etc/apt/sources.list.d/yarn.list \
         /etc/apt/sources.list.d/yarn*.list \
-&& apt-get update
+    && apt-get update \
+    && rm -rf /var/lib/apt/lists/*
