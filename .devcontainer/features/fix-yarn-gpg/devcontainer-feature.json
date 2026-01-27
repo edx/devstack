@@ -1,0 +1,6 @@
+{
+  "id": "fix-yarn-gpg",
+  "version": "1.0.0",
+  "name": "Fix Yarn GPG Key",
+  "description": "Fixes expired Yarn GPG key before apt operations"
+}

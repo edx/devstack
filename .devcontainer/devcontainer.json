@@ -25,6 +25,7 @@
         }
     },
     "features": {
+        "./features/fix-yarn-gpg": {},
         "ghcr.io/devcontainers/features/sshd:1": {
             "version": "latest"
         },
