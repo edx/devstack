@@ -2,6 +2,9 @@
     "hostRequirements": {
         "cpus": 8
     },
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
     "customizations": {
         "vscode": {
             "settings": {
