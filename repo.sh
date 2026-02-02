@@ -333,7 +333,6 @@ FORKED_REPOS=(
     "frontend-app-communications"
     "frontend-app-discussions"
     "frontend-app-profile"
-    "frontend-app-enterprise-public-catalog"
     "frontend-app-publisher"
     "frontend-app-support-tools"
     "frontend-app-enterprise-checkout"
