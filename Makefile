@@ -281,20 +281,26 @@ endif
 
 
 ########################################################################################
-# Developer interface: Debug mode (with debugpy).
+# Developer interface: Debug mode (with debugpy). Just for LMS for now. 
 ########################################################################################
 
 dev.debug: _expects-service-list.dev.debug ## Bring up services in debug mode (with debugpy).
 
 dev.debug.%: dev.check-memory ## Bring up services in debug mode and their dependencies.
+	@if [ "$*" != "lms" ]; then echo "Error: dev.debug is only available for lms service"; exit 1; fi
 	DEVSTACK_DEBUG=debug docker compose up -d $$(echo $* | tr + " ")
 ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
 	make dev.cache-programs
 endif
 
-dev.debug.without-deps: _expects-service-list.dev.debug.without-deps ## Bring up services in debug mode by themselves.
+dev.debug.without-deps: ## Bring up services in debug mode by themselves.
+	@echo "Error: dev.debug.without-deps expects lms service as a suffix"
+	@echo "For example:"
+	@echo "    make dev.debug.without-deps.lms"
+	@exit 1
 
 dev.debug.without-deps.%: dev.check-memory ## Bring up services in debug mode by themselves.
+	@if [ "$*" != "lms" ]; then echo "Error: dev.debug.without-deps is only available for lms service"; exit 1; fi
 	DEVSTACK_DEBUG=debug docker compose up -d --no-deps $$(echo $* | tr + " ")
 
 
