@@ -54,7 +54,9 @@
         dev.shell.registrar dev.shell.cms \
         dev.shell.cms_watcher dev.shell.xqueue dev.shell.xqueue_consumer \
         dev.static dev.static.lms dev.static.cms dev.stats dev.status \
-        dev.stop dev.up dev.up.attach dev.up.shell \
+		dev.stop dev.up dev.up.attach dev.up.shell \
+        dev.stop dev.debug dev.debug.without-deps \
+        dev.up dev.up.attach dev.up.shell \
         dev.up.without-deps dev.up.without-deps.shell dev.up.with-programs \
         dev.up.with-watchers dev.validate docs \
         help requirements impl-dev.clone.https impl-dev.clone.ssh impl-dev.provision \
@@ -277,6 +279,24 @@ dev.up.%: dev.check-memory ## Bring up services and their dependencies.
 ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
 	make dev.cache-programs
 endif
+
+
+########################################################################################
+# Developer interface: Debug mode (with debugpy).
+########################################################################################
+
+dev.debug: _expects-service-list.dev.debug ## Bring up services in debug mode (with debugpy).
+
+dev.debug.%: dev.check-memory ## Bring up services in debug mode and their dependencies.
+	DEVSTACK_DEBUG=debug docker compose up -d $$(echo $* | tr + " ")
+ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
+	make dev.cache-programs
+endif
+
+dev.debug.without-deps: _expects-service-list.dev.debug.without-deps ## Bring up services in debug mode by themselves.
+
+dev.debug.without-deps.%: dev.check-memory ## Bring up services in debug mode by themselves.
+	DEVSTACK_DEBUG=debug docker compose up -d --no-deps $$(echo $* | tr + " ")
 
 
 dev.ps: ## View list of created services and their statuses.
