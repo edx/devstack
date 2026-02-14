@@ -54,7 +54,6 @@
         dev.shell.registrar dev.shell.cms \
         dev.shell.cms_watcher dev.shell.xqueue dev.shell.xqueue_consumer \
         dev.static dev.static.lms dev.static.cms dev.stats dev.status \
-		dev.stop dev.up dev.up.attach dev.up.shell \
         dev.stop dev.debug dev.debug.without-deps \
         dev.up dev.up.attach dev.up.shell \
         dev.up.without-deps dev.up.without-deps.shell dev.up.with-programs \
