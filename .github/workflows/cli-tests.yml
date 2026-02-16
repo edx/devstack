@@ -25,7 +25,7 @@ jobs:
           - name: linux
             image: ubuntu-latest
           - name: mac
-            image: macos-lates
+            image: macos-latest
         python-version:
           - '3.11'
       fail-fast: false
