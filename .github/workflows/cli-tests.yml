@@ -73,3 +73,22 @@ jobs:
 
       - name: Repo setup-remotes tests
         run: ./tests/test_repo.sh
+
+      - name: Dump Colima hostagent logs on failure
+        if: ${{ failure()}}
+        run: |
+          echo "=== DUMPING DOCKER & COMPOSE INFO ==="
+          docker version || true
+          docker info || true
+          docker ps -a || true
+          docker images || true
+          echo "=== DUMPING COLIMA LOGS ==="
+          LOG="$HOME/.colima/_lima/colima/ha.stderr.log"
+          if [ -f "$LOG" ]; then
+            echo "==== ha.stderr.log ===="
+            sed -n '1,400p' "$LOG"
+            echo "======================="
+          else
+            echo "ha.stderr.log not found at $LOG"
+            find $HOME/.colima -maxdepth 3 -type f -name '*stderr*' -print
+          fi
