@@ -25,7 +25,7 @@ jobs:
           - name: linux
             image: ubuntu-latest
           - name: mac
-            image: macos-14
+            image: macos-13
         python-version:
           - '3.11'
       fail-fast: false
@@ -51,53 +51,15 @@ jobs:
           docker compose --version
 
       # Note: we cannot use Docker Desktop because it has not been licensed for use in GithubActions
-
-      - name: Install QEMU (macOS, arm64)
-        if: ${{ matrix.os.name == 'mac' }}
-        run: |
-          set -euxo pipefail
-          # Ensure arm64 Homebrew (avoid Rosetta/x86_64 bottles)
-          /usr/bin/arch -arm64 /bin/zsh -lc '
-            export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:$PATH
-            brew update
-            brew install qemu
-            which qemu-img
-            qemu-img --version
-          '
-
       - name: Docker installation - Mac
         if: ${{ matrix.os.name == 'mac' }}
         run: |
-          set -euxo pipefail    
-          # Ensure we run under arm64 and use the arm64 Homebrew prefix (/opt/homebrew)
-          /usr/bin/arch -arm64 /bin/zsh -lc '
-            export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:$PATH
-      
-            # Install required tools (qemu is mandatory for --vm-type=qemu)
-            brew update
-            brew install qemu colima docker docker-compose
-      
-            # Clean stale state to avoid disk conversion/mount issues
-            colima stop || true
-            colima delete -f || true
-            rm -rf "$HOME/.colima" "$HOME/.lima" || true
-      
-            # Start Colima with QEMU; allocate decent CPUs/RAM and disk for CI
-            colima start --vm-type=qemu --cpu 4 --memory 8 --runtime docker
-      
-            # Point Docker CLI to Colima's socket
-            echo "DOCKER_HOST=unix://${HOME}/.colima/docker.sock" >> "$GITHUB_ENV"
-      
-            # Compose v2 plugin (link whatever docker-compose brew installed)
-            mkdir -p ~/.docker/cli-plugins
-            ln -sfn "$(command -v docker-compose)" ~/.docker/cli-plugins/docker-compose
-      
-            # Sanity check
-            docker version
-            docker info
-            docker compose version
-          '
-        
+          brew install colima docker docker-compose
+          colima start -a vz -m 8 -r docker
+          echo "DOCKER_HOST=unix://${HOME}/.colima/docker.sock" >> $GITHUB_ENV
+          mkdir -p ~/.docker/cli-plugins
+          ln -sfn /usr/local/bin/docker-compose ~/.docker/cli-plugins/docker-compose
+
       - name: Install Python dependencies
         run:  make requirements
 
@@ -111,35 +73,3 @@ jobs:
 
       - name: Repo setup-remotes tests
         run: ./tests/test_repo.sh
-
-      - name: Dump Colima hostagent logs on failure
-        if: ${{ failure()}}
-        run: |
-          echo "=== DUMPING DOCKER & COMPOSE INFO ==="
-          docker version || true
-          docker info || true
-          docker ps -a || true
-          docker images || true
-          echo "=== DUMPING COLIMA LOGS ==="
-          LOG="$HOME/.colima/_lima/colima/ha.stderr.log"
-          if [ -f "$LOG" ]; then
-            echo "==== ha.stderr.log ===="
-            sed -n '1,400p' "$LOG"
-            echo "======================="
-          else
-            echo "ha.stderr.log not found at $LOG"
-            find $HOME/.colima -maxdepth 3 -type f -name '*stderr*' -print
-          fi
-      - name: Diagnostics (macOS arch & binaries)
-        if: ${{ failure() && matrix.os.name == 'mac' }}
-        run: |
-          echo "===GATHERING DIAGNOSTIC DATA ==="
-          set -euxo pipefail
-          uname -a
-          uname -m
-          which brew || true
-          brew --prefix || true
-          which colima || true
-          which limactl || true
-          if command -v colima >/dev/null; then file "$(which colima)"; fi
-          if command -v limactl >/dev/null; then file "$(which limactl)"; fi
