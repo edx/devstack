@@ -98,10 +98,6 @@ export
 # for existing scripts and workflows.
 include compatibility.mk
 
-# Include local, git-ignored Makefile with additional targets.
--include local.mk  # Prefix with hyphen to tolerate absence of file.
-
-
 ########################################################################################
 # Targets for managing the Devstack repo itself.
 ########################################################################################
@@ -570,3 +566,6 @@ build-courses: ## Build course and provision cms, and ecommerce with it.
 
 migrate-repo-git-to-edx: ## Migrate enterprise repository clones from openedx to edx GitHub org.
 	./migrate-repo-git-to-edx.sh
+
+# Include local, git-ignored Makefile with additional targets.
+-include local.mk  # Prefix with hyphen to tolerate absence of file.
