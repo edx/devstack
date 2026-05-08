@@ -91,7 +91,7 @@ jobs:
            username: ${{secrets.EDX_SMTP_USERNAME}}
            password: ${{secrets.EDX_SMTP_PASSWORD}}
            subject: 'Failure: Devstack provisioning tests for ${{matrix.services}} #${{github.run_id}}'
-           to: devstack-provisioning-tests@2u-internal.opsgenie.net
+           to: devstack-provisioning-tests@2u-internal.opsgenie.net, devstack-provisioning-tests@2u-internal.jsmalerts.atlassian.net
            from: github-actions <github-actions@edx.org>
            body: |
              Devstack provisioning tests in ${{github.repository}} for ${{matrix.services}} failed!
@@ -107,6 +107,6 @@ jobs:
            username: ${{secrets.EDX_SMTP_USERNAME}}
            password: ${{secrets.EDX_SMTP_PASSWORD}}
            subject: 'Back to normal: Devstack provisioning tests for ${{matrix.services}} #${{github.run_id}}'
-           to: devstack-provisioning-tests@2u-internal.opsgenie.net
+           to: devstack-provisioning-tests@2u-internal.opsgenie.net, devstack-provisioning-tests@2u-internal.jsmalerts.atlassian.net
            from: github-actions <github-actions@edx.org>
            body: Devstack provisioning tests in ${{github.repository}} are back to normal for ${{matrix.services}}
