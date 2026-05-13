@@ -303,7 +303,7 @@ ELASTIC_SEARCH_CONFIG:
 -   host: edx.devstack.elasticsearch
     port: 9200
     use_ssl: false
-ENABLE_MKTG_SITE: true 
+ENABLE_MKTG_SITE: true
 EMAIL_BACKEND: django.core.mail.backends.smtp.EmailBackend
 EMAIL_HOST: localhost
 EMAIL_HOST_PASSWORD: ''
@@ -311,6 +311,11 @@ EMAIL_HOST_USER: ''
 EMAIL_PORT: 25
 EMAIL_USE_TLS: false
 ENABLE_COMPREHENSIVE_THEMING: false
+# Enable enterprise integration.
+# See https://github.com/openedx/edx-enterprise/blob/master/docs/development.rst for
+# more background on edx-enterprise.
+# Toggle this off if you don't want anything to do with enterprise in devstack.
+ENABLE_ENTERPRISE_INTEGRATION: true
 ENTERPRISE_API_URL: http://edx.devstack.lms:18000/enterprise/api/v1
 ENTERPRISE_COURSE_ENROLLMENT_AUDIT_MODES:
 - audit
