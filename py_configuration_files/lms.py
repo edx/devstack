@@ -415,12 +415,6 @@ AUTOMATIC_AUTH_FOR_TESTING = True
 ENABLE_DISCUSSION_SERVICE = True
 SHOW_HEADER_LANGUAGE_SELECTOR = True
 
-# Enable enterprise integration by default.
-# See https://github.com/openedx/edx-enterprise/blob/master/docs/development.rst for
-# more background on edx-enterprise.
-# Toggle this off if you don't want anything to do with enterprise in devstack.
-ENABLE_ENTERPRISE_INTEGRATION = True
-
 ENABLE_MKTG_SITE = os.environ.get('ENABLE_MARKETING_SITE', False)
 
 MKTG_URLS = {
