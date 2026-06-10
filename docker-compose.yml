@@ -161,6 +161,15 @@ services:
   mysql80:
     command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.mysql80"
+    # Use --protocol=tcp so the check waits for the real server on port 3306, not the
+    # brief temporary server MySQL runs on the UNIX socket during first-time container
+    # initialization. See mysql_run_check() in check.sh for context.
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "--protocol=tcp", "-uroot"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 60s
     hostname: mysql80.devstack.edx
     environment:
       MYSQL_ROOT_PASSWORD: ""
@@ -232,9 +241,12 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.credentials"
     hostname: credentials.devstack.edx
     depends_on:
-      - lms
-      - memcached
-      - mysql80
+      lms:
+        condition: service_started
+      memcached:
+        condition: service_started
+      mysql80:
+        condition: service_healthy
     # Allows attachment to the credentials service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -257,11 +269,16 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.discovery"
     hostname: discovery.devstack.edx
     depends_on:
-      - elasticsearch710
-      - memcached
-      - mysql80
-      - opensearch12
-      - redis
+      elasticsearch710:
+        condition: service_started
+      memcached:
+        condition: service_started
+      mysql80:
+        condition: service_healthy
+      opensearch12:
+        condition: service_started
+      redis:
+        condition: service_started
     # Allows attachment to the discovery service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -288,10 +305,14 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.ecommerce"
     hostname: ecommerce.devstack.edx
     depends_on:
-      - discovery
-      - lms
-      - memcached
-      - mysql80
+      discovery:
+        condition: service_started
+      lms:
+        condition: service_started
+      memcached:
+        condition: service_started
+      mysql80:
+        condition: service_healthy
     # Allows attachment to the ecommerce service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -315,9 +336,12 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.edxnotesapi"
     hostname: edx_notes_api.devstack.edx
     depends_on:
-      - elasticsearch710
-      - lms
-      - mysql80
+      elasticsearch710:
+        condition: service_started
+      lms:
+        condition: service_started
+      mysql80:
+        condition: service_healthy
     image: edxops/edx-notes-api-dev:latest
     networks:
       default:
@@ -345,9 +369,12 @@ services:
     ports:
       - "18270:18270"
     depends_on:
-      - mysql80
-      - memcached
-      - enterprise-access-worker
+      mysql80:
+        condition: service_healthy
+      memcached:
+        condition: service_started
+      enterprise-access-worker:
+        condition: service_started
     networks:
       default:
         aliases:
@@ -375,8 +402,10 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.enterprise-access-worker"
     hostname: enterprise-access-worker.devstack.edx
     depends_on:
-      - mysql80
-      - memcached
+      mysql80:
+        condition: service_healthy
+      memcached:
+        condition: service_started
     environment:
       CELERY_ALWAYS_EAGER: 'false'
       CELERY_BROKER_TRANSPORT: redis
@@ -425,12 +454,18 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.lms"
     hostname: lms.devstack.edx
     depends_on:
-      - discovery
-      - elasticsearch710
-      - forum
-      - memcached
-      - mongo
-      - mysql80
+      discovery:
+        condition: service_started
+      elasticsearch710:
+        condition: service_started
+      forum:
+        condition: service_started
+      memcached:
+        condition: service_started
+      mongo:
+        condition: service_started
+      mysql80:
+        condition: service_healthy
     # Allows attachment to the LMS service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -465,8 +500,10 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.lms-worker"
     hostname: lms-worker.devstack.edx
     depends_on:
-      - mysql80
-      - redis
+      mysql80:
+        condition: service_healthy
+      redis:
+        condition: service_started
     stdin_open: true
     tty: true
     image: edxops/lms-dev:latest
@@ -480,10 +517,14 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.insights"
     hostname: insights.devstack.edx
     depends_on:
-      - analyticsapi
-      - mysql80
-      - lms
-      - memcached
+      analyticsapi:
+        condition: service_started
+      mysql80:
+        condition: service_healthy
+      lms:
+        condition: service_started
+      memcached:
+        condition: service_started
     # Allows attachment to the insights service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -513,8 +554,10 @@ services:
     container_name: edx.devstack.analyticsapi
     hostname: analyticsapi
     depends_on:
-      - mysql80
-      - elasticsearch710
+      mysql80:
+        condition: service_healthy
+      elasticsearch710:
+        condition: service_started
     command: bash -c 'source /edx/app/analytics_api/analytics_api_env && while true;  do python /edx/app/analytics_api/analytics_api/manage.py runserver 0.0.0.0:19001 --settings analyticsdataserver.settings.devstack; sleep 2; done'
     stdin_open: true
     tty: true
@@ -536,12 +579,18 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.registrar"
     hostname: registrar.devstack.edx
     depends_on:
-      - discovery
-      - lms
-      - mysql80
-      - memcached
-      - redis
-      - registrar-worker
+      discovery:
+        condition: service_started
+      lms:
+        condition: service_started
+      mysql80:
+        condition: service_healthy
+      memcached:
+        condition: service_started
+      redis:
+        condition: service_started
+      registrar-worker:
+        condition: service_started
     # Allows attachment to the registrar service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -579,9 +628,12 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.registrar-worker"
     hostname: registrar-worker.devstack.edx
     depends_on:
-      - lms
-      - mysql80
-      - redis
+      lms:
+        condition: service_started
+      mysql80:
+        condition: service_healthy
+      redis:
+        condition: service_started
     stdin_open: true
     tty: true
     environment:
@@ -614,11 +666,16 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.cms"
     hostname: cms.devstack.edx
     depends_on:
-      - elasticsearch710
-      - lms
-      - memcached
-      - mongo
-      - mysql80
+      elasticsearch710:
+        condition: service_started
+      lms:
+        condition: service_started
+      memcached:
+        condition: service_started
+      mongo:
+        condition: service_started
+      mysql80:
+        condition: service_healthy
     # Allows attachment to the CMS service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -653,8 +710,10 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.cms-worker"
     hostname: cms-worker.devstack.edx
     depends_on:
-      - mysql80
-      - redis
+      mysql80:
+        condition: service_healthy
+      redis:
+        condition: service_started
     stdin_open: true
     tty: true
     image: edxops/lms-dev:latest
@@ -687,7 +746,8 @@ services:
       - ${DEVSTACK_WORKSPACE}/xqueue:/edx/app/xqueue/xqueue
       - ${PWD}/configuration_files/xqueue.yml:/edx/etc/xqueue.yml
     depends_on:
-      - mysql80
+      mysql80:
+        condition: service_healthy
     environment:
       XQUEUE_CFG: "/edx/etc/xqueue.yml"
     networks:
@@ -706,7 +766,8 @@ services:
       - ${DEVSTACK_WORKSPACE}/xqueue:/edx/app/xqueue/xqueue
       - ${PWD}/configuration_files/xqueue.yml:/edx/etc/xqueue.yml
     depends_on:
-      - mysql80
+      mysql80:
+        condition: service_healthy
     networks:
       default:
         aliases:
@@ -715,14 +776,17 @@ services:
   enterprise-catalog:
     image: edxops/enterprise-catalog-dev
     container_name: enterprise.catalog.app
-    hostname: enterprise.catalog.app 
+    hostname: enterprise.catalog.app
     command: bash -c 'while true; do python /edx/app/enterprise-catalog/manage.py runserver 0.0.0.0:18160; sleep 2; done'
     ports:
       - "18160:18160"
     depends_on:
-      - memcached
-      - mysql80
-      - enterprise-catalog-worker
+      memcached:
+        condition: service_started
+      mysql80:
+        condition: service_healthy
+      enterprise-catalog-worker:
+        condition: service_started
     networks:
       default:
           aliases:
@@ -749,8 +813,10 @@ services:
     command: bash -c 'cd /edx/app/enterprise-catalog && celery -A enterprise_catalog worker -Q enterprise_catalog.default -l DEBUG'
     container_name: edx.devstack.enterprise.catalog.worker
     depends_on:
-      - memcached
-      - mysql80
+      memcached:
+        condition: service_started
+      mysql80:
+        condition: service_healthy
     environment:
       CELERY_ALWAYS_EAGER: 'false'
       CELERY_BROKER_TRANSPORT: redis
@@ -772,7 +838,8 @@ services:
     command: bash -c 'cd /edx/app/enterprise-catalog && celery -A enterprise_catalog worker -Q enterprise_catalog.curations -l DEBUG'
     container_name: enterprise.catalog.curations
     depends_on:
-      - mysql80
+      mysql80:
+        condition: service_healthy
     environment:
       CELERY_ALWAYS_EAGER: 'false'
       CELERY_BROKER_TRANSPORT: redis
@@ -798,8 +865,10 @@ services:
     ports:
       - "18170:18170"
     depends_on:
-      - mysql80
-      - license-manager-worker
+      mysql80:
+        condition: service_healthy
+      license-manager-worker:
+        condition: service_started
     # Allows attachment to this container using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -819,7 +888,8 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.license-manager-worker"
     hostname: license-manager-worker.devstack.edx
     depends_on:
-      - mysql80
+      mysql80:
+        condition: service_healthy
     environment:
       CELERY_ALWAYS_EAGER: 'false'
       CELERY_BROKER_TRANSPORT: redis
@@ -840,7 +910,8 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.license-manager.bulk-enrollment-worker"
     hostname: license-manager.bulk-enrollment-worker.devstack.edx
     depends_on:
-      - mysql80
+      mysql80:
+        condition: service_healthy
     environment:
       CELERY_ALWAYS_EAGER: 'false'
       CELERY_BROKER_TRANSPORT: redis
@@ -860,8 +931,10 @@ services:
     container_name: edx.devstack.enterprise-subsidy
     hostname: enterprise-subsidy.devstack.edx
     depends_on:
-      - mysql80
-      - memcached
+      mysql80:
+        condition: service_healthy
+      memcached:
+        condition: service_started
     command: bash -c 'while true; do python /edx/app/enterprise-subsidy/manage.py runserver 0.0.0.0:18280; sleep 2; done'
     stdin_open: true
     tty: true
@@ -882,8 +955,10 @@ services:
     image: edxops/enterprise-subsidy-dev
     container_name: edx.devstack.enterprise-subsidy-consume_learner_credit_course_enrollment_lifecycle
     depends_on:
-      - mysql80
-      - memcached
+      mysql80:
+        condition: service_healthy
+      memcached:
+        condition: service_started
     command: >-
       bash -c 'while true; do python /edx/app/enterprise-subsidy/manage.py consume_events -t learner-credit-course-enrollment-lifecycle -g enterprise_subsidy_dev; sleep 2; done'
     tty: true
@@ -899,8 +974,10 @@ services:
     container_name: edx.devstack.edx_exams
     hostname: edx_exams.devstack.edx
     depends_on:
-      - lms
-      - mysql80
+      lms:
+        condition: service_started
+      mysql80:
+        condition: service_healthy
     command: bash -c 'while true; do python /edx/app/edx-exams/manage.py runserver 0.0.0.0:18740; sleep 2; done'
     stdin_open: true
     tty: true
@@ -952,7 +1029,8 @@ services:
     ports:
       - "18808:18808"
     depends_on:
-      - mysql80
+      mysql80:
+        condition: service_healthy
     networks:
       default:
         aliases:
