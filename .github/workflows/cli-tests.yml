@@ -25,7 +25,9 @@ jobs:
           - name: linux
             image: ubuntu-latest
           - name: mac
-            image: macos-13
+            # Pin to GitHub's Intel macOS runner because this Docker/Colima job
+            # fails on arm64 macOS runners, including macos-latest.
+            image: macos-26-intel
         python-version:
           - '3.11'
       fail-fast: false
