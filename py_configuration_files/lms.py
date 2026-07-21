@@ -415,6 +415,10 @@ AUTOMATIC_AUTH_FOR_TESTING = True
 ENABLE_DISCUSSION_SERVICE = True
 SHOW_HEADER_LANGUAGE_SELECTOR = True
 
+# Redirect logistration (login/registration/password reset) to the authn MFE by
+# default, matching stage/production.
+ENABLE_AUTHN_MICROFRONTEND = True
+
 ENABLE_MKTG_SITE = os.environ.get('ENABLE_MARKETING_SITE', False)
 
 MKTG_URLS = {
