@@ -65,3 +65,15 @@ so that you maintain your command history:
 
 
 .. _edx-platform testing documentation: https://docs.openedx.org/projects/edx-platform/en/latest/concepts/testing/testing.html#running-python-unit-tests
+
+Custom Logging Testing
+----------------------
+
+If you would like to test modifications to the docker logging configuration as
+listed in the custom-created `public-dockerfiles logging configuration`_, the ``docker-production.py``
+file won't exist in devstack due to the local edx-platform copy being mounted as a volume over it.
+
+Any changes will need to be copied over into ``/py_configuration_files/{lms,cms}.py`` to be
+tested on devstack.
+
+.. _public-dockerfiles logging configuration: https://github.com/edx/public-dockerfiles/blob/75aa946f58b9d897ae1f738b2c89aefb1af09147/dockerfiles/edx-platform.Dockerfile#L262-L264
