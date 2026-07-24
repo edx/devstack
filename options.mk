@@ -76,7 +76,7 @@ analyticsapi+codejail+enterprise-subsidy+credentials+cms+cms-worker+cms_watcher+
 # Note: This list should contain _all_ db-backed services, even if not
 # configured to run; the list will be filtered later against $(DEFAULT_SERVICES).
 DB_SERVICES ?= \
-credentials+cms+discovery+ecommerce+enterprise-access+enterprise-subsidy+lms+registrar+license-manager
+credentials+cms+discovery+ecommerce+enterprise-access+enterprise-catalog+enterprise-subsidy+lms+registrar+license-manager
 
 # Services with static assets to be built.
 # Should be a subset of $(EDX_SERVICES).
