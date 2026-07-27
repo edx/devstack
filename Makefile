@@ -218,7 +218,7 @@ dev.migrate.lms:
 	docker compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && make migrate-lms'
 
 dev.migrate.%: ## Run migrations on a service.
-	docker compose exec $* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && make migrate'
+	docker compose exec $* make migrate
 
 dev.drop-db: _expects-database.dev.drop-db
 
