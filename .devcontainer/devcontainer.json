@@ -7,6 +7,13 @@
     },
     "customizations": {
         "vscode": {
+            //Optional list of VS Code extensions to install in the container.
+            //  See https://aka.ms/vscode-dev-containers/extensions.
+            // 
+            "extensions": [                
+                "ms-python.python",
+                "ms-python.debugpy" 
+            ],
             "settings": {
                 "terminal.integrated.profiles.linux": { "zsh": { "path": "/bin/zsh" } },
                 "terminal.integrated.profiles.osx": { "zsh": { "path": "/bin/zsh" } },
@@ -47,7 +54,7 @@
         2010, 3406, 5335, 7474, 8000, 8081, 8734, 8735, 9021, 9201, 9202,
         9301, 9600, 18000, 18010, 18040, 18110, 18120, 18130, 18150, 18160,
         18170, 18270, 18280, 18381, 18400, 18450, 18734, 18760, 18787, 19001,
-        27017, 44567
+        27017, 44567, 44568
     ],
     "portsAttributes": {
         "3406":  { "label": "mysql80" },
@@ -96,6 +103,7 @@
         "18270": { "label": "enterprise-access" },
         "18280": { "label": "enterprise-subsidy" },
         "8000":  { "label": "paragon-pattern-library" },
-        "18760": { "label": "ai-translations" }
+        "18760": { "label": "ai-translations" },
+        "44568": { "label": "LMS debugging" }
     }
 }
