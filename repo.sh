@@ -21,7 +21,7 @@ fi
 # (or non_release_repos and non_release_ssh_repos if they are not part
 # of Open edX releases).
 repos=(
-    "https://github.com/openedx/course-discovery.git"
+    "https://github.com/edx/course-discovery.git"
     "https://github.com/openedx/credentials.git"
     "https://github.com/openedx/cs_comments_service.git"
     "https://github.com/edx/ecommerce.git"
@@ -71,7 +71,7 @@ non_release_repos=(
 )
 
 ssh_repos=(
-    "git@github.com:openedx/course-discovery.git"
+    "git@github.com:edx/course-discovery.git"
     "git@github.com:openedx/credentials.git"
     "git@github.com:openedx/cs_comments_service.git"
     "git@github.com:edx/ecommerce.git"

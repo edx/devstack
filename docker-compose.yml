@@ -78,7 +78,8 @@ services:
     hostname: kafka.devstack.edx
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.kafka"
     depends_on:
-      - zookeeper
+      zookeeper:
+        condition: service_started
     ports:
       - "9092:9092"
       - "9101:9101"
@@ -112,8 +113,10 @@ services:
     hostname: kafka-control-center.devstack.edx
     container_name: edx.${COMPOSE_PROJECT_NAME:-devstack}.kafka-control-center
     depends_on:
-      - kafka
-      - schema-registry
+      kafka:
+        condition: service_started
+      schema-registry:
+        condition: service_started
     ports:
       - "9021:9021"
     environment:
@@ -146,6 +149,14 @@ services:
     # See https://docs.mongodb.com/v3.0/reference/program/mongod/#options for complete details.
     command: mongod --nojournal --storageEngine wiredTiger
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.mongo"
+    healthcheck:
+      # Exit 0 only if the server responds to a ping. `mongo` is the legacy
+      # shell shipped in the 5.0 image (mongosh arrived in 6.0).
+      test: ["CMD-SHELL", "mongo --quiet --eval 'quit(db.adminCommand({ ping: 1 }).ok ? 0 : 1)'"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 60s
     hostname: mongo.devstack.edx
     image: mongo:${MONGO_VERSION:-5.0.24}
     networks:
@@ -161,10 +172,10 @@ services:
   mysql80:
     command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.mysql80"
-    # Use --protocol=tcp so the check waits for the real server on port 3306, not the
-    # brief temporary server MySQL runs on the UNIX socket during first-time container
-    # initialization. See mysql_run_check() in check.sh for context.
     healthcheck:
+      # Use --protocol=tcp so the check waits for the real server on port 3306, not the
+      # brief temporary server MySQL runs on the UNIX socket during first-time container
+      # initialization.
       test: ["CMD", "mysqladmin", "ping", "--protocol=tcp", "-uroot"]
       interval: 5s
       timeout: 3s
@@ -204,7 +215,8 @@ services:
     hostname: schema-registry.devstack.edx
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.schema-registry"
     depends_on:
-      - kafka
+      kafka:
+        condition: service_started
     ports:
       - "8081:8081"
     environment:
@@ -237,7 +249,9 @@ services:
   # ================================================
 
   credentials:
-    command: bash -c 'source /edx/app/credentials/credentials_env && while true; do python /edx/app/credentials/credentials/manage.py runserver 0.0.0.0:18150; sleep 2; done'
+    extends:
+      file: common.yml
+      service: backend-app
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.credentials"
     hostname: credentials.devstack.edx
     depends_on:
@@ -247,10 +261,9 @@ services:
         condition: service_started
       mysql80:
         condition: service_healthy
-    # Allows attachment to the credentials service using 'docker attach <containerID>'.
-    stdin_open: true
-    tty: true
     environment:
+      DEVSERVER_CMD: "python manage.py runserver 0.0.0.0:18150"
+      HEALTHCHECK_TARGET: "http://localhost:18150/health/"
       CACHE_LOCATION: edx.devstack.memcached:11211
       DB_HOST: edx.devstack.mysql80
       SOCIAL_AUTH_EDX_OIDC_URL_ROOT: http://edx.devstack.lms:18000/oauth2
@@ -265,7 +278,9 @@ services:
       - "18150:18150"
 
   discovery:
-    command: bash -c 'source /edx/app/discovery/discovery_env && while true; do python /edx/app/discovery/discovery/manage.py runserver 0.0.0.0:18381; sleep 2; done'
+    extends:
+      file: common.yml
+      service: backend-app
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.discovery"
     hostname: discovery.devstack.edx
     depends_on:
@@ -279,17 +294,16 @@ services:
         condition: service_started
       redis:
         condition: service_started
-    # Allows attachment to the discovery service using 'docker attach <containerID>'.
-    stdin_open: true
-    tty: true
     environment:
+      DEVSERVER_CMD: "python manage.py runserver 0.0.0.0:18381"
+      HEALTHCHECK_TARGET: "http://localhost:18381/health/"
       # This next DB_MIGRATION_HOST line can be removed once edx/configuration has been updated with this value for
       # a while and most people have had a chance to do a "make pull" to get the latest images.
       DB_MIGRATION_HOST: edx.devstack.mysql80
       TEST_ELASTICSEARCH_URL: "edx.devstack.elasticsearch710"
       ENABLE_DJANGO_TOOLBAR: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
-    image: edxops/discovery-dev:latest
+    image: edxops/course-discovery-dev:latest
     networks:
       default:
         aliases:
@@ -301,7 +315,9 @@ services:
       - ${PWD}/configuration_files/discovery.yml:/edx/etc/discovery.yml
 
   ecommerce:
-    command: bash -c 'source /edx/app/ecommerce/ecommerce_env && while true; do python /edx/app/ecommerce/ecommerce/manage.py runserver 0.0.0.0:18130; sleep 2; done'
+    extends:
+      file: common.yml
+      service: backend-app
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.ecommerce"
     hostname: ecommerce.devstack.edx
     depends_on:
@@ -313,10 +329,9 @@ services:
         condition: service_started
       mysql80:
         condition: service_healthy
-    # Allows attachment to the ecommerce service using 'docker attach <containerID>'.
-    stdin_open: true
-    tty: true
     environment:
+      DEVSERVER_CMD: "python manage.py runserver 0.0.0.0:18130"
+      HEALTHCHECK_TARGET: "http://localhost:18130/health/"
       DJANGO_WATCHMAN_TIMEOUT: 30
       ENABLE_DJANGO_TOOLBAR: 1
     image: edxops/ecommerce-dev:latest
@@ -331,8 +346,9 @@ services:
 
 
   edx_notes_api:
-    # Sleep as a part of start up to give elasticsearch enough time to start up.
-    command: bash -c 'while true; do python /edx/app/notes/manage.py runserver 0.0.0.0:18120 --settings notesserver.settings.devstack; sleep 4; done'
+    extends:
+      file: common.yml
+      service: backend-app
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.edxnotesapi"
     hostname: edx_notes_api.devstack.edx
     depends_on:
@@ -350,6 +366,8 @@ services:
     ports:
       - "18120:18120"
     environment:
+      DEVSERVER_CMD: "python manage.py runserver 0.0.0.0:18120"
+      HEALTHCHECK_TARGET: "http://localhost:18120/heartbeat/"
       DB_ENGINE: "django.db.backends.mysql"
       DB_HOST: "edx.devstack.mysql80"
       DB_NAME: "notes"
@@ -362,10 +380,12 @@ services:
       ELASTICSEARCH_DSL: "http://edx.devstack.elasticsearch710:9200"
 
   enterprise-access:
+    extends:
+      file: common.yml
+      service: backend-app
     image: edxops/enterprise-access-dev
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.enterprise-access"
     hostname: enterprise-access.devstack.edx
-    command: bash -c 'while true; do python /edx/app/enterprise-access/manage.py runserver 0.0.0.0:18270; sleep 2; done'
     ports:
       - "18270:18270"
     depends_on:
@@ -379,9 +399,9 @@ services:
       default:
         aliases:
           - edx.devstack.enterprise-access
-    stdin_open: true
-    tty: true
     environment:
+      DEVSERVER_CMD: "python manage.py runserver 0.0.0.0:18270"
+      HEALTHCHECK_TARGET: "http://localhost:18270/health/"
       CELERY_ALWAYS_EAGER: 'false'
       CELERY_BROKER_TRANSPORT: redis
       CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379
@@ -430,17 +450,25 @@ services:
     tty: true
 
   forum:
-    command: bash -c 'source /edx/app/forum/ruby_env && source /edx/app/forum/devstack_forum_env && cd /edx/app/forum/cs_comments_service && bundle install && while true; do ./bin/unicorn -c config/unicorn_tcp.rb -I .; sleep 2; done'
+    extends:
+      file: common.yml
+      service: backend-app
+    environment:
+      DEVSERVER_CMD: "./bin/unicorn -c config/unicorn_tcp.rb -I ."
+      DEVSERVER_SETUP: "source /edx/app/forum/ruby_env && source /edx/app/forum/devstack_forum_env && cd /edx/app/forum/cs_comments_service && bundle install"
+      HEALTHCHECK_TARGET: "http://localhost:4567/heartbeat"
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.forum"
     hostname: forum.devstack.edx
     depends_on:
-      - memcached
-      - mongo
-      - elasticsearch710
-      - opensearch12
+      memcached:
+        condition: service_started
+      mongo:
+        condition: service_started
+      elasticsearch710:
+        condition: service_started
+      opensearch12:
+        condition: service_started
     image: edxops/forum:latest
-    stdin_open: true
-    tty: true
     networks:
       default:
         aliases:
@@ -449,10 +477,16 @@ services:
       - "44567:4567"
 
   lms:
+    extends:
+      file: common.yml
+      service: backend-app
     # Switch to `--settings devstack_with_worker` if you want to use lms-worker
-    command: bash -c 'source /edx/app/edxapp/edxapp_env && (pip install -r /edx/private_requirements.txt; while true; do python /edx/app/edxapp/edx-platform/manage.py lms runserver 0.0.0.0:18000 --settings devstack; sleep 2; done)'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.lms"
     hostname: lms.devstack.edx
+    # "healthy" == the runserver process is actually accepting HTTP requests on
+    # :18000 and its DB/cache/modulestore checks pass. /heartbeat does not depend
+    # on migrations having run, so this won't block a freshly-created devstack.
+    # start_period is generous: first boot runs `pip install` before runserver.
     depends_on:
       discovery:
         condition: service_started
@@ -466,10 +500,10 @@ services:
         condition: service_started
       mysql80:
         condition: service_healthy
-    # Allows attachment to the LMS service using 'docker attach <containerID>'.
-    stdin_open: true
-    tty: true
     environment:
+      DEVSERVER_CMD: "python manage.py lms runserver 0.0.0.0:18000 --settings devstack"
+      DEVSERVER_SETUP: "pip install -e . -r /edx/private_requirements.txt"
+      HEALTHCHECK_TARGET: "http://localhost:18000/heartbeat"
       FRONTEND_TEST_SERVER_HOSTNAME: edx.devstack.lms
       FRONTEND_TEST_SERVER_LMS_PORT: 18003
       FRONTEND_TEST_SERVER_CMS_PORT: 18031
@@ -513,7 +547,9 @@ services:
       C_FORCE_ROOT: "true"
 
   insights:
-    command: bash -c 'source /edx/app/insights/insights_env && while true; do python /edx/app/insights/insights/manage.py runserver 0.0.0.0:18110 --settings analytics_dashboard.settings.devstack; sleep 2; done'
+    extends:
+      file: common.yml
+      service: backend-app
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.insights"
     hostname: insights.devstack.edx
     depends_on:
@@ -525,10 +561,9 @@ services:
         condition: service_started
       memcached:
         condition: service_started
-    # Allows attachment to the insights service using 'docker attach <containerID>'.
-    stdin_open: true
-    tty: true
     environment:
+      DEVSERVER_CMD: "python manage.py runserver 0.0.0.0:18110"
+      HEALTHCHECK_TARGET: "http://localhost:18110/health/"
       DB_HOST: edx.devstack.mysql80
       DB_NAME: dashboard
       DB_PORT: 3306
@@ -550,6 +585,9 @@ services:
       - ${PWD}/configuration_files/insights.yml:/edx/etc/insights.yml
 
   analyticsapi:
+    extends:
+      file: common.yml
+      service: backend-app
     image: edxops/edx-analytics-data-api-dev:latest
     container_name: edx.devstack.analyticsapi
     hostname: analyticsapi
@@ -558,10 +596,9 @@ services:
         condition: service_healthy
       elasticsearch710:
         condition: service_started
-    command: bash -c 'source /edx/app/analytics_api/analytics_api_env && while true;  do python /edx/app/analytics_api/analytics_api/manage.py runserver 0.0.0.0:19001 --settings analyticsdataserver.settings.devstack; sleep 2; done'
-    stdin_open: true
-    tty: true
     environment:
+      DEVSERVER_CMD: "python manage.py runserver 0.0.0.0:19001"
+      HEALTHCHECK_TARGET: "http://localhost:19001/health/"
       DB_HOST: edx.devstack.mysql80
       DB_PORT: 3306
       DB_USER: analytics001
@@ -575,7 +612,9 @@ services:
       - ${PWD}/configuration_files/analytics_api.yml:/edx/etc/analytics_api.yml
 
   registrar:
-    command: bash -c 'while true; do python /edx/app/registrar/manage.py runserver 0.0.0.0:18734; sleep 2; done'
+    extends:
+      file: common.yml
+      service: backend-app
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.registrar"
     hostname: registrar.devstack.edx
     depends_on:
@@ -591,10 +630,9 @@ services:
         condition: service_started
       registrar-worker:
         condition: service_started
-    # Allows attachment to the registrar service using 'docker attach <containerID>'.
-    stdin_open: true
-    tty: true
     environment:
+      DEVSERVER_CMD: "python manage.py runserver 0.0.0.0:18734"
+      HEALTHCHECK_TARGET: "http://localhost:18734/health/"
       DB_HOST: edx.devstack.mysql80
       DB_NAME: registrar
       DB_PORT: 3306
@@ -661,10 +699,13 @@ services:
       - /edx/var/registrar/
 
   cms:
+    extends:
+      file: common.yml
+      service: backend-app
     # Switch to `--settings devstack_with_worker` if you want to use cms-worker
-    command: bash -c 'source /edx/app/edxapp/edxapp_env && (pip install -r /edx/private_requirements.txt; while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack; sleep 2; done)'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.cms"
     hostname: cms.devstack.edx
+    # See the lms healthcheck for rationale; cms serves on :18010.
     depends_on:
       elasticsearch710:
         condition: service_started
@@ -676,10 +717,10 @@ services:
         condition: service_started
       mysql80:
         condition: service_healthy
-    # Allows attachment to the CMS service using 'docker attach <containerID>'.
-    stdin_open: true
-    tty: true
     environment:
+      DEVSERVER_CMD: "python manage.py cms runserver 0.0.0.0:18010 --settings devstack"
+      DEVSERVER_SETUP: "pip install -e . -r /edx/private_requirements.txt"
+      HEALTHCHECK_TARGET: "http://localhost:18010/heartbeat"
       FRONTEND_TEST_SERVER_HOSTNAME: edx.devstack.cms
       FRONTEND_TEST_SERVER_LMS_PORT: 18103
       FRONTEND_TEST_SERVER_CMS_PORT: 18131
@@ -723,13 +764,17 @@ services:
       C_FORCE_ROOT: "true"
 
   codejail:
-    command: bash -c 'source /venv/bin/activate; while true; do python ./manage.py runserver 0.0.0.0:8080; sleep 2; done'
+    extends:
+      file: common.yml
+      service: backend-app
+    healthcheck:
+      test: ["CMD-SHELL", "python3 -c \"import urllib.request; urllib.request.urlopen('http://localhost:8080/health/')\" || exit 1"]
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.codejail"
     hostname: codejail.devstack.edx
-    stdin_open: true
-    tty: true
     image: edxops/codejail-service-dev:latest
     environment:
+      DEVSERVER_CMD: "python manage.py runserver 0.0.0.0:8080"
+      DEVSERVER_SETUP: "source /venv/bin/activate"
       DJANGO_SETTINGS_MODULE: codejail_service.settings.devstack
     ports:
       - "18030:8080"
@@ -738,10 +783,12 @@ services:
       - apparmor=openedx_codejail_service
 
   xqueue:
+    extends:
+      file: common.yml
+      service: backend-app
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.xqueue"
     image: edxops/xqueue-dev:latest
     working_dir: /edx/app/xqueue/xqueue
-    command: bash -c 'source /edx/app/xqueue/xqueue_env && while true; do python /edx/app/xqueue/xqueue/manage.py runserver 0.0.0.0:18040 ; sleep 2; done'
     volumes:
       - ${DEVSTACK_WORKSPACE}/xqueue:/edx/app/xqueue/xqueue
       - ${PWD}/configuration_files/xqueue.yml:/edx/etc/xqueue.yml
@@ -749,6 +796,8 @@ services:
       mysql80:
         condition: service_healthy
     environment:
+      DEVSERVER_CMD: "python manage.py runserver 0.0.0.0:18040"
+      HEALTHCHECK_TARGET: "http://localhost:18040/xqueue/status/"
       XQUEUE_CFG: "/edx/etc/xqueue.yml"
     networks:
       default:
@@ -759,6 +808,9 @@ services:
 
   xqueue_consumer:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.xqueue_consumer"
+    # Allows attachment to the xqueue_consumer service using 'docker attach <containerID>'.
+    stdin_open: true
+    tty: true
     image: edxops/xqueue-dev:latest
     working_dir: /edx/app/xqueue/xqueue
     command: bash -c 'source /edx/app/xqueue/xqueue_env && while true; do python /edx/app/xqueue/xqueue/manage.py run_consumer ; sleep 2; done'
@@ -774,10 +826,12 @@ services:
           - edx.devstack.xqueue_consumer
 
   enterprise-catalog:
+    extends:
+      file: common.yml
+      service: backend-app
     image: edxops/enterprise-catalog-dev
     container_name: enterprise.catalog.app
     hostname: enterprise.catalog.app
-    command: bash -c 'while true; do python /edx/app/enterprise-catalog/manage.py runserver 0.0.0.0:18160; sleep 2; done'
     ports:
       - "18160:18160"
     depends_on:
@@ -789,12 +843,12 @@ services:
         condition: service_started
     networks:
       default:
-          aliases:
-            - edx.devstack.enterprise-catalog
+        aliases:
+          - edx.devstack.enterprise-catalog
     # Allows attachment to this container using 'docker attach <containerID>'.
-    stdin_open: true
-    tty: true
     environment:
+      DEVSERVER_CMD: "python manage.py runserver 0.0.0.0:18160"
+      HEALTHCHECK_TARGET: "http://localhost:18160/health/"
       CELERY_ALWAYS_EAGER: 'false'
       CELERY_BROKER_TRANSPORT: redis
       CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379
@@ -857,11 +911,13 @@ services:
     tty: true
 
   license-manager:
+    extends:
+      file: common.yml
+      service: backend-app
     image: edxops/license-manager-dev:latest
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.license-manager"
     hostname: license-manager.devstack.edx
     # Use the Django devserver, so that we can hot-reload code changes
-    command: bash -c 'while true; do python /edx/app/license_manager/manage.py runserver 0.0.0.0:18170; sleep 2; done'
     ports:
       - "18170:18170"
     depends_on:
@@ -870,9 +926,9 @@ services:
       license-manager-worker:
         condition: service_started
     # Allows attachment to this container using 'docker attach <containerID>'.
-    stdin_open: true
-    tty: true
     environment:
+      DEVSERVER_CMD: "python manage.py runserver 0.0.0.0:18170"
+      HEALTHCHECK_TARGET: "http://localhost:18170/health/"
       CELERY_ALWAYS_EAGER: 'false'
       CELERY_BROKER_TRANSPORT: redis
       CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379
@@ -927,6 +983,9 @@ services:
     tty: true
 
   enterprise-subsidy:
+    extends:
+      file: common.yml
+      service: backend-app
     image: edxops/enterprise-subsidy-dev
     container_name: edx.devstack.enterprise-subsidy
     hostname: enterprise-subsidy.devstack.edx
@@ -935,10 +994,9 @@ services:
         condition: service_healthy
       memcached:
         condition: service_started
-    command: bash -c 'while true; do python /edx/app/enterprise-subsidy/manage.py runserver 0.0.0.0:18280; sleep 2; done'
-    stdin_open: true
-    tty: true
     environment:
+      DEVSERVER_CMD: "python manage.py runserver 0.0.0.0:18280"
+      HEALTHCHECK_TARGET: "http://localhost:18280/health/"
       DB_HOST: edx.devstack.mysql80
       DB_PORT: 3306
       DB_USER: subsidy001
@@ -970,6 +1028,9 @@ services:
     stdin_open: true
 
   edx-exams:
+    extends:
+      file: common.yml
+      service: backend-app
     image: edxops/edx-exams-dev
     container_name: edx.devstack.edx_exams
     hostname: edx_exams.devstack.edx
@@ -978,10 +1039,9 @@ services:
         condition: service_started
       mysql80:
         condition: service_healthy
-    command: bash -c 'while true; do python /edx/app/edx-exams/manage.py runserver 0.0.0.0:18740; sleep 2; done'
-    stdin_open: true
-    tty: true
     environment:
+      DEVSERVER_CMD: "python manage.py runserver 0.0.0.0:18740"
+      HEALTHCHECK_TARGET: "http://localhost:18740/health/"
       DB_HOST: edx.devstack.mysql80
       DB_PORT: 3306
       DB_NAME: edx_exams
@@ -997,18 +1057,20 @@ services:
   # ==========================================================================
   # edX Microfrontends
   #
-  # TODO: Instead of having an nginx container for every single microfrontend
-  # (there are like 12 now, right?), we should come up with an actual strategy
-  # for micro-frontends in devtack.
+  # TODO: Instead of running a separate dev-server container for every single
+  # microfrontend (15 and counting), we probably should come up with an
+  # alternative strategy that is more memory efficient or at least leverages a
+  # shared node package cache.
   # ==========================================================================
 
   frontend-app-account:
     extends:
-      file: microfrontend.yml
+      file: common.yml
       service: microfrontend
     working_dir: '/edx/app/frontend-app-account'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-account"
     environment:
+      HEALTHCHECK_TARGET: "http://localhost:1997/"
       PARAGON_BRAND_PACKAGE: '@edx/elm-theme@1.x'
     networks:
       default:
@@ -1017,15 +1079,18 @@ services:
     ports:
       - "1997:1997"
     depends_on:
-      - lms
+      lms:
+        condition: service_started
 
   designer:
+    extends:
+      file: common.yml
+      service: backend-app
     image: edxops/designer-dev:latest
     container_name: edx.devstack.designer
     hostname: designer.devstack.edx
     volumes:
       - .:/edx/app/designer
-    command: bash -c 'while true; do python /edx/app/designer/manage.py runserver 0.0.0.0:18808; sleep 2; done'
     ports:
       - "18808:18808"
     depends_on:
@@ -1035,9 +1100,9 @@ services:
       default:
         aliases:
           - edx.devstack.designer
-    stdin_open: true
-    tty: true
     environment:
+      DEVSERVER_CMD: "python manage.py runserver 0.0.0.0:18808"
+      HEALTHCHECK_TARGET: "http://localhost:18808/health/"
       DJANGO_SETTINGS_MODULE: designer.settings.devstack
       ENABLE_DJANGO_TOOLBAR: 1
       DB_HOST: "edx.devstack.mysql80"
@@ -1048,11 +1113,12 @@ services:
 
   frontend-app-profile:
     extends:
-      file: microfrontend.yml
+      file: common.yml
       service: microfrontend
     working_dir: '/edx/app/frontend-app-profile'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-profile"
     environment:
+      HEALTHCHECK_TARGET: "http://localhost:1995/"
       PARAGON_BRAND_PACKAGE: '@edx/elm-theme@1.x'
     networks:
       default:
@@ -1061,15 +1127,17 @@ services:
     ports:
       - "1995:1995"
     depends_on:
-      - lms
+      lms:
+        condition: service_started
 
   frontend-app-authn:
     extends:
-      file: microfrontend.yml
+      file: common.yml
       service: microfrontend
     working_dir: '/edx/app/frontend-app-authn'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-authn"
     environment:
+      HEALTHCHECK_TARGET: "http://localhost:1999/"
       PARAGON_BRAND_PACKAGE: '@edx/elm-theme@1.x'
     networks:
       default:
@@ -1078,15 +1146,17 @@ services:
     ports:
       - "1999:1999"
     depends_on:
-      - lms
+      lms:
+        condition: service_started
 
   frontend-app-course-authoring:
     extends:
-      file: microfrontend.yml
+      file: common.yml
       service: microfrontend
     working_dir: '/edx/app/frontend-app-course-authoring'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-course-authoring"
     environment:
+      HEALTHCHECK_TARGET: "http://localhost:2001/"
       PARAGON_BRAND_PACKAGE: '@edx/elm-theme@1.x'
     networks:
       default:
@@ -1095,11 +1165,14 @@ services:
     ports:
       - "2001:2001"
     depends_on:
-      - cms
+      cms:
+        condition: service_started
 
   frontend-app-gradebook:
+    environment:
+      HEALTHCHECK_TARGET: "http://localhost:1994/"
     extends:
-      file: microfrontend.yml
+      file: common.yml
       service: microfrontend
     working_dir: '/edx/app/frontend-app-gradebook'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-gradebook"
@@ -1110,15 +1183,17 @@ services:
     ports:
       - "1994:1994"
     depends_on:
-      - lms
+      lms:
+        condition: service_started
 
   frontend-app-ora-grading:
     extends:
-      file: microfrontend.yml
+      file: common.yml
       service: microfrontend
     working_dir: '/edx/app/frontend-app-ora-grading'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-ora-grading"
     environment:
+      HEALTHCHECK_TARGET: "http://localhost:1993/"
       PARAGON_BRAND_PACKAGE: '@edx/elm-theme@1.x'
     networks:
       default:
@@ -1127,15 +1202,17 @@ services:
     ports:
       - "1993:1993"
     depends_on:
-      - lms
+      lms:
+        condition: service_started
 
   frontend-app-learner-dashboard:
     extends:
-      file: microfrontend.yml
+      file: common.yml
       service: microfrontend
     working_dir: '/edx/app/frontend-app-learner-dashboard'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-learner-dashboard"
     environment:
+      HEALTHCHECK_TARGET: "http://localhost:1996/"
       PARAGON_BRAND_PACKAGE: '@edx/elm-theme@1.x'
     networks:
       default:
@@ -1144,15 +1221,17 @@ services:
     ports:
       - "1996:1996"
     depends_on:
-      - lms
+      lms:
+        condition: service_started
 
   frontend-app-learner-record:
     extends:
-      file: microfrontend.yml
+      file: common.yml
       service: microfrontend
     working_dir: '/edx/app/frontend-app-learner-record'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-learner-record"
     environment:
+      HEALTHCHECK_TARGET: "http://localhost:1990/"
       PARAGON_BRAND_PACKAGE: '@edx/elm-theme@1.x'
     networks:
       default:
@@ -1161,15 +1240,17 @@ services:
     ports:
       - "1990:1990"
     depends_on:
-      - lms
+      lms:
+        condition: service_started
 
   frontend-app-learning:
     extends:
-      file: microfrontend.yml
+      file: common.yml
       service: microfrontend
     working_dir: '/edx/app/frontend-app-learning'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-learning"
     environment:
+      HEALTHCHECK_TARGET: "http://localhost:${LEARNING_MICROFRONTEND_PORT:-2010}/"
       PARAGON_BRAND_PACKAGE: '@edx/brand-edx.org@2.x'
     networks:
       default:
@@ -1178,15 +1259,17 @@ services:
     ports:
       - "${LEARNING_MICROFRONTEND_PORT:-2010}:${LEARNING_MICROFRONTEND_PORT:-2010}"
     depends_on:
-      - lms
+      lms:
+        condition: service_started
 
   frontend-app-payment:
     extends:
-      file: microfrontend.yml
+      file: common.yml
       service: microfrontend
     working_dir: '/edx/app/frontend-app-payment'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-payment"
     environment:
+      HEALTHCHECK_TARGET: "http://localhost:1998/"
       PARAGON_BRAND_PACKAGE: '@edx/brand-edx.org@^2.0.6'
     networks:
       default:
@@ -1195,15 +1278,17 @@ services:
     ports:
       - "1998:1998"
     depends_on:
-      - ecommerce
+      ecommerce:
+        condition: service_started
 
   frontend-app-program-console:
     extends:
-      file: microfrontend.yml
+      file: common.yml
       service: microfrontend
     working_dir: '/edx/app/frontend-app-program-console'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-program-console"
     environment:
+      HEALTHCHECK_TARGET: "http://localhost:1976/"
       PARAGON_BRAND_PACKAGE: '@edx/brand-edx.org@1.x'
     networks:
       default:
@@ -1212,16 +1297,19 @@ services:
     ports:
       - "1976:1976"
     depends_on:
-      - lms
-      - registrar
+      lms:
+        condition: service_started
+      registrar:
+        condition: service_started
 
   frontend-app-publisher:
     extends:
-      file: microfrontend.yml
+      file: common.yml
       service: microfrontend
     working_dir: '/edx/app/frontend-app-publisher'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-publisher"
     environment:
+      HEALTHCHECK_TARGET: "http://localhost:18400/"
       PARAGON_BRAND_PACKAGE: '@edx/elm-theme@1.x'
     networks:
       default:
@@ -1230,15 +1318,17 @@ services:
     ports:
       - "18400:18400"
     depends_on:
-      - lms
+      lms:
+        condition: service_started
 
   frontend-app-admin-portal:
     extends:
-      file: microfrontend.yml
+      file: common.yml
       service: microfrontend
     working_dir: '/edx/app/frontend-app-admin-portal'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-admin-portal"
     environment:
+      HEALTHCHECK_TARGET: "http://localhost:1991/"
       PARAGON_BRAND_PACKAGE: '@edx/brand-edx.org@2.x'
     networks:
       default:
@@ -1247,16 +1337,19 @@ services:
     ports:
       - "1991:1991"
     depends_on:
-      - lms
-      - enterprise-access
+      lms:
+        condition: service_started
+      enterprise-access:
+        condition: service_started
 
   frontend-app-learner-portal-enterprise:
     extends:
-      file: microfrontend.yml
+      file: common.yml
       service: microfrontend
     working_dir: '/edx/app/frontend-app-learner-portal-enterprise'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-learner-portal-enterprise"
     environment:
+      HEALTHCHECK_TARGET: "http://localhost:8734/"
       PARAGON_BRAND_PACKAGE: '@edx/brand-edx.org@2.x'
     networks:
       default:
@@ -1265,16 +1358,19 @@ services:
     ports:
       - "8734:8734"
     depends_on:
-      - lms
-      - enterprise-access
+      lms:
+        condition: service_started
+      enterprise-access:
+        condition: service_started
 
   frontend-app-enterprise-checkout:
     extends:
-      file: microfrontend.yml
+      file: common.yml
       service: microfrontend
     working_dir: '/edx/app/frontend-app-enterprise-checkout'
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-enterprise-checkout"
     environment:
+      HEALTHCHECK_TARGET: "http://localhost:1989/"
       PARAGON_BRAND_PACKAGE: '@edx/brand-edx.org@2.x'
     networks:
       default:
@@ -1283,8 +1379,10 @@ services:
     ports:
       - "1989:1989"
     depends_on:
-      - lms
-      - enterprise-access
+      lms:
+        condition: service_started
+      enterprise-access:
+        condition: service_started
 
 volumes:
   coursegraph_data:

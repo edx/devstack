@@ -7,8 +7,7 @@ set -x
 name="enterprise-subsidy"
 port="18280"
 
-docker compose up -d lms
-docker compose up -d ${name}
+docker compose up -d ${name} lms
 
 # Run migrations
 echo -e "${GREEN}Running migrations for ${name}...${NC}"

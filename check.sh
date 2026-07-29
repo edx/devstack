@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Run checks for the provided service(s).
+# Run health checks for the provided service(s).
 # To specify multiple services, separate them with spaces or plus signs (+).
-# To specify all services, just pass in "all".
+# To specify all running services, just pass in "all".
 #
 # Examples:
 #  ./check.sh lms
@@ -9,7 +9,7 @@
 #  ./check.sh lms+forum discovery
 #  ./check.sh all
 #
-# Exists 0 if successful; non-zero otherwise.
+# Exits 0 if successful; non-zero otherwise.
 #
 # Fails if no services specified.
 #
@@ -18,25 +18,11 @@
 
 set -eu -o pipefail
 
-# Grab all arguments into one string, replacing plus signs with spaces.
-# Pad on either side with spaces so that the regex in `should_check` works correctly.
-services=" ${*//+/ } "
-
 # Which checks succeeded and failed.
 succeeded=""
 failed=""
 
-# Returns whether service in first arg should be checked.
-should_check() {
-    local service="$1"
-    if [[ "$services" == *" all "* ]] || [[ "$services" == *" $service "* ]]; then
-        return 0  # Note that '0' means 'success' (i.e., true) in bash.
-    else
-        return 1
-    fi
-}
-
-# Runs a check named $1 on service $2 using the command $3.
+# Runs a check named $1 on service $2 using the host-side command $3.
 run_check() {
     local check_name="$1"
     local service="$2"
@@ -53,133 +39,75 @@ run_check() {
     echo  # Newline
 }
 
-mysql_run_check() {
-    container_name="$1"
-    mysql_probe="SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')"
-    # The use of `--protocol tcp` forces MySQL to connect over TCP rather than
-    # via a UNIX socket. This is needed because when MySQL starts for the first
-    # time in a new container, it starts a "temporary server" that runs for a
-    # few seconds and then shuts down before the "real" server starts up. The
-    # temporary server does not listen on the TCP port, but if the mysql
-    # command is not told which server to use, it will first try the UNIX
-    # socket and only after that will it try the default TCP port.
-    #
-    # By specifying that mysql should use TCP, we won't get an early false
-    # positive "ready" response while the temporary server is running.
-    run_check "${container_name}_query" "$container_name" \
-        "docker compose exec -T $(printf %q "$container_name") mysql --protocol tcp -uroot -se $(printf %q "$mysql_probe")"
+# Print a service container's Docker healthcheck status, one of:
+#   healthy | unhealthy | starting | none | missing
+# "none" means the container exists but declares no healthcheck; "missing"
+# means no container is running for the service.
+container_health() {
+    local service="$1" cid
+    cid="$(docker compose ps -q "$service" 2>/dev/null || true)"
+    if [[ -z "$cid" ]]; then
+        echo "missing"
+        return
+    fi
+    docker inspect \
+        --format '{{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}' \
+        "$cid" 2>/dev/null || echo "missing"
 }
 
-if should_check mysql80; then
-    echo "Checking MySQL 8.0 query endpoint:"
-    mysql_run_check mysql80
+# Default check: pass iff the service's container reports itself healthy.
+# Services with no healthcheck (and no extra check) simply don't contribute a
+# check, matching the old behavior for unrecognized services.
+run_health_check() {
+    local service="$1"
+    local status
+    status="$(container_health "$service")"
+    case "$status" in
+        healthy)
+            echo "Checking $service: healthy"
+            succeeded="$succeeded ${service}_health"
+            echo
+            ;;
+        starting|unhealthy)
+            echo "Checking $service: $status"
+            docker compose logs --tail 500 "$service"
+            failed="$failed ${service}_health"
+            echo
+            ;;
+        none|missing)
+            # No container healthcheck to consult; rely on any extra checks.
+            :
+            ;;
+    esac
+}
+
+# Extra/override checks for services that need more than their container
+# healthcheck can express. Keep this SMALL -- it is the only place service
+# names should be enumerated.
+run_extra_checks() {
+    local service="$1"
+    case "$service" in
+        lms)
+            echo "Validating LMS volume:"
+            run_check lms_volume lms "make validate-lms-volume"
+            ;;
+    esac
+}
+
+# Expand the requested services into a plain, space-separated list. "all"
+# means every service with a running container (word-splitting is safe here
+# because compose service names contain no whitespace).
+requested=" ${*//+/ } "
+if [[ "$requested" == *" all "* ]]; then
+    service_list="$(docker compose ps --services)"
+else
+    service_list="${*//+/ }"
 fi
 
-if should_check mongo; then
-    echo "Checking MongoDB status:"
-    run_check mongo_status mongo \
-        "docker compose exec -T mongo mongo --eval \"db.serverStatus()\""
-fi
-
-if should_check registrar; then
-    echo "Checking Registrar heartbeat:"
-    run_check registrar_heartbeat registrar \
-        "curl --fail -L http://localhost:18734/health"
-fi
-
-if should_check lms; then
-    echo "Checking LMS heartbeat:"
-    run_check lms_heartbeat lms \
-        "curl --fail -L http://localhost:18000/heartbeat"
-
-    echo "Validating LMS volume:"
-    run_check lms_volume lms \
-        "make validate-lms-volume"
-fi
-
-if should_check cms; then
-    echo "Checking CMS heartbeat:"
-    run_check cms_heartbeat cms \
-        "curl --fail -L http://localhost:18010/heartbeat"
-fi
-
-if should_check ecommerce; then
-    echo "Checking ecommerce health:"
-    run_check ecommerce_heartbeat ecommerce \
-        "curl --fail -L http://localhost:18130/health/"
-fi
-
-if should_check enterprise_access; then
-    echo "Checking enterprise-access health:"
-    run_check enterprise_access_heartbeat enterprise-access \
-        "curl --fail -L http://localhost:18130/health/"
-fi
-
-if should_check enterprise-subsidy; then
-    echo "Checking enterprise_subsidy health:"
-    run_check enterprise-subsidy_heartbeat enterprise-subsidy \
-        "curl --fail -L http://localhost:18280/health/"
-fi
-
-if should_check discovery; then
-    echo "Checking discovery health:"
-    run_check discovery_heartbeat discovery \
-        "curl --fail -L http://localhost:18381/health/"
-fi
-
-if should_check forum; then
-    echo "Checking forum heartbeat:"
-    run_check forum_heartbeat forum \
-        "curl --fail -L http://localhost:44567/heartbeat"
-fi
-
-if should_check edx_notes_api; then
-    echo "Checking edx_notes_api heartbeat:"
-    run_check edx_notes_api_heartbeat edx_notes_api \
-        "curl --fail -L http://localhost:18120/heartbeat"
-fi
-
-if should_check designer; then
-    echo "Checking designer health:"
-    run_check designer_heartbeat designer \
-        "curl --fail -L http://localhost:18808/health/"
-fi
-
-if should_check credentials; then
-    echo "Checking credentials heartbeat:"
-    run_check credentials_heartbeat credentials \
-        "curl --fail -L http://localhost:18150/health"
-fi
-
-if should_check xqueue; then
-    echo "Checking xqueue status:"
-    run_check xqueue_heartbeat xqueue \
-        "curl --fail -L http://localhost:18040/xqueue/status"
-fi
-
-if should_check insights; then
-    echo "Running Analytics Dashboard Devstack tests: "
-    run_check insights_heartbeat insights \
-        "curl --fail -L http://localhost:18110/health/"
-fi
-
-if should_check analyticsapi; then
-    echo "Running Analytics Data API Devstack tests: "
-    run_check analyticsapi_heartbeat analyticsapi \
-        "curl --fail -L http://localhost:19001/health/"
-fi
-
-if should_check license-manager; then
-    echo "Running License Manager Devstack tests: "
-    run_check license_manager_heartbeat license-manager \
-        "curl --fail -L http://localhost:18170/health/"
-fi
-
-if should_check edx-exams; then
-    echo "Running edX Exam Devstack tests: "
-    run_check edx-exams_heartbeat edx-exams \
-        "curl --fail -L http://localhost:18740/health/"
-fi
+for service in $service_list; do
+    run_health_check "$service"
+    run_extra_checks "$service"
+done
 
 echo "Successful checks:${succeeded:- NONE}"
 echo "Failed checks:${failed:- NONE}"

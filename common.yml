@@ -1,0 +1,87 @@
+# Abstract base services, inherited by concrete services via `extends`.
+services:
+
+  # Traffic-serving backend app (Django/IDA) services.
+  backend-app:
+    stdin_open: true  # Allows `make dev.attach.<service>` to work correctly.
+    tty: true
+    # Concrete services may set these extra environment variables:
+    #
+    # - DEVSERVER_SETUP allows some services to run extra commands at the very beginning.
+    #   This is rarely needed.
+    # - DEVSERVER_CMD runs inside an infinite loop to allow `make dev.restart-devserver.<service>`
+    #   to work correctly.
+    #
+    # Examples:
+    #
+    #   environment:
+    #     DEVSERVER_SETUP: "source /edx/app/foo/foo_env"   # optional
+    #     DEVSERVER_CMD: "python manage.py runserver 0.0.0.0:18000"
+    command:
+      - bash
+      - -c
+      - |
+          if [ -n "$$DEVSERVER_SETUP" ]; then eval "$$DEVSERVER_SETUP"; fi
+          while true; do
+              eval "$$DEVSERVER_CMD"
+              sleep 2
+          done
+    # Configure a healthcheck to allow `make dev.up.<service>` to give accurate feedback
+    # about whether the service actually started successfully and is serving traffic.
+    #
+    # Set HEALTHCHECK_TARGET to the full URL curl should hit, e.g.:
+    #
+    #   environment:
+    #     HEALTHCHECK_TARGET: "http://localhost:18150/health/"
+    #
+    # Timings are sized so the worst case from container start to "give up"
+    # (marked unhealthy) is ~5 minutes: start_period + retries*interval = 300s = 5min.
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS $$HEALTHCHECK_TARGET || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 6
+      start_period: 240s
+      start_interval: 5s  # poll fast during grace period so a healthy boot flips status quickly
+
+  # All microfrontends.
+  microfrontend:
+    # Use `npm ci` rather than `npm install` for a few reasons:
+    #
+    # - Repeatability: Respect the currently checked out package
+    #   versions rather than upgrading when package.json and
+    #   package-lock.json don't match. (Two people using this at
+    #   different times on the same commit should get the same
+    #   results.)
+    # - Immutability: Don't change the repo's working directory
+    #   unexpectedly when there's a lock mismatch.
+    #
+    # Fail fast if package install fails to avoid mysterious
+    # errors later.
+    command:
+      - bash
+      - -c
+      - |
+          npm ci || exit 1
+          if [ -n "$${PARAGON_BRAND_PACKAGE}" ]; then
+              npx paragon install-theme "$${PARAGON_BRAND_PACKAGE}" || exit 1
+          fi
+          while true; do
+              npm start
+              sleep 2
+          done
+    stdin_open: true
+    tty: true
+    image: node:18
+    environment:
+      - NODE_ENV=development
+    # MFEs take longer to startup: a cold `npm ci` + `npm start` is empirically
+    # observed to reach healthy in about 5 minutes, so we shouldn't give up
+    # until at least ~10 minutes. start_period + retries*interval = 600s = 10min.
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS $$HEALTHCHECK_TARGET || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 6
+      start_period: 540s
+      start_interval: 5s  # poll fast during grace period so a healthy boot flips status quickly

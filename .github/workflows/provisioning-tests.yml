@@ -73,7 +73,10 @@ jobs:
         run:  make dev.provision.${{matrix.services}}
 
       - name: "Bring up services"
-        run:  make dev.up.${{matrix.services}}
+        # Use the without-wait variant: this job only provisions a subset of
+        # services, so their un-provisioned transitive dependencies can never
+        # become healthy.
+        run:  make dev.up.without-wait.${{matrix.services}}
 
       - name: "Wait for services to become ready"
         run: |

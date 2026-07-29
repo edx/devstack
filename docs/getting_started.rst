@@ -110,9 +110,11 @@ The default devstack services can be run by following the steps below.
 
 
 #. Start the desired services. This command will mount the repositories under the
-   ``DEVSTACK_WORKSPACE`` directory.
+   ``DEVSTACK_WORKSPACE`` directory into each container.
 
-   **NOTE:** it may take up to 60 seconds for the LMS to start, even after the ``dev.up.*`` command outputs ``done``.
+   **NOTE:** This command may take 5+ minutes because it waits for all services
+   to become healthy.  Backend services will come online sooner than frontends,
+   within 1-2 minutes.
 
    Default:
 

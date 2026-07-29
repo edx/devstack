@@ -55,7 +55,8 @@
         dev.shell.cms_watcher dev.shell.xqueue dev.shell.xqueue_consumer \
         dev.static dev.static.lms dev.static.cms dev.stats dev.status \
         dev.stop dev.up dev.up.attach dev.up.shell \
-        dev.up.without-deps dev.up.without-deps.shell dev.up.with-programs \
+        dev.up.without-deps dev.up.without-deps.shell dev.up.without-wait \
+        dev.up.with-programs \
         dev.up.with-watchers dev.validate docs \
         help requirements impl-dev.clone.https impl-dev.clone.ssh impl-dev.provision \
         impl-dev.pull impl-dev.pull.without-deps impl-dev.up impl-dev.up.attach \
@@ -254,13 +255,18 @@ dev.up.with-watchers.%: ## Bring up services and their dependencies + asset watc
 dev.up.without-deps: _expects-service-list.dev.up.without-deps
 
 dev.up.without-deps.%: dev.check-memory ## Bring up services by themselves.
-	docker compose up -d --no-deps $$(echo $* | tr + " ")
+	docker compose up -d --wait --no-deps $$(echo $* | tr + " ")
 
 dev.up.without-deps.shell: _expects-service.dev.up.without-deps.shell
 
 dev.up.without-deps.shell.%: ## Bring up a service by itself + shell into it.
 	make dev.up.without-deps.$*
 	make dev.shell.$*
+
+dev.up.without-wait: _expects-service-list.dev.up.without-wait
+
+dev.up.without-wait.%: dev.check-memory ## Bring up services and their dependencies without waiting for them to become healthy.
+	docker compose up -d $$(echo $* | tr + " ")
 
 dev.up:
 	@scripts/make_warn_default_large.sh "$@"
@@ -269,7 +275,7 @@ dev.up.large-and-slow: dev.up.$(DEFAULT_SERVICES) ## Bring up default services.
 	@echo # at least one statement so that dev.up.% doesn't run too
 
 dev.up.%: dev.check-memory ## Bring up services and their dependencies.
-	docker compose up -d $$(echo $* | tr + " ")
+	docker compose up -d --wait $$(echo $* | tr + " ")
 ifeq ($(ALWAYS_CACHE_PROGRAMS),true)
 	make dev.cache-programs
 endif
@@ -551,9 +557,6 @@ validate-lms-volume: ## Validate that changes to the local workspace are reflect
 	touch $(DEVSTACK_WORKSPACE)/edx-platform/testfile
 	docker compose exec -T lms ls /edx/app/edxapp/edx-platform/testfile
 	rm $(DEVSTACK_WORKSPACE)/edx-platform/testfile
-
-hadoop-application-logs-%: ## View hadoop logs by application Id.
-	docker compose exec nodemanager yarn logs -applicationId $*
 
 create-test-course: ## Provisions cms, and ecommerce with course(s) in test-course.json.
 	bash ./course-generator/create-courses.sh --cms --ecommerce course-generator/test-course.json

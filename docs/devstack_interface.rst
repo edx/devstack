@@ -47,7 +47,7 @@ Useful Commands and Summary
 
     When to use: If you only want to update one image and do not mind if the other images are behind latest.
 
-- ``dev.up.<service>`` - Create and start containers. i.e. brings up the <service> container and its dependencies
+- ``dev.up.<service>`` - Create and start containers for <service> and all dependencies, and wait until they are fully ready to serve traffic.
 
   When to use: When you are working on a specific service, use this command to bring up the necessary containers for your service i.e if working in lms, use ``make dev.up.lms`` to bring up containers for lms and its dependencies.
 
@@ -63,7 +63,9 @@ Useful Commands and Summary
 
   + ``make dev.up.<service1>+<service2>`` will bring up <service1>, <service2>, and their dependencies
 
-  + ``make dev.up.without-deps.<service>`` will only bring up the <service> container
+  + ``make dev.up.without-deps.<service>`` will only bring up the <service> container, but none of the dependencies
+
+  + ``make dev.up.without-wait.<service>`` will only start the containers for <service> and dependencies, but not wait for healthy status
 
 - ``dev.stop``: Stops all running containers.  This does not remove the containers or the networks they had created
 
@@ -135,7 +137,7 @@ Useful Commands and Summary
 Make Help
 ~~~~~~~~~
 
-The following ``make help`` output was generated in 09-2023 to make these commands searchable in documentation.
+The following ``make help`` output was generated on 2026-07-31 to make these commands searchable in documentation.
 
 If you want to ensure you are getting the latest listing, simply use ``make help``.
 
@@ -154,7 +156,6 @@ If you want to ensure you are getting the latest listing, simply use ``make help
       dev.clone                    Clone service repos to the parent directory.
       dev.clone.https              Clone service repos using HTTPS method to the parent directory.
       dev.clone.ssh                Clone service repos using SSH method to the parent directory.
-      dev.dbcopy8.%                Copy data from old mysql 5.7 container into a new 8 db
       dev.dbshell.%                Run a SQL shell on the given database.
       dev.destroy                  Irreversibly remove all devstack-related containers and networks (though not data volumes)
       dev.destroy.coursegraph      Remove all coursegraph data.
@@ -166,6 +167,7 @@ If you want to ensure you are getting the latest listing, simply use ``make help
       dev.logs                     View logs from running containers.
       dev.logs.%                   View the logs of the specified service container.
       dev.migrate                  Run migrations for applicable default services.
+      dev.migrate-repo-git-to-edx.% Migrate enterprise repository clones from openedx to edx GitHub org.
       dev.migrate.%                Run migrations on a service.
       dev.print-container.%        Get the ID of the running container for a given service.
       dev.provision                Provision dev environment with default services, and then stop them.
@@ -184,12 +186,14 @@ If you want to ensure you are getting the latest listing, simply use ``make help
       dev.restart-devserver.%      Kill an edX service's development server. Watcher should restart it.
       dev.restore                  Restore all data volumes from the host. WILL OVERWRITE ALL EXISTING DATA!
       dev.rm-stopped               Remove stopped containers. Does not affect running containers.
+      dev.setup-remotes            Set up edx and openedx remotes for all forked repositories.
       dev.shell.%                  Run a shell on the specified service's container.
       dev.static.%                 Rebuild static assets for the specified service's container.
       dev.stats                    Get per-container CPU and memory utilization data.
       dev.status                   Prints the status of all git repositories.
       dev.stop                     Stop all running services.
       dev.stop.%                   Stop specific services.
+      dev.up.%                     Bring up services and their dependencies.
       dev.up.attach.%              Bring up a service and its dependencies + and attach to it.
       dev.up.large-and-slow        Bring up default services.
       dev.up.shell.%               Bring up a service and its dependencies + shell into it.
@@ -199,23 +203,12 @@ If you want to ensure you are getting the latest listing, simply use ``make help
       dev.up.with-watchers.%       Bring up services and their dependencies + asset watcher containers.
       dev.up.without-deps.%        Bring up services by themselves.
       dev.up.without-deps.shell.%  Bring up a service by itself + shell into it.
+      dev.up.without-wait.%        Bring up services and their dependencies without waiting for them to become healthy.
       dev.validate                 Print effective Docker Compose config, validating files in COMPOSE_FILE.
       dev.wait-for.%               Wait for these services to become ready
-      devpi-password               Get the root devpi password for the devpi container.
       docs                         generate Sphinx HTML documentation, including API docs
-      hadoop-application-logs-%    View hadoop logs by application Id.
       help                         Display this help message.
-      impl-dev.clone.https         Clone service repos using HTTPS method to the parent directory.
-      impl-dev.clone.ssh           Clone service repos using SSH method to the parent directory.
-      impl-dev.provision           Provision dev environment with default services, and then stop them.
-      impl-dev.provision.%         Provision specified services.
-      impl-dev.pull.%              Pull latest Docker images for services and their dependencies.
-      impl-dev.pull.without-deps.% Pull latest Docker images for specific services.
-      impl-dev.up.%                Bring up services and their dependencies.
-      impl-dev.up.attach.%         Bring up a service and its dependencies + and attach to it.
-      impl-dev.up.without-deps.%   Bring up services by themselves.
-      metrics-opt-in               To opt into basic data collection to help improve devstack
-      metrics-opt-out              To opt out of metrics data collection
+      migrate-repo-git-to-edx      Migrate enterprise repository clones from openedx to edx GitHub org.
       requirements                 install development environment requirements
       selfcheck                    Check that the Makefile is free of Make syntax errors.
       upgrade                      Upgrade requirements with pip-tools.

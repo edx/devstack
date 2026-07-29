@@ -12,7 +12,7 @@ cms_port=18010
 
 # Bring edxapp containers online
 for app in "${apps[@]}"; do
-    docker compose up -d $app
+    docker compose up -d --wait --no-deps $app
 done
 
 # install git for both LMS and CMS
