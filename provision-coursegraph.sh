@@ -13,7 +13,7 @@ docker compose rm --force --stop coursegraph
 docker compose pull coursegraph
 
 echo -e "${GREEN}   Starting Coursegraph and CMS...${NC}"
-docker compose up -d coursegraph cms
+docker compose up -d --no-deps coursegraph cms
 sleep 10  # Give Neo4j some time to boot up.
 
 echo -e "${GREEN}   Updating CMS courses in Coursegraph...${NC}"

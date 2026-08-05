@@ -7,8 +7,7 @@ set -x
 name="edx-exams"
 port="18740"
 
-docker compose up -d lms
-docker compose up -d ${name}
+docker compose up -d ${name} lms
 
 # Install requirements
 echo -e "${GREEN}Installing requirements for ${name}...${NC}"

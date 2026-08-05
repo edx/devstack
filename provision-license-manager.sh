@@ -8,8 +8,7 @@ set -x
 name=license-manager
 port=18170
 
-docker compose up -d $name
-docker compose up -d lms
+docker compose up -d $name lms
 
 echo -e "${GREEN}Installing requirements for ${name}...${NC}"
 docker compose exec -T ${name}  bash -e -c 'cd /edx/app/license_manager/ && make requirements' -- "$name"
