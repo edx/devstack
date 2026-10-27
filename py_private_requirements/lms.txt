@@ -1,1 +1,3 @@
 confluent-kafka[avro,schema-registry]==2.10.0
+# edx-subscription plugin: clone edx/edx-subscription into ${DEVSTACK_WORKSPACE}/src/edx-subscription
+-e /edx/src/edx-subscription
