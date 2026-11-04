@@ -58,7 +58,7 @@ jobs:
         # 2023-09-28: google-cloud-sdk removed from this list because it was intermittently
         #   unavailable as an apt package to remove, and might be migrating to snap. If more
         #   disk space is needed, see if the snap is installed, and remove that.
-        run:  sudo apt remove --purge -y ghc-* azure-cli llvm-* dotnet-* powershell mono-* php* ruby*
+        run:  sudo apt remove --purge -y ghc-* azure-cli llvm-* dotnet-* mono-* php* ruby*
 
       - name: set up requirements
         run:  make requirements
