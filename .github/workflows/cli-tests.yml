@@ -13,7 +13,9 @@ on:
 jobs:
 
   run_ci:
-    runs-on: ${{ matrix.os.image }}
+    # Linux is pinned because Ubuntu 26.04 (ubuntu-latest) removed apt-key; see LP-1474.
+    # matrix.os.image stays ubuntu-latest so required check names don't change.
+    runs-on: ${{ matrix.os.name == 'linux' && 'ubuntu-24.04' || matrix.os.image }}
     env:
       DEVSTACK_WORKSPACE: /tmp
       SHALLOW_CLONE: 1
