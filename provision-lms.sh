@@ -10,9 +10,16 @@ cms_port=18010
 ./load-db.sh edxapp
 ./load-db.sh edxapp_csmh
 
-# Bring edxapp containers online
+# Bring edxapp containers online.
+#
+# Do NOT use --wait here: the edxapp image is built nightly from edx-platform's
+# requirements, but the edx-platform code is bind-mounted from the local
+# checkout. If the checkout depends on a package version newer than what the
+# image has, runserver crashes on import and the container can never become
+# healthy until the requirements below are installed. We only need the
+# container running so we can `exec` into it.
 for app in "${apps[@]}"; do
-    docker compose up -d --wait --no-deps $app
+    docker compose up -d --no-deps $app
 done
 
 # install git for both LMS and CMS
@@ -23,6 +30,12 @@ for app in "${apps[@]}"; do
 
     #Installing prereqs crashes the process
     docker compose restart $app
+done
+
+# Now that requirements match the checked-out code, make sure the devservers
+# actually come up healthy before continuing.
+for app in "${apps[@]}"; do
+    docker compose up -d --wait --no-deps $app
 done
 
 # Run edxapp migrations first since they are needed for the service users and OAuth clients
