@@ -289,7 +289,7 @@ CREDENTIALS_PUBLIC_SERVICE_URL = 'http://localhost:18150'
 ORA_MICROFRONTEND_URL = 'http://localhost:1992'
 
 ############################ AI_TRANSLATIONS ##################################
-AI_TRANSLATIONS_API_URL = 'http://localhost:18760/api/v1'
+AI_TRANSLATIONS_API_URL = 'http://ai-translations.app:18760/api/v1'
 
 ############################ CSRF ##################################
 
