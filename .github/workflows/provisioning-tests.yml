@@ -47,8 +47,10 @@ jobs:
           docker version
           sudo apt-get update
           sudo apt install apt-transport-https ca-certificates curl software-properties-common
-          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-          sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal test"
+          sudo install -m 0755 -d /etc/apt/keyrings
+          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor --yes -o /etc/apt/keyrings/docker.gpg
+          sudo chmod a+r /etc/apt/keyrings/docker.gpg
+          echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
           sudo apt update
           sudo apt install docker-ce containerd.io
           docker version
@@ -58,7 +60,7 @@ jobs:
         # 2023-09-28: google-cloud-sdk removed from this list because it was intermittently
         #   unavailable as an apt package to remove, and might be migrating to snap. If more
         #   disk space is needed, see if the snap is installed, and remove that.
-        run:  sudo apt remove --purge -y ghc-* azure-cli llvm-* dotnet-* powershell mono-* php* ruby*
+        run:  sudo apt remove --purge -y ghc-* azure-cli llvm-* dotnet-* mono-* php* ruby*
 
       - name: set up requirements
         run:  make requirements
