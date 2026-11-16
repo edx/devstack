@@ -545,7 +545,7 @@ API_DOCUMENTATION_URL = 'https://course-catalog-api-guide.readthedocs.io/en/late
 AUTH_DOCUMENTATION_URL = 'https://course-catalog-api-guide.readthedocs.io/en/latest/authentication/index.html'
 
 ############################ AI_TRANSLATIONS ##################################
-AI_TRANSLATIONS_API_URL = 'http://localhost:18760/api/v1'
+AI_TRANSLATIONS_API_URL = 'http://ai-translations.app:18760/api/v1'
 
 ############################ CSRF ##################################
 
