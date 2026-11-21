@@ -6,6 +6,7 @@ on:
   workflow_dispatch:
      inputs:
        branch:
+       python_version: "3.11"  # match edx.org production (edx-platform runs Python 3.11)
          description: 'Target branch to create requirements PR against'
          required: true
          default: 'master'
