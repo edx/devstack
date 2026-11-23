@@ -13,6 +13,7 @@ jobs:
    call-upgrade-python-requirements-workflow:
     with:
        branch: ${{ github.event.inputs.branch }}
+       python_version: "3.11"  # match edx.org production (edx-platform runs Python 3.11)
        team_reviewers: "orbi-bom"
        email_address: orbi-bom-upgrade-prs@2u-internal.jsmalerts.atlassian.net
        send_success_notification: true
